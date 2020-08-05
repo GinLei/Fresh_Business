@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">鲜到家</string>
+    <string name="data_statistics">数据统计</string>
+    <string name="welcome_login">欢迎登录</string>
+    <string name="username_hint">请输入手机号</string>
+    <string name="get_yzcode">获取验证码</string>
+    <string name="login">登   录</string>
+    <string name="no_account">还没有账户</string>
+    <string name="go_create">去创建？</string>
+    <string name="account_data">商户资料</string>
+    <string name="m_account_data">修改资料</string>
+    <string name="order_time">下单时间</string>
+    <string name="account_inside">商家入驻</string>
+    <string name="binding_scales">绑定电子秤</string>
+    <string name="rich">用户须知</string>
+    <string name="cash">提现</string>
+    <string name="cash_2">余额提现</string>
+    <string name="income">收入</string>
+    <string name="slant">/</string>
+    <string name="balance">余额</string>
+    <string name="details">余额明细</string>
+    <string name="add">+</string>
+    <string name="decrease">-</string>
+</resources>

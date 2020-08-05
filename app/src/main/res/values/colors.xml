@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--    <color name="colorPrimary">#6200EE</color>-->
+    <!--    <color name="colorPrimaryDark">#3700B3</color>-->
+    <!--    <color name="colorAccent">#03DAC5</color>-->
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimaryDark">#FFFFFF</color>
+    <color name="colorAccent">#03DAC5</color>
+    <color name="color_orange">#ff7845</color>
+    <color name="color_blue">#0081FF</color>
+    <color name="color_green_2">#39B54A</color>
+    <color name="color_grey">#9F9E9E</color>
+    <color name="color_red">#e54d42</color>
+    <color name="color_orange_2">#f37b1d</color>
+    <color name="color_yellow">#fbbd08</color>
+    <color name="color_green">#1cbbb4</color>
+    <color name="color_grey_2">#8799a3</color>
+    <color name="color_line">#F5F5F5</color>
+    <color name="color_black_2">#666666</color>
+    <color name="color333">#333333</color>
+    <color name="color7845">#ff7845</color>
+    <color name="color8799A3">#8799A3</color>
+    <color name="colorf1f1f1">#333333</color>
+    <color name="titleColor">#181818</color>
+    <color name="textcolor_selection">#ff7845</color>
+    <color name="textcolor_unchecked">#666666</color>
+</resources>

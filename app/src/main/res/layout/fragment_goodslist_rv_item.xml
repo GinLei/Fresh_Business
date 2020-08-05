@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:binding="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.dingxin.fresh.vm.GoodsListItemViewModel" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/account_center_bg"
+        android:orientation="vertical"
+        android:paddingLeft="15dp"
+        android:paddingTop="15dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="10dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="78.15dp"
+                android:layout_height="78.15dp"
+                android:scaleType="fitXY"
+                binding:url="@{viewModel.greensEntityObservableField.thumb}" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:paddingLeft="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@{viewModel.greensEntityObservableField.title}"
+                    android:textColor="@color/color333"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@{viewModel.greensEntityObservableField.note_name}"
+                    android:textColor="@color/color8799A3"
+                    android:textSize="12sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(viewModel.greensEntityObservableField.price)}"
+                        android:textColor="@color/color_red"
+                        android:textSize="22sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.greensEntityObservableField.unit_name}"
+                        android:textColor="@color/color8799A3"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:background="@drawable/red_shape_button"
+                android:paddingLeft="15dp"
+                android:paddingTop="3.5dp"
+                android:paddingRight="15dp"
+                android:paddingBottom="3.5dp"
+                android:text="查看规格"
+                android:textColor="#ffffffff"
+                android:textSize="12sp"
+                binding:onClickCommand="@{viewModel.specs_command}" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="15dp"
+            android:background="@color/color_line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawableLeft="@{viewModel.greensEntityObservableField.on_sale==0?viewModel.sale_up:viewModel.sale_down}"
+                    android:drawablePadding="3dp"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="@{viewModel.greensEntityObservableField.on_sale==0?viewModel.sale_up_text:viewModel.sale_down_text}"
+                    android:textColor="#ff666666"
+                    android:textSize="12sp"
+                    binding:onClickCommand="@{viewModel.sale_command}" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawableLeft="@mipmap/modify"
+                    android:drawablePadding="3dp"
+                    android:padding="5dp"
+                    android:text="修改"
+                    android:textColor="#ff666666"
+                    android:textSize="12sp"
+                    binding:onClickCommand="@{viewModel.modify_command}" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawableLeft="@mipmap/delete"
+                    android:drawablePadding="3dp"
+                    android:padding="5dp"
+                    android:text="删除"
+                    android:textColor="#ff666666"
+                    android:textSize="12sp"
+                    binding:onClickCommand="@{viewModel.delete_command}" />
+
+            </FrameLayout>
+        </LinearLayout>
+    </LinearLayout>
+</layout>

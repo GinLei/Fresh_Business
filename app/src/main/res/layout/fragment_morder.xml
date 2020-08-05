@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:binding="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.dingxin.fresh.vm.MOrderViewModel" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/ConstraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="256dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="34.5dp"
+            android:layout_weight="1"
+            binding:onClickCommand="@{viewModel.to_weight}">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@mipmap/weigh" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:layout_marginBottom="22dp"
+                android:text="待称重订单"
+                android:textColor="#ff666666"
+                android:textSize="18sp" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="256dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="27.5dp"
+            android:layout_weight="1"
+            binding:onClickCommand="@{viewModel.to_print}">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@mipmap/print" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:layout_marginBottom="22dp"
+                android:text="待打印订单"
+                android:textColor="#ff666666"
+                android:textSize="18sp" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="256dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="27.5dp"
+            android:layout_marginBottom="26.5dp"
+            android:layout_weight="1"
+            binding:onClickCommand="@{viewModel.to_completed}">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@mipmap/order" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:layout_marginBottom="22dp"
+                android:text="已完成订单"
+                android:textColor="#ff666666"
+                android:textSize="18sp" />
+
+        </FrameLayout>
+    </LinearLayout>
+</layout>
