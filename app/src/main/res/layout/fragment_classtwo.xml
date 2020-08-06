@@ -8,6 +8,14 @@
         <variable
             name="viewModel"
             type="com.dingxin.fresh.vm.ClassTwoViewModel" />
+
+        <import type="me.tatarka.bindingcollectionadapter2.BindingRecyclerViewAdapter" />
+
+        <import type="me.goldze.mvvmhabit.binding.viewadapter.recyclerview.LayoutManagers" />
+
+        <import type="me.goldze.mvvmhabit.binding.viewadapter.recyclerview.LineManagers" />
+
+        <import type="androidx.recyclerview.widget.LinearLayoutManager" />
     </data>
 
     <LinearLayout
@@ -45,23 +53,12 @@
                 android:textSize="18sp" />
         </LinearLayout>
 
-        <com.zhy.view.flowlayout.TagFlowLayout
-            android:id="@+id/tab"
+        <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:padding="20dp"
-            app:max_select="1"></com.zhy.view.flowlayout.TagFlowLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/color_red"
-            android:gravity="center"
-            android:padding="15dp"
-            android:text="确 定"
-            android:textColor="@color/white"
-            android:textSize="13sp"
-            binding:onClickCommand="@{viewModel.submit_command}" />
+            android:padding="5dp"
+            binding:itemBinding="@{viewModel.itemBinding}"
+            binding:items="@{viewModel.classTwoItemViewModels}"
+            binding:layoutManager="@{LayoutManagers.grid(3)}" />
     </LinearLayout>
 </layout>

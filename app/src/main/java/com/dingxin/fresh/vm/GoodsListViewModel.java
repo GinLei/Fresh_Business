@@ -1,6 +1,8 @@
 package com.dingxin.fresh.vm;
 
+import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -37,7 +39,8 @@ public class GoodsListViewModel extends BaseViewModel {
     public SingleLiveEvent<GoodsListItemViewModel> deleteItemLiveData = new SingleLiveEvent<>();
     public ItemBinding<GoodsListItemViewModel> itemBinding = ItemBinding.of(BR.viewModel, R.layout.fragment_goodslist_rv_item);
     public ObservableList<GoodsListItemViewModel> listItemViewModels = new ObservableArrayList<>();
-    public SingleLiveEvent<List<SpecsEntity>> specs = new SingleLiveEvent();
+    public ObservableField<List<SpecsEntity>> specs = new ObservableField<>();
+    public SingleLiveEvent specs_event = new SingleLiveEvent();
     public ObservableField<String> spec_id = new ObservableField<>();
     public SingleLiveEvent<Boolean> spec_sale_event = new SingleLiveEvent<>();
     public int startPosition = 0;
@@ -45,6 +48,9 @@ public class GoodsListViewModel extends BaseViewModel {
     public SingleLiveEvent<Boolean> Refresh_Event = new SingleLiveEvent();
     public SingleLiveEvent LoadMore_Event = new SingleLiveEvent();
     public ObservableField<Integer> spec_count = new ObservableField<>();
+    public ObservableField<String> goods_id = new ObservableField<>();
+    public SingleLiveEvent set_greens_delete_event = new SingleLiveEvent();
+    public ObservableField<Activity> activity = new ObservableField<>();
 
     public GoodsListViewModel(@NonNull Application application) {
         super(application);
@@ -178,8 +184,8 @@ public class GoodsListViewModel extends BaseViewModel {
                 });
     }
 
-    public void specs(int id) {
-        RetrofitClient.getInstance().create(ApiService.class).greens_spec_info(String.valueOf(id))
+    public void specs() {
+        RetrofitClient.getInstance().create(ApiService.class).greens_spec_info(goods_id.get())
                 .doOnSubscribe(new Consumer<Disposable>() {
                     @Override
                     public void accept(Disposable disposable) throws Exception {
@@ -196,8 +202,8 @@ public class GoodsListViewModel extends BaseViewModel {
 
                     @Override
                     public void onResult(List<SpecsEntity> entity) {
-                        specs.setValue(entity);
-                        specs.call();
+                        specs.set(entity);
+                        specs_event.call();
                     }
 
                     @Override
@@ -231,6 +237,34 @@ public class GoodsListViewModel extends BaseViewModel {
                     public void onResult(CommonEntity entity) {
                         spec_sale_event.setValue(entity.getIs_on_sale());
                         spec_sale_event.call();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                    }
+                });
+    }
+
+    public void set_greens_delete() {
+        RetrofitClient.getInstance().create(ApiService.class).set_greens_delete(spec_id.get())
+                .doOnSubscribe(new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                    }
+                })
+                .compose(RxUtils.bindToLifecycle(getLifecycleProvider()))
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribe(new ApiDisposableObserver<Object>() {
+                    @Override
+                    public void onComplete() {
+
+                    }
+
+                    @Override
+                    public void onResult(Object o) {
+                        set_greens_delete_event.call();
                     }
 
                     @Override

@@ -78,7 +78,7 @@
                         android:layout_height="wrap_content"
                         android:text="一级分类"
                         android:textColor="@color/color_black_2"
-                        android:textSize="12sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -88,7 +88,7 @@
                         android:paddingBottom="19dp"
                         android:text="@{viewModel.class_name_one}"
                         android:textColor="@color/color_black_2"
-                        android:textSize="12sp"
+                        android:textSize="14sp"
                         binding:onClickCommand="@{viewModel.to_fragment_class_one}" />
                 </LinearLayout>
 
@@ -112,7 +112,7 @@
                         android:layout_height="wrap_content"
                         android:text="二级分类"
                         android:textColor="@color/color_black_2"
-                        android:textSize="12sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -122,7 +122,7 @@
                         android:paddingBottom="19dp"
                         android:text="@{viewModel.class_name_two}"
                         android:textColor="@color/color_black_2"
-                        android:textSize="12sp"
+                        android:textSize="14sp"
                         binding:onClickCommand="@{viewModel.to_fragment_class_two}" />
                 </LinearLayout>
 
@@ -146,7 +146,7 @@
                         android:layout_height="wrap_content"
                         android:text="单位选择"
                         android:textColor="@color/color_black_2"
-                        android:textSize="12sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -156,7 +156,7 @@
                         android:paddingBottom="19dp"
                         android:text="@{viewModel.unit_name}"
                         android:textColor="@color/color_black_2"
-                        android:textSize="12sp"
+                        android:textSize="14sp"
                         binding:onClickCommand="@{viewModel.to_fragment_unit}" />
                 </LinearLayout>
 
@@ -180,7 +180,7 @@
                         android:layout_height="wrap_content"
                         android:text="商品名称"
                         android:textColor="@color/color_black_2"
-                        android:textSize="12sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -190,7 +190,7 @@
                         android:paddingBottom="19dp"
                         android:text="@{viewModel.goods_name}"
                         android:textColor="@color/color_black_2"
-                        android:textSize="12sp"
+                        android:textSize="14sp"
                         binding:onClickCommand="@{viewModel.edit_goods_name}" />
                 </LinearLayout>
 
@@ -214,7 +214,7 @@
                         android:layout_height="wrap_content"
                         android:text="商品备注"
                         android:textColor="@color/color_black_2"
-                        android:textSize="12sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -224,7 +224,7 @@
                         android:paddingBottom="19dp"
                         android:text="@{viewModel.goods_remarks}"
                         android:textColor="@color/color_black_2"
-                        android:textSize="12sp"
+                        android:textSize="14sp"
                         binding:onClickCommand="@{viewModel.edit_goods_remarks}" />
                 </LinearLayout>
 
@@ -250,7 +250,7 @@
                         android:layout_weight="1"
                         android:text="商品照片"
                         android:textColor="@color/color_black_2"
-                        android:textSize="12sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -262,7 +262,7 @@
                         android:paddingBottom="19dp"
                         android:text="添加/修改图片"
                         android:textColor="@color/color_black_2"
-                        android:textSize="12sp"
+                        android:textSize="14sp"
                         binding:onClickCommand="@{viewModel.choose_photo_way}" />
                 </LinearLayout>
 
@@ -285,6 +285,7 @@
                     android:orientation="vertical"></LinearLayout>
 
                 <TextView
+                    android:id="@+id/add_specs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="14.5dp"
@@ -296,6 +297,7 @@
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
                     android:text="添加规格➕"
+                    android:textSize="14sp"
                     binding:onClickCommand="@{viewModel.add_specs_command}" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

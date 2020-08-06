@@ -180,6 +180,6 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("member/set_greens_delete")
-    Observable<BaseResponse<CommonEntity>> set_greens_delete(@Field("spec_id") String spec_id);
+    Observable<BaseResponse<Object>> set_greens_delete(@Field("spec_id") String spec_id);
 
 }

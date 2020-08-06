@@ -190,7 +190,6 @@ public class PushMessageReceiver extends JPushMessageReceiver {
             msgIntent.putExtra(MainActivity.KEY_EXTRAS, customMessage.message);
             LocalBroadcastManager.getInstance(context).sendBroadcast(msgIntent);
         }
-
     }
 
     @Override

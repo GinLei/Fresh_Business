@@ -67,6 +67,7 @@ public class UploadGoodsInfoViewModel extends BaseViewModel {
     public SingleLiveEvent edit_goods_name_event = new SingleLiveEvent();
     public SingleLiveEvent edit_goods_remarks_event = new SingleLiveEvent();
     public SingleLiveEvent add_specs_event = new SingleLiveEvent();
+    public SingleLiveEvent add_specs_event_first = new SingleLiveEvent();
     public SingleLiveEvent clear_specs_event = new SingleLiveEvent();
     public SingleLiveEvent choose_photo_way_event = new SingleLiveEvent();
     public SingleLiveEvent submit_event = new SingleLiveEvent();
@@ -162,7 +163,7 @@ public class UploadGoodsInfoViewModel extends BaseViewModel {
 
     public UploadGoodsInfoViewModel(@NonNull Application application) {
         super(application);
-        Messenger.getDefault().register(this, ClassOneViewModel.TAG, CommonEntity.class, new BindingConsumer<CommonEntity>() {
+        Messenger.getDefault().register(this, ClassOneItemViewModel.TAG, CommonEntity.class, new BindingConsumer<CommonEntity>() {
             @Override
             public void call(CommonEntity commonEntity) {
                 if (commonEntity != null) {
@@ -178,7 +179,7 @@ public class UploadGoodsInfoViewModel extends BaseViewModel {
                 }
             }
         });
-        Messenger.getDefault().register(this, ClassTwoViewModel.TAG, CommonEntity.class, new BindingConsumer<CommonEntity>() {
+        Messenger.getDefault().register(this, ClassTwoItemViewModel.TAG, CommonEntity.class, new BindingConsumer<CommonEntity>() {
             @Override
             public void call(CommonEntity commonEntity) {
                 if (commonEntity != null) {
@@ -192,13 +193,14 @@ public class UploadGoodsInfoViewModel extends BaseViewModel {
                 }
             }
         });
-        Messenger.getDefault().register(this, UnitViewModel.TAG, UnitEntity.class, new BindingConsumer<UnitEntity>() {
+        Messenger.getDefault().register(this, UnitItemViewModel.TAG, UnitEntity.class, new BindingConsumer<UnitEntity>() {
             @Override
             public void call(UnitEntity unitEntity) {
                 if (unitEntity != null) {
                     unit_name.set(unitEntity.getUnit());
                     unit_type.set(unitEntity.getType());
                     clear_specs_event.call();
+                    add_specs_event_first.call();
                 }
             }
         });
@@ -271,12 +273,6 @@ public class UploadGoodsInfoViewModel extends BaseViewModel {
     }
 
     public void submit() {
-        Log.v("cid", class_id_two.get());
-        Log.v("unit_name", unit_name.get());
-        Log.v("goods_name", goods_name.get());
-        Log.v("note_name", goods_remarks.get());
-        Log.v("goods_specs", goods_specs.get());
-        Log.v("thumb", img_url.get());
         RetrofitClient.getInstance().create(ApiService.class).greens_add(String.valueOf(class_id_two.get()), unit_name.get(), goods_name.get(), goods_remarks.get(), goods_specs.get(), img_url.get())
                 .doOnSubscribe(new Consumer<Disposable>() {
                     @Override

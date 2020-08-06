@@ -37,7 +37,7 @@ import java.util.Locale;
 import me.goldze.mvvmhabit.base.BaseActivity;
 import me.jessyan.autosize.internal.CustomAdapt;
 
-public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewModel> implements CustomAdapt, TextToSpeech.OnInitListener {
+public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewModel> implements CustomAdapt {
     private CountDownTimer timer;
     private TextToSpeech tts;
 
@@ -58,13 +58,8 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
     public void initData() {
         JUtil.requestPermission(this);
         ignoreBatteryOptimization(this);
-        play();
     }
 
-
-    private void play() {
-        tts = new TextToSpeech(this, this);
-    }
 
     public void ignoreBatteryOptimization(Activity activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -140,26 +135,5 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
             }
         }
         return super.onKeyDown(keyCode, event);
-    }
-
-    @Override
-    public void onInit(int status) {
-        if (status == TextToSpeech.SUCCESS) {
-            //设置播放语言
-            int result = tts.setLanguage(Locale.CHINESE);
-            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                //Toast.makeText(LoginActivity.this, "不支持", Toast.LENGTH_SHORT).show();
-            } else if (result == TextToSpeech.LANG_AVAILABLE) {
-                tts.speak("张瑞你郎戈这么牛逼？不得了不得了", TextToSpeech.QUEUE_ADD, null);
-            }
-        }
-    }
-
-    public void stopTTS() {
-        if (tts != null) {
-            tts.shutdown();
-            tts.stop();
-            tts = null;
-        }
     }
 }

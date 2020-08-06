@@ -18,7 +18,6 @@
             android:id="@+id/tv_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2 ~ 3斤/个"
             android:textColor="@color/color8799A3"
             android:textSize="15sp" />
 
@@ -46,7 +45,6 @@
                     android:id="@+id/tv_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="16.6"
                     android:textColor="@color/color_red"
                     android:textSize="20sp" />
 
@@ -54,7 +52,6 @@
                     android:id="@+id/tv_3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="/个"
                     android:textColor="@color/color8799A3"
                     android:textSize="10sp" />
             </LinearLayout>
@@ -76,7 +73,6 @@
                     android:id="@+id/tv_4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="16.6"
                     android:textColor="#ffff7e01"
                     android:textSize="20sp" />
 
@@ -84,7 +80,6 @@
                     android:id="@+id/tv_5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="/个"
                     android:textColor="@color/color8799A3"
                     android:textSize="10sp" />
             </LinearLayout>

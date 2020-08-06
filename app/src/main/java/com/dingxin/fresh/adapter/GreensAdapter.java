@@ -42,8 +42,14 @@ public class GreensAdapter extends RecyclerView.Adapter<GreensAdapter.ViewHolder
         holder.tv_1.setText(specsEntity.getSpec_name());
         holder.tv_2.setText(specsEntity.getPrice_old());
         holder.tv_3.setText(specsEntity.getUnit_name());
-        holder.tv_4.setText(specsEntity.getMoney_old());
-        holder.tv_5.setText(specsEntity.getUnit_name());
+        String money_old = specsEntity.getMoney_old();
+        if (!TextUtils.isEmpty(money_old)) {
+            holder.tv_4.setText(money_old);
+            holder.tv_5.setText(specsEntity.getUnit_name());
+        } else {
+            holder.tv_4.setText("无预约价");
+            holder.tv_5.setText("");
+        }
         holder.tv_6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,7 +60,8 @@ public class GreensAdapter extends RecyclerView.Adapter<GreensAdapter.ViewHolder
         holder.tv_7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                viewModel.spec_id.set(specsEntity.getSpec_id());
+                viewModel.set_greens_delete();
             }
         });
         holder.tv_6.setText(specsEntity.getIs_on_sale() ? "下架" : "上架");

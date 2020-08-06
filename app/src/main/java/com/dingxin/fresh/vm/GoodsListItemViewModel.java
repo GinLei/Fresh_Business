@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.ObservableField;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.dingxin.fresh.R;
 import com.dingxin.fresh.api.ApiService;
 import com.dingxin.fresh.e.CommonEntity;
@@ -68,7 +70,8 @@ public class GoodsListItemViewModel extends ItemViewModel<GoodsListViewModel> {
     }
 
     public void specs() {
-        viewModel.specs(greensEntityObservableField.get().getId());
+        viewModel.goods_id.set(String.valueOf(greensEntityObservableField.get().getId()));
+        viewModel.specs();
     }
 
     public void sale() {
@@ -104,34 +107,51 @@ public class GoodsListItemViewModel extends ItemViewModel<GoodsListViewModel> {
     }
 
     public void delete() {
-        viewModel.deleteItemLiveData.setValue(GoodsListItemViewModel.this);
-        RetrofitClient.getInstance().create(ApiService.class).greens_del(String.valueOf(greensEntityObservableField.get().getId()))
-                .doOnSubscribe(new Consumer<Disposable>() {
+        new MaterialDialog.Builder(viewModel.activity.get())
+                .title("删除操作")
+                .content("确认要删除此商品吗")
+                .positiveText("确认")
+                .negativeText("取消")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        viewModel.showDialog();
-                    }
-                })
-                .compose(RxUtils.bindToLifecycle(viewModel.getLifecycleProvider()))
-                .compose(RxUtils.schedulersTransformer())
-                .compose(RxUtils.exceptionTransformer())
-                .subscribe(new ApiDisposableObserver<Object>() {
-                    @Override
-                    public void onComplete() {
-                        viewModel.dismissDialog();
-                    }
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                        viewModel.deleteItemLiveData.setValue(GoodsListItemViewModel.this);
+                        RetrofitClient.getInstance().create(ApiService.class).greens_del(String.valueOf(greensEntityObservableField.get().getId()))
+                                .doOnSubscribe(new Consumer<Disposable>() {
+                                    @Override
+                                    public void accept(Disposable disposable) throws Exception {
+                                        viewModel.showDialog();
+                                    }
+                                })
+                                .compose(RxUtils.bindToLifecycle(viewModel.getLifecycleProvider()))
+                                .compose(RxUtils.schedulersTransformer())
+                                .compose(RxUtils.exceptionTransformer())
+                                .subscribe(new ApiDisposableObserver<Object>() {
+                                    @Override
+                                    public void onComplete() {
+                                        viewModel.dismissDialog();
+                                    }
 
-                    @Override
-                    public void onResult(Object o) {
-                        viewModel.dismissDialog();
-                        viewModel.deleteItem(GoodsListItemViewModel.this);
-                    }
+                                    @Override
+                                    public void onResult(Object o) {
+                                        viewModel.dismissDialog();
+                                        viewModel.deleteItem(GoodsListItemViewModel.this);
+                                    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        viewModel.dismissDialog();
-                        super.onError(e);
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        viewModel.dismissDialog();
+                                        super.onError(e);
+                                    }
+                                });
+
                     }
-                });
+                }).onNegative(new MaterialDialog.SingleButtonCallback() {
+            @Override
+            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                dialog.dismiss();
+            }
+        }).show();
     }
 }

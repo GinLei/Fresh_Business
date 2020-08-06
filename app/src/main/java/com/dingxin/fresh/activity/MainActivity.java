@@ -20,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Vibrator;
+import android.speech.tts.TextToSpeech;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -40,10 +41,11 @@ import com.google.gson.Gson;
 
 
 import java.lang.reflect.Field;
+import java.util.Locale;
 
 import me.jessyan.autosize.internal.CustomAdapt;
 
-public class MainActivity extends AppCompatActivity implements CustomAdapt {
+public class MainActivity extends AppCompatActivity implements CustomAdapt, TextToSpeech.OnInitListener {
     public static boolean isForeground = false;
     public static final String MESSAGE_RECEIVED_ACTION = "com.dingxin.fresh.MESSAGE_RECEIVED_ACTION";
     public static final String KEY_TITLE = "title";
@@ -59,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements CustomAdapt {
     private MOrderFragment thirdFragment;
     //记录当前正在使用的fragment
     private Fragment isFragment;
-
+    private TextToSpeech tts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +74,11 @@ public class MainActivity extends AppCompatActivity implements CustomAdapt {
         //doRegisterReceiver();
         //bindService();
         registerMessageReceiver();
+        initTextToSpeech();
+    }
+
+    private void initTextToSpeech() {
+        tts = new TextToSpeech(this, this);
     }
 
     public void initFragment(Bundle savedInstanceState) {
@@ -262,6 +269,14 @@ public class MainActivity extends AppCompatActivity implements CustomAdapt {
         KeepManager.getInstance().unregisterKeep(this);
     }
 
+    @Override
+    public void onInit(int status) {
+        if (status == TextToSpeech.SUCCESS) {
+            //设置播放语言
+            tts.setLanguage(Locale.CHINESE);
+        }
+    }
+
     private class ServiceActivationReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -315,7 +330,9 @@ public class MainActivity extends AppCompatActivity implements CustomAdapt {
                     JPushEntity jPushEntity = new Gson().fromJson(extra, JPushEntity.class);
                     int type = jPushEntity.getType();
                     if (type == 2) {
-                        playMusic(context, "android.resource://" + context.getPackageName() + "/" + R.raw.order_weight_vol9);
+                        //playMusic(context, "android.resource://" + context.getPackageName() + "/" + R.raw.order_weight_vol9);
+
+                        tts.speak(jPushEntity.getContent(), TextToSpeech.QUEUE_FLUSH, null);
                     } else if (type == 3) {
                         playMusic(context, "android.resource://" + context.getPackageName() + "/" + R.raw.watch_greens);
                     } else if (type == 4) {
@@ -339,5 +356,13 @@ public class MainActivity extends AppCompatActivity implements CustomAdapt {
         mVibrator.vibrate(1000);
         mediaPlayer = MediaPlayer.create(getApplication(), Uri.parse(url));
         mediaPlayer.start();
+    }
+
+    public void stopTTS() {
+        if (tts != null) {
+            tts.shutdown();
+            tts.stop();
+            tts = null;
+        }
     }
 }

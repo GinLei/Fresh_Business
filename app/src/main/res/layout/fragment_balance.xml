@@ -72,7 +72,7 @@
                 android:paddingBottom="5dp"
                 android:text="余额明细"
                 android:textColor="#ffffffff"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 binding:onClickCommand="@{viewModel.detail_command}" />
 
             <TextView
@@ -86,7 +86,7 @@
                 android:paddingBottom="5dp"
                 android:text="立即提现"
                 android:textColor="#ffffffff"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 binding:onClickCommand="@{viewModel.cash_command}" />
         </LinearLayout>
 

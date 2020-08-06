@@ -64,6 +64,7 @@ public class UploadGoodsInfoFragment extends BaseFragment<FragmentUploadgoodsinf
         viewModel.target_id.set(bundle.getString("target_id"));
         viewModel.freight_fee.set(bundle.getString("freight_fee"));
         viewModel.service_fee.set(bundle.getString("service_fee"));
+        //TODO
     }
 
     @Override
@@ -124,6 +125,12 @@ public class UploadGoodsInfoFragment extends BaseFragment<FragmentUploadgoodsinf
             @Override
             public void onChanged(Object o) {
                 binding.container.removeAllViews();
+            }
+        });
+        viewModel.add_specs_event_first.observe(getViewLifecycleOwner(), new Observer() {
+            @Override
+            public void onChanged(Object o) {
+                binding.addSpecs.performClick();
             }
         });
         viewModel.choose_photo_way_event.observe(getViewLifecycleOwner(), new Observer() {
