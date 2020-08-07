@@ -6,6 +6,14 @@
         <variable
             name="viewModel"
             type="com.dingxin.fresh.vm.HomeViewModel" />
+
+        <import type="me.tatarka.bindingcollectionadapter2.BindingRecyclerViewAdapter" />
+
+        <import type="me.goldze.mvvmhabit.binding.viewadapter.recyclerview.LayoutManagers" />
+
+        <import type="me.goldze.mvvmhabit.binding.viewadapter.recyclerview.LineManagers" />
+
+        <import type="androidx.recyclerview.widget.LinearLayoutManager" />
     </data>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -40,65 +48,16 @@
                     android:textStyle="bold" />
             </FrameLayout>
 
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="19.33dp"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingBottom="15dp"
+                binding:itemBinding="@{viewModel.itemBinding}"
+                binding:items="@{viewModel.listItemViewModels}"
+                binding:layoutManager="@{LayoutManagers.grid(2)}" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawableTop="@{viewModel.drawables.get(0)}"
-                    android:gravity="center"
-                    android:text="@{viewModel.titles.get(0)}"
-                    android:textColor="#1E1E1E"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    binding:onClickCommand="@{viewModel.one}" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawableTop="@{viewModel.drawables.get(1)}"
-                    android:gravity="center"
-                    android:text="@{viewModel.titles.get(1)}"
-                    android:textColor="#1E1E1E"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="27dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawableTop="@{viewModel.drawables.get(2)}"
-                    android:gravity="center"
-                    android:text="@{viewModel.titles.get(2)}"
-                    android:textColor="#1E1E1E"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    binding:onClickCommand="@{viewModel.three}" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawableTop="@{viewModel.drawables.get(3)}"
-                    android:gravity="center"
-                    android:text="@{viewModel.titles.get(3)}"
-                    android:textColor="#1E1E1E"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
         </LinearLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

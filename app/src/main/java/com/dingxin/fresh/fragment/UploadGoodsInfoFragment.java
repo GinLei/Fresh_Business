@@ -137,7 +137,7 @@ public class UploadGoodsInfoFragment extends BaseFragment<FragmentUploadgoodsinf
             @Override
             public void onChanged(Object o) {
                 new MaterialDialog.Builder(getActivity()).title("商品图片")
-                        .items(new String[]{"相册", "拍照"})
+                        .items(new String[]{"相册", "拍照", "默认"})
                         .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
                             @Override
                             public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
@@ -152,7 +152,7 @@ public class UploadGoodsInfoFragment extends BaseFragment<FragmentUploadgoodsinf
                                             }
                                         }
                                     });
-                                } else {
+                                } else if (TextUtils.equals(text, "拍照")) {
                                     new RxPermissions(getActivity()).request(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA).subscribe(new Consumer<Boolean>() {
                                         @Override
                                         public void accept(Boolean granted) throws Exception {

@@ -157,7 +157,9 @@ public class PrinterService extends Service implements PrinterDeviceManager.Prin
     @Override
     public void error(int code) {
         // 打印机逻辑错误
-        send(STATUS.ERROR, "打印机状态码：" + code);
+        //send(STATUS.ERROR, "打印机状态码：" + code);
+
+        send(STATUS.ERROR, code + "");
     }
 
     @Override

@@ -129,7 +129,10 @@ public class MWeightOrderChildAdapter extends RecyclerView.Adapter<RecyclerView.
             ViewHolder3.tv_6.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    model.callPhone(entity.getMobile());
+                    model.goods_id.set(entity.getGoods_id());
+                    model.order_id.set(String.valueOf(entity.getOrder_id()));
+                    model.spec_id.set(entity.getSpec_id());
+                    model.cancelGoods();
                 }
             });
         } else if (holder instanceof ViewHolder4) {

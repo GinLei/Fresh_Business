@@ -68,7 +68,7 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("member/cancel_order_goods")
-    Observable<BaseResponse<Object>> cancel_order_goods(@Field("goods_id") String goods_id, @Field("order_id") String order_id, @Field("spec_id") String spec_id);
+    Observable<BaseResponse<CommonEntity>> cancel_order_goods(@Field("goods_id") String goods_id, @Field("order_id") String order_id, @Field("spec_id") String spec_id);
 
     @FormUrlEncoded
     @POST("member/commit_weight")
@@ -181,5 +181,9 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("member/set_greens_delete")
     Observable<BaseResponse<Object>> set_greens_delete(@Field("spec_id") String spec_id);
+
+    @POST("member/change_isshow")
+    Observable<BaseResponse<CommonEntity>> change_isShow();
+
 
 }

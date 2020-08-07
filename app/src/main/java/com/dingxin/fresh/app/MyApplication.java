@@ -48,7 +48,7 @@ public class MyApplication extends BaseApplication {
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         builder.detectFileUriExposure();
-        KLog.init(true);
+        KLog.init(false);
 //配置全局异常崩溃操作
         CaocConfig.Builder.create()
                 .backgroundMode(CaocConfig.BACKGROUND_MODE_SILENT) //背景模式,开启沉浸式
@@ -73,7 +73,7 @@ public class MyApplication extends BaseApplication {
         AutoSize.checkAndInit(this);
         AutoSizeConfig.getInstance().setCustomFragment(true);
         TXLiveBase.getInstance().setLicence(this, "http://license.vod2.myqcloud.com/license/v1/701947fd803f8c5f878a2c6fd8086eca/TXLiveSDK.licence", "430ab98fe8f19f8b69ae47b039407d33");
-        JPushInterface.setDebugMode(true);    // 设置开启日志,发布时请关闭日志
+        JPushInterface.setDebugMode(false);    // 设置开启日志,发布时请关闭日志
         JPushInterface.init(this);// 初始化 JPush
         rid = JPushInterface.getRegistrationID(getApplicationContext());
     }

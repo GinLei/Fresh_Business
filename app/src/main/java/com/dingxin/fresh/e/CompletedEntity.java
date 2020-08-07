@@ -18,9 +18,18 @@ public class CompletedEntity {
      * note :
      * mobile : 17380273701
      */
-
+    private String nick_name;
     private String guser_price;
     private String created_at;
+
+    public String getNick_name() {
+        return nick_name;
+    }
+
+    public void setNick_name(String nick_name) {
+        this.nick_name = nick_name;
+    }
+
     private Object id;
     private Object order_id;
     private int guid;

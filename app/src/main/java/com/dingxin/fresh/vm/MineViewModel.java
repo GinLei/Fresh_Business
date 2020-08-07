@@ -7,6 +7,7 @@ import androidx.databinding.ObservableField;
 
 import com.dingxin.fresh.api.ApiService;
 import com.dingxin.fresh.e.AccountInfoEntity;
+import com.dingxin.fresh.e.CommonEntity;
 import com.dingxin.fresh.fragment.BalanceFragment;
 import com.dingxin.fresh.utils.RetrofitClient;
 
@@ -22,6 +23,7 @@ import me.goldze.mvvmhabit.utils.RxUtils;
 public class MineViewModel extends BaseViewModel {
     public ObservableField<AccountInfoEntity> entity = new ObservableField<>();
     public SingleLiveEvent refresh_event = new SingleLiveEvent();
+    public ObservableField<Boolean> is_show = new ObservableField<>();
     public BindingCommand to_balance = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
@@ -93,4 +95,33 @@ public class MineViewModel extends BaseViewModel {
                     }
                 });
     }
+
+    public void change_isShow() {
+        RetrofitClient.getInstance().create(ApiService.class).change_isShow()
+                .doOnSubscribe(new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                    }
+                })
+                .compose(RxUtils.bindToLifecycle(getLifecycleProvider()))
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribe(new ApiDisposableObserver<CommonEntity>() {
+                    @Override
+                    public void onResult(CommonEntity entity) {
+                        is_show.set(entity.getIs_show());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
 }

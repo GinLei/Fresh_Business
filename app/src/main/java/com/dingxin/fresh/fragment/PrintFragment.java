@@ -20,6 +20,8 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 
 import com.clj.fastble.BleManager;
+import com.clj.fastble.callback.BleScanCallback;
+import com.clj.fastble.data.BleDevice;
 import com.dingxin.fresh.BR;
 import com.dingxin.fresh.R;
 import com.dingxin.fresh.adapter.PrintOrderAdapter;
@@ -41,6 +43,7 @@ import java.util.List;
 import io.reactivex.functions.Consumer;
 import me.goldze.mvvmhabit.base.BaseFragment;
 import me.goldze.mvvmhabit.utils.SPUtils;
+import me.goldze.mvvmhabit.utils.ToastUtils;
 import me.jessyan.autosize.internal.CustomAdapt;
 
 
@@ -137,6 +140,30 @@ public class PrintFragment extends BaseFragment<FragmentPrintBinding, PrintViewM
         viewModel.print_event.observe(getViewLifecycleOwner(), new Observer() {
             @Override
             public void onChanged(Object o) {
+                if (!BleManager.getInstance().isBlueEnable()) {
+                    ToastUtils.showShort("请开启蓝牙");
+                    return;
+                }
+                BleManager.getInstance().scan(new BleScanCallback() {
+                    @Override
+                    public void onScanFinished(List<BleDevice> scanResultList) {
+                        dismissDialog();
+                    }
+
+                    @Override
+                    public void onScanStarted(boolean success) {
+                        showDialog("正在打印");
+                    }
+
+                    @Override
+                    public void onScanning(BleDevice bleDevice) {
+                        if (TextUtils.equals(bleDevice.getMac(), new Gson().fromJson(SPUtils.getInstance().getString("user_info"), LoginEntity.class).getTicket())) {
+                            BleManager.getInstance().cancelScan();
+                            print();
+                            dismissDialog();
+                        }
+                    }
+                });
                 print();
             }
         });
@@ -167,13 +194,16 @@ public class PrintFragment extends BaseFragment<FragmentPrintBinding, PrintViewM
             if (intent.hasExtra(PrinterService.ERROR_MESSAGE)) {
                 errorMsg = intent.getStringExtra(PrinterService.ERROR_MESSAGE);
             }
-            Log.i(TAG, "mPrinterReceiver printer status: " + status);
             switch (status) {
                 case OPEN:// 打印机机盖开启。
                     Toast.makeText(context, "打印机机盖开启", Toast.LENGTH_SHORT).show();
                     break;
                 case ERROR:// 打印机错误。
-                    Toast.makeText(context, "打印机错误: " + errorMsg, Toast.LENGTH_SHORT).show();
+                    // ToastUtils.showShort(errorMsg);
+                    if (TextUtils.equals(errorMsg, "0")) {
+                        viewModel.confirm_print();
+                    }
+                    //Toast.makeText(context, "打印机错误: " + errorMsg, Toast.LENGTH_SHORT).show();
                     break;
                 case NO_PAPER:// 打印机缺纸。
                     Toast.makeText(context, "打印机缺纸", Toast.LENGTH_SHORT).show();
@@ -188,7 +218,8 @@ public class PrintFragment extends BaseFragment<FragmentPrintBinding, PrintViewM
                     Toast.makeText(context, "打印机断开连接", Toast.LENGTH_SHORT).show();
                     break;
                 case CONNECT_FAIL:// 打印机连接失败。
-                    Toast.makeText(context, "打印机连接失败：" + errorMsg, Toast.LENGTH_SHORT).show();
+                    ToastUtils.showShort("打印机连接失败");
+                    //Toast.makeText(context, "打印机连接失败：" + errorMsg, Toast.LENGTH_SHORT).show();
                     break;
                 case READY:// 打印机准备就绪。
                     Toast.makeText(context, "打印机准备就绪：" + errorMsg, Toast.LENGTH_SHORT).show();
@@ -201,7 +232,7 @@ public class PrintFragment extends BaseFragment<FragmentPrintBinding, PrintViewM
         // 构建 Intent 数据
         Intent intent = new Intent(getActivity(), PrinterService.class);
         // 打印模式 PrinterService.MODE.NORMAL 正常打印模式（默认） PrinterService.MODE.TEST 测试打印机
-        intent.putExtra(PrinterService.PRINT_MODEL, PrinterService.MODE.NORMAL);
+        intent.putExtra(PrinterService.PRINT_MODEL, PrinterService.MODE.TEST);
         // 蓝牙地址必须传(设置打印机的时候 存储到本地，如果没有 提示去设置打印机)
 //        new Gson().fromJson(SPUtils.getInstance().getString("user_info"), LoginEntity.class).getTicket();
         intent.putExtra(PrinterService.BLUETOOTH_ADDRESS, new Gson().fromJson(SPUtils.getInstance().getString("user_info"), LoginEntity.class).getTicket());
@@ -209,6 +240,11 @@ public class PrintFragment extends BaseFragment<FragmentPrintBinding, PrintViewM
         intent.putExtra(PrinterService.PRINT_DATA, PrinterFormat.getPrintData(viewModel.entity.get()));
         // 启动服务 自动打印。
         getActivity().startService(intent);
-        viewModel.confirm_print();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        BleManager.getInstance().destroy();
     }
 }

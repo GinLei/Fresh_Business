@@ -131,7 +131,7 @@ public class PrintViewModel extends BaseViewModel {
                 .doOnSubscribe(new Consumer<Disposable>() {
                     @Override
                     public void accept(Disposable disposable) throws Exception {
-                        showDialog();
+
                     }
                 })
                 .compose(RxUtils.bindToLifecycle(getLifecycleProvider()))
@@ -140,18 +140,15 @@ public class PrintViewModel extends BaseViewModel {
                 .subscribe(new ApiDisposableObserver<List<PrintEntity>>() {
                     @Override
                     public void onComplete() {
-                        dismissDialog();
                     }
 
                     @Override
                     public void onResult(List<PrintEntity> entity) {
-                        dismissDialog();
                         refreshEvent.call();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        dismissDialog();
                         super.onError(e);
                     }
                 });

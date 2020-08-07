@@ -2,7 +2,11 @@ package com.dingxin.fresh.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
+import android.widget.ListAdapter;
+import android.widget.SimpleAdapter;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
@@ -22,7 +26,10 @@ import com.youth.banner.indicator.Indicator;
 import com.youth.banner.indicator.RectangleIndicator;
 import com.youth.banner.indicator.RoundLinesIndicator;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import me.goldze.mvvmhabit.base.BaseFragment;
 import me.jessyan.autosize.internal.CustomAdapt;
@@ -55,7 +62,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 .setIndicatorSelectedWidth(72)
                 .setIndicatorMargins(margins)
                 .start();
-
         binding.SwipeRefreshLayout.setColorSchemeResources(R.color.color_orange_2);
         binding.SwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -100,4 +106,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     public float getSizeInDp() {
         return 690;
     }
+
+
 }

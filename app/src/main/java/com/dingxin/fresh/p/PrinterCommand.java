@@ -198,6 +198,7 @@ public class PrinterCommand {
         bytes.add(addText(content + "\n"));
         return bytes;
     }
+
     public static ArrayList<byte[]> addRightText(String content) {
         final ArrayList<byte[]> bytes = new ArrayList<>();
         bytes.add(NORMAL);

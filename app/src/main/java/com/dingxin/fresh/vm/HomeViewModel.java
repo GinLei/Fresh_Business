@@ -5,7 +5,10 @@ import android.graphics.drawable.Drawable;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.databinding.ObservableArrayList;
+import androidx.databinding.ObservableList;
 
+import com.dingxin.fresh.BR;
 import com.dingxin.fresh.R;
 import com.dingxin.fresh.api.ApiService;
 import com.dingxin.fresh.e.BannerEntity;
@@ -24,12 +27,13 @@ import me.goldze.mvvmhabit.binding.command.BindingCommand;
 import me.goldze.mvvmhabit.bus.event.SingleLiveEvent;
 import me.goldze.mvvmhabit.http.ApiDisposableObserver;
 import me.goldze.mvvmhabit.utils.RxUtils;
+import me.tatarka.bindingcollectionadapter2.ItemBinding;
 
 public class HomeViewModel extends BaseViewModel {
-    public List<Drawable> drawables = new ArrayList<>();
-    public List<String> titles = new ArrayList<>();
     public SingleLiveEvent<List<BannerEntity>> refresh_event = new SingleLiveEvent<>();
     public SingleLiveEvent<List<BannerEntity>> event = new SingleLiveEvent<>();
+    public ItemBinding<HomeItemViewModel> itemBinding = ItemBinding.of(BR.viewModel, R.layout.layout_home_item);
+    public ObservableList<HomeItemViewModel> listItemViewModels = new ObservableArrayList<>();
     public BindingCommand one = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
@@ -57,14 +61,10 @@ public class HomeViewModel extends BaseViewModel {
 
     public HomeViewModel(@NonNull Application application) {
         super(application);
-        drawables.add(ContextCompat.getDrawable(getApplication(), R.mipmap.list));
-        drawables.add(ContextCompat.getDrawable(getApplication(), R.mipmap.list));
-        drawables.add(ContextCompat.getDrawable(getApplication(), R.mipmap.list));
-        drawables.add(ContextCompat.getDrawable(getApplication(), R.mipmap.list));
-        titles.add("商户资料");
-        titles.add("摊位管理");
-        titles.add("商品管理");
-        titles.add("用户管理");
+        for (int i = 0; i < 4; i++) {
+            HomeItemViewModel viewModel = new HomeItemViewModel(HomeViewModel.this);
+            listItemViewModels.add(viewModel);
+        }
     }
 
     public void RequestBannerData() {

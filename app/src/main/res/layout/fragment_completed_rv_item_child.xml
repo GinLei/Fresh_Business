@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#ff333333"
-            android:textSize="13sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/tv_2"
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:textColor="#ffff7845"
-            android:textSize="8sp" />
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/tv_3"
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:textColor="#ff666666"
-            android:textSize="11sp" />
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/tv_4"
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:textColor="#ff666666"
-            android:textSize="11sp" />
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/tv_5"
@@ -56,7 +56,48 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:textColor="#ffff7845"
-            android:textSize="8sp" />
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textColor="#ffff7845"
+            android:textSize="13sp" />
+
+
+        <TextView
+            android:id="@+id/tv_7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textColor="#ffff7845"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tv_8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textColor="#ffff7845"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tv_9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/color_red"
+            android:textSize="14sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
 </LinearLayout>

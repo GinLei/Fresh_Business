@@ -49,6 +49,10 @@ public class CompletedChildAdapter extends RecyclerView.Adapter<CompletedChildAd
         }
         holder.tv_4.setText("数量: x" + entity.getMin_dada_weight());
         holder.tv_5.setText("重量:" + entity.getGoods_weight());
+        holder.tv_6.setText("称重重量:" + entity.getWeight());
+        holder.tv_7.setText("预付价格:¥" + entity.getFinal_price());
+        holder.tv_8.setText("实付价格:¥" + entity.getMember_goods_price());
+        holder.tv_9.setText("实际菜钱:¥" + entity.getGuser_price());
     }
 
     @Override
@@ -58,7 +62,7 @@ public class CompletedChildAdapter extends RecyclerView.Adapter<CompletedChildAd
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView tv_1, tv_2, tv_3, tv_4, tv_5, tv_6;
+        public TextView tv_1, tv_2, tv_3, tv_4, tv_5, tv_6, tv_7, tv_8, tv_9;
         public ImageView img;
 
         public ViewHolder(@NonNull View itemView) {
@@ -69,6 +73,9 @@ public class CompletedChildAdapter extends RecyclerView.Adapter<CompletedChildAd
             tv_4 = itemView.findViewById(R.id.tv_4);
             tv_5 = itemView.findViewById(R.id.tv_5);
             tv_6 = itemView.findViewById(R.id.tv_6);
+            tv_7 = itemView.findViewById(R.id.tv_7);
+            tv_8 = itemView.findViewById(R.id.tv_8);
+            tv_9 = itemView.findViewById(R.id.tv_9);
             img = itemView.findViewById(R.id.img);
         }
     }

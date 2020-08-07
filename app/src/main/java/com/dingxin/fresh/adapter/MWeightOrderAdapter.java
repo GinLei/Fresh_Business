@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -43,6 +44,7 @@ public class MWeightOrderAdapter extends RecyclerView.Adapter<MWeightOrderAdapte
     public void onBindViewHolder(@NonNull MWeightOrderAdapter.ViewHolder holder, int position) {
         WeightEntity entity = getList().get(position);
         holder.order_time.setText(entity.getCreated_at());
+        holder.nick_name.setText("下单人:" + entity.getNick_name());
         if (entity.getIs_train() == 0) {
             holder.is_test.setVisibility(View.GONE);
         }
@@ -74,12 +76,14 @@ public class MWeightOrderAdapter extends RecyclerView.Adapter<MWeightOrderAdapte
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView order_time, confirm;
-        public ImageView is_test, mobile;
+        public TextView order_time, confirm, nick_name;
+        public ImageView is_test;
+        public LinearLayout mobile;
         public RecyclerView rv;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            nick_name = itemView.findViewById(R.id.nick_name);
             order_time = itemView.findViewById(R.id.order_time);
             is_test = itemView.findViewById(R.id.is_test);
             mobile = itemView.findViewById(R.id.mobile);

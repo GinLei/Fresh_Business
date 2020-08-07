@@ -11,6 +11,24 @@ public class CommonEntity {
     private String freight_fee;
     private String service_fee;
     private Boolean is_on_sale;
+    private int cancel_weight_status;
+    private Boolean is_show;
+
+    public Boolean getIs_show() {
+        return is_show;
+    }
+
+    public void setIs_show(Boolean is_show) {
+        this.is_show = is_show;
+    }
+
+    public int getCancel_weight_status() {
+        return cancel_weight_status;
+    }
+
+    public void setCancel_weight_status(int cancel_weight_status) {
+        this.cancel_weight_status = cancel_weight_status;
+    }
 
     public Boolean getIs_on_sale() {
         return is_on_sale;

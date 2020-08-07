@@ -43,6 +43,7 @@ public class PrintOrderAdapter extends RecyclerView.Adapter<PrintOrderAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull PrintOrderAdapter.ViewHolder holder, int position) {
         PrintEntity entity = getList().get(position);
+        holder.nick_name.setText("下单人:" + entity.getNick_name());
         holder.order_time.setText(entity.getCreated_at());
         if (entity.getIs_train() == 0) {
             holder.is_test.setVisibility(View.GONE);
@@ -80,12 +81,13 @@ public class PrintOrderAdapter extends RecyclerView.Adapter<PrintOrderAdapter.Vi
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView order_time, print;
+        public TextView order_time, print, nick_name;
         public ImageView is_test, mobile;
         public RecyclerView rv;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            nick_name = itemView.findViewById(R.id.nick_name);
             order_time = itemView.findViewById(R.id.order_time);
             is_test = itemView.findViewById(R.id.is_test);
             mobile = itemView.findViewById(R.id.mobile);

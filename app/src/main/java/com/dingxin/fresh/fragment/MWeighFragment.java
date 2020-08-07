@@ -128,20 +128,22 @@ public class MWeighFragment extends BaseFragment<FragmentMweighBinding, MWeighVi
                 }
             }
         });
-        viewModel.cancel_event.observe(getViewLifecycleOwner(), new Observer() {
+        viewModel.cancel_event.observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
-            public void onChanged(Object o) {
-                List<WeightEntity> entities = adapter.getList();
-                for (int i = 0; i < entities.size(); i++) {
-                    WeightEntity entity = entities.get(i);
-                    if (TextUtils.equals(viewModel.order_id.get(), String.valueOf(entity.getOrder_id()))) {
-                        List<WeightEntity.OrderGoodsListBean> order_goods_list = entity.getOrder_goods_list();
-                        for (int j = 0; j < order_goods_list.size(); j++) {
-                            WeightEntity.OrderGoodsListBean goodsListBean = order_goods_list.get(j);
-                            if (TextUtils.equals(viewModel.spec_id.get(), goodsListBean.getSpec_id())) {
-                                goodsListBean.setIs_canceled(1);
-                                adapter.notifyDataSetChanged();
-                                return;
+            public void onChanged(Integer integer) {
+                if (integer != null) {
+                    List<WeightEntity> entities = adapter.getList();
+                    for (int i = 0; i < entities.size(); i++) {
+                        WeightEntity entity = entities.get(i);
+                        if (TextUtils.equals(viewModel.order_id.get(), String.valueOf(entity.getOrder_id()))) {
+                            List<WeightEntity.OrderGoodsListBean> order_goods_list = entity.getOrder_goods_list();
+                            for (int j = 0; j < order_goods_list.size(); j++) {
+                                WeightEntity.OrderGoodsListBean goodsListBean = order_goods_list.get(j);
+                                if (TextUtils.equals(viewModel.spec_id.get(), goodsListBean.getSpec_id())) {
+                                    goodsListBean.setIs_canceled(integer.intValue());
+                                    adapter.notifyDataSetChanged();
+                                    return;
+                                }
                             }
                         }
                     }

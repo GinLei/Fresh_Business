@@ -58,6 +58,79 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
     public void initData() {
         JUtil.requestPermission(this);
         ignoreBatteryOptimization(this);
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(LoginActivity.this).title("允许应用自启动");
+        builder.positiveText("确认").negativeText("取消").onNegative(new MaterialDialog.SingleButtonCallback() {
+            @Override
+            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                dismissDialog();
+            }
+        });
+        if (isHuawei()) {
+            builder.content("操作步骤：应用启动管理 -> 关闭应用开关 -> 打开允许自启动");
+            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+                @Override
+                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    goHuaweiSetting();
+                }
+            });
+        } else if (isXiaomi()) {
+            builder.content("操作步骤：授权管理 -> 自启动管理 -> 允许应用自启动");
+            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+                @Override
+                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    goXiaomiSetting();
+                }
+            });
+        } else if (isOPPO()) {
+            builder.content("操作步骤：权限隐私 -> 自启动管理 -> 允许应用自启动");
+            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+                @Override
+                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    goOPPOSetting();
+                }
+            });
+        } else if (isVIVO()) {
+            builder.content("操作步骤：权限管理 -> 自启动 -> 允许应用自启动");
+            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+                @Override
+                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    goVIVOSetting();
+                }
+            });
+        } else if (isMeizu()) {
+            builder.content("操作步骤：权限管理 -> 后台管理 -> 点击应用 -> 允许后台运行");
+            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+                @Override
+                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    goMeizuSetting();
+                }
+            });
+        } else if (isSamsung()) {
+            builder.content("操作步骤：自动运行应用程序 -> 打开应用开关 -> 电池管理 -> 未监视的应用程序 -> 添加应用");
+            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+                @Override
+                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    goSamsungSetting();
+                }
+            });
+        } else if (isLeTV()) {
+            builder.content("操作步骤：自启动管理 -> 允许应用自启动");
+            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+                @Override
+                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    goLetvSetting();
+                }
+            });
+        } else if (isSmartisan()) {
+            builder.content("操作步骤：权限管理 -> 自启动权限管理 -> 点击应用 -> 允许被系统启动");
+            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+                @Override
+                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    goSmartisanSetting();
+                }
+            });
+        }
+        builder.show();
     }
 
 
@@ -73,7 +146,9 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
                 if (!hasIgnored) {
                     Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
                     intent.setData(Uri.parse("package:" + activity.getPackageName()));
-                    startActivity(intent);
+                    if (intent.resolveActivity(getPackageManager()) != null) {
+                        startActivity(intent);
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -135,5 +210,109 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
             }
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    private void showActivity(@NonNull String packageName) {
+        Intent intent = getPackageManager().getLaunchIntentForPackage(packageName);
+        startActivity(intent);
+    }
+
+    private void showActivity(@NonNull String packageName, @NonNull String activityDir) {
+        Intent intent = new Intent();
+        intent.setComponent(new ComponentName(packageName, activityDir));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
+    public boolean isHuawei() {
+        if (Build.BRAND == null) {
+            return false;
+        } else {
+            return Build.BRAND.toLowerCase().equals("huawei") || Build.BRAND.toLowerCase().equals("honor");
+        }
+    }
+
+    private void goHuaweiSetting() {
+        try {
+            showActivity("com.huawei.systemmanager",
+                    "com.huawei.systemmanager.startupmgr.ui.StartupNormalAppListActivity");
+        } catch (Exception e) {
+            showActivity("com.huawei.systemmanager",
+                    "com.huawei.systemmanager.optimize.bootstart.BootStartActivity");
+        }
+    }
+
+    public static boolean isXiaomi() {
+        return Build.BRAND != null && Build.BRAND.toLowerCase().equals("xiaomi");
+    }
+
+    private void goXiaomiSetting() {
+        showActivity("com.miui.securitycenter",
+                "com.miui.permcenter.autostart.AutoStartManagementActivity");
+    }
+
+    public static boolean isOPPO() {
+        return Build.BRAND != null && Build.BRAND.toLowerCase().equals("oppo");
+    }
+
+    private void goOPPOSetting() {
+        try {
+            showActivity("com.coloros.phonemanager");
+        } catch (Exception e1) {
+            try {
+                showActivity("com.oppo.safe");
+            } catch (Exception e2) {
+                try {
+                    showActivity("com.coloros.oppoguardelf");
+                } catch (Exception e3) {
+                    showActivity("com.coloros.safecenter");
+                }
+            }
+        }
+    }
+
+    public static boolean isVIVO() {
+        return Build.BRAND != null && Build.BRAND.toLowerCase().equals("vivo");
+    }
+
+    private void goVIVOSetting() {
+        showActivity("com.iqoo.secure");
+    }
+
+    public static boolean isMeizu() {
+        return Build.BRAND != null && Build.BRAND.toLowerCase().equals("meizu");
+    }
+
+    private void goMeizuSetting() {
+        showActivity("com.meizu.safe");
+    }
+
+    public static boolean isSamsung() {
+        return Build.BRAND != null && Build.BRAND.toLowerCase().equals("samsung");
+    }
+
+    private void goSamsungSetting() {
+        try {
+            showActivity("com.samsung.android.sm_cn");
+        } catch (Exception e) {
+            showActivity("com.samsung.android.sm");
+        }
+    }
+
+    public static boolean isLeTV() {
+        return Build.BRAND != null && Build.BRAND.toLowerCase().equals("letv");
+    }
+
+    private void goLetvSetting() {
+        showActivity("com.letv.android.letvsafe",
+                "com.letv.android.letvsafe.AutobootManageActivity");
+    }
+
+    public static boolean isSmartisan() {
+        return Build.BRAND != null && Build.BRAND.toLowerCase().equals("smartisan");
+    }
+
+    private void goSmartisanSetting() {
+        showActivity("com.smartisanos.security");
     }
 }

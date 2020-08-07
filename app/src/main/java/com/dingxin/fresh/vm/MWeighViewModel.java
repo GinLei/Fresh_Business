@@ -19,6 +19,7 @@ import com.clj.fastble.callback.BleNotifyCallback;
 import com.clj.fastble.data.BleDevice;
 import com.clj.fastble.exception.BleException;
 import com.dingxin.fresh.api.ApiService;
+import com.dingxin.fresh.e.CommonEntity;
 import com.dingxin.fresh.e.LoginEntity;
 import com.dingxin.fresh.e.WeighFinalEntity;
 import com.dingxin.fresh.e.WeightEntity;
@@ -45,13 +46,14 @@ public class MWeighViewModel extends BaseViewModel {
     public int startPosition = 0;
     public int pageSize = 20;
     private BleDevice bleDevice;
+    private String scale;
     private String service_uuid, characteristic_uuid;
     public ObservableField<Boolean> lock = new ObservableField<>(true);
     public ObservableField<String> goods_id = new ObservableField<>();
     public ObservableField<String> order_id = new ObservableField<>();
     public ObservableField<String> spec_id = new ObservableField<>();
     public SingleLiveEvent<List<WeightEntity>> data_event = new SingleLiveEvent();
-    public SingleLiveEvent cancel_event = new SingleLiveEvent();
+    public SingleLiveEvent<Integer> cancel_event = new SingleLiveEvent();
     public SingleLiveEvent<String> phone_event = new SingleLiveEvent<>();
     public SingleLiveEvent commit_weight_event = new SingleLiveEvent();
     public ObservableField<String> finalWeigh = new ObservableField<>();
@@ -65,6 +67,7 @@ public class MWeighViewModel extends BaseViewModel {
 
     public MWeighViewModel(@NonNull Application application) {
         super(application);
+        scale = new Gson().fromJson(SPUtils.getInstance().getString("user_info"), LoginEntity.class).getScale();
     }
 
     public void cancelGoods() {
@@ -78,9 +81,10 @@ public class MWeighViewModel extends BaseViewModel {
                 .compose(RxUtils.bindToLifecycle(getLifecycleProvider()))
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
-                .subscribe(new ApiDisposableObserver<Object>() {
+                .subscribe(new ApiDisposableObserver<CommonEntity>() {
                     @Override
-                    public void onResult(Object o) {
+                    public void onResult(CommonEntity entity) {
+                        cancel_event.setValue(entity.getCancel_weight_status());
                         cancel_event.call();
                         dismissDialog();
                     }
@@ -204,43 +208,34 @@ public class MWeighViewModel extends BaseViewModel {
             ToastUtils.showShort("请打开蓝牙");
             return;
         }
-        new Handler().postDelayed(new Runnable() {
+
+        BleManager.getInstance().connect(scale, new BleGattCallback() {
             @Override
-            public void run() {
-                String scale = new Gson().fromJson(SPUtils.getInstance().getString("user_info"), LoginEntity.class).getScale();
-                if (BleManager.getInstance().isConnected(scale)) {
-                    BleManager.getInstance().notify(bleDevice, service_uuid, characteristic_uuid, bleNotifyCallback);
-                } else {
-                    BleManager.getInstance().connect(scale, new BleGattCallback() {
-                        @Override
-                        public void onStartConnect() {
-                            showDialog("正在连接");
-                        }
-
-                        @Override
-                        public void onConnectFail(BleDevice bleDevice, BleException exception) {
-                            dismissDialog();
-                            ToastUtils.showShort("连接失败");
-                        }
-
-                        @Override
-                        public void onConnectSuccess(BleDevice bleDevice, BluetoothGatt gatt, int status) {
-                            MWeighViewModel.this.bleDevice = bleDevice;
-                            List<BluetoothGattService> services = gatt.getServices();
-                            BluetoothGattService service = services.get(2);
-                            List<BluetoothGattCharacteristic> characteristics = service.getCharacteristics();
-                            BluetoothGattCharacteristic characteristic = characteristics.get(1);
-                            BleManager.getInstance().notify(MWeighViewModel.this.bleDevice, service_uuid = service.getUuid().toString(), characteristic_uuid = characteristic.getUuid().toString(), bleNotifyCallback);
-                        }
-
-                        @Override
-                        public void onDisConnected(boolean isActiveDisConnected, BleDevice device, BluetoothGatt gatt, int status) {
-
-                        }
-                    });
-                }
+            public void onStartConnect() {
+                showDialog("正在称重");
             }
-        }, 1000);
+
+            @Override
+            public void onConnectFail(BleDevice bleDevice, BleException exception) {
+                dismissDialog();
+                ToastUtils.showShort("称重失败");
+            }
+
+            @Override
+            public void onConnectSuccess(BleDevice bleDevice, BluetoothGatt gatt, int status) {
+                MWeighViewModel.this.bleDevice = bleDevice;
+                List<BluetoothGattService> services = gatt.getServices();
+                BluetoothGattService service = services.get(2);
+                List<BluetoothGattCharacteristic> characteristics = service.getCharacteristics();
+                BluetoothGattCharacteristic characteristic = characteristics.get(1);
+                BleManager.getInstance().notify(MWeighViewModel.this.bleDevice, service_uuid = service.getUuid().toString(), characteristic_uuid = characteristic.getUuid().toString(), bleNotifyCallback);
+            }
+
+            @Override
+            public void onDisConnected(boolean isActiveDisConnected, BleDevice device, BluetoothGatt gatt, int status) {
+
+            }
+        });
     }
 
     public void RequestWeight(String weights) {

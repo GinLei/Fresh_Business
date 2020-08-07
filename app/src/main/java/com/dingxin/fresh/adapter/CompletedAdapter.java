@@ -43,7 +43,9 @@ public class CompletedAdapter extends RecyclerView.Adapter<CompletedAdapter.View
     @Override
     public void onBindViewHolder(@NonNull CompletedAdapter.ViewHolder holder, int position) {
         CompletedEntity entity = getList().get(position);
+        holder.nick_name.setText("下单人:" + entity.getNick_name());
         holder.order_time.setText(entity.getCreated_at());
+        holder.g_user.setText("实得菜钱:" + entity.getGuser_price());
         if (entity.getIs_train() != 0) {
             holder.is_test.setVisibility(View.VISIBLE);
         }
@@ -69,12 +71,14 @@ public class CompletedAdapter extends RecyclerView.Adapter<CompletedAdapter.View
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView order_time, print;
+        public TextView order_time, print, nick_name, g_user;
         public ImageView is_test, mobile;
         public RecyclerView rv;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            g_user = itemView.findViewById(R.id.g_user);
+            nick_name = itemView.findViewById(R.id.nick_name);
             order_time = itemView.findViewById(R.id.order_time);
             is_test = itemView.findViewById(R.id.is_test);
             mobile = itemView.findViewById(R.id.mobile);

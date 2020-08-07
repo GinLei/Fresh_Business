@@ -2,6 +2,8 @@ package com.dingxin.fresh.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
@@ -14,6 +16,7 @@ import com.dingxin.fresh.databinding.FragmentMineBinding;
 import com.dingxin.fresh.vm.MineViewModel;
 
 import me.goldze.mvvmhabit.base.BaseFragment;
+import me.goldze.mvvmhabit.utils.ToastUtils;
 import me.jessyan.autosize.internal.CustomAdapt;
 
 public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewModel> implements CustomAdapt {
@@ -46,6 +49,13 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
                 viewModel.RefreshAccountInfo();
             }
         });
+
+        binding.changeIsShow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewModel.change_isShow();
+            }
+        });
         viewModel.getAccountInfo();
     }
 
@@ -54,7 +64,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         viewModel.refresh_event.observe(getViewLifecycleOwner(), new Observer() {
             @Override
             public void onChanged(Object o) {
-                
+
                 binding.SwipeRefreshLayout.setRefreshing(false);
             }
         });
