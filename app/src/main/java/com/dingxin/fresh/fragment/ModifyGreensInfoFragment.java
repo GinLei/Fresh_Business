@@ -61,7 +61,7 @@ public class ModifyGreensInfoFragment extends BaseFragment<FragmentModifygreensi
     public void initData() {
         GreensEntity entity = (GreensEntity) getArguments().getSerializable("data");
         viewModel.target_name.set(entity.getTab_name());
-        viewModel.goods_name.set(entity.getName());
+        viewModel.goods_name.set(entity.getTitle());
         viewModel.goods_remarks.set(entity.getNote_name());
         viewModel.img_url.set(entity.getThumb());
         viewModel.unit_type.set(entity.getType());
@@ -72,7 +72,7 @@ public class ModifyGreensInfoFragment extends BaseFragment<FragmentModifygreensi
         viewModel.unit_name.set(entity.getUnit());
         viewModel.cid.set(String.valueOf(entity.getCid()));
         viewModel.spec_id.set(entity.getSpec_id());
-        entity.getSpec_id();
+        //entity.getSpec_id();
 
         specsEntities = new Gson().fromJson(entity.getGoods_specs(), new TypeToken<List<SpecsEntity>>() {
         }.getType());

@@ -232,7 +232,7 @@ public class PrintFragment extends BaseFragment<FragmentPrintBinding, PrintViewM
         // 构建 Intent 数据
         Intent intent = new Intent(getActivity(), PrinterService.class);
         // 打印模式 PrinterService.MODE.NORMAL 正常打印模式（默认） PrinterService.MODE.TEST 测试打印机
-        intent.putExtra(PrinterService.PRINT_MODEL, PrinterService.MODE.TEST);
+        intent.putExtra(PrinterService.PRINT_MODEL, PrinterService.MODE.NORMAL);
         // 蓝牙地址必须传(设置打印机的时候 存储到本地，如果没有 提示去设置打印机)
 //        new Gson().fromJson(SPUtils.getInstance().getString("user_info"), LoginEntity.class).getTicket();
         intent.putExtra(PrinterService.BLUETOOTH_ADDRESS, new Gson().fromJson(SPUtils.getInstance().getString("user_info"), LoginEntity.class).getTicket());

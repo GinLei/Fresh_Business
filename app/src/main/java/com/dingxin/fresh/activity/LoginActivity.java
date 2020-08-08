@@ -58,79 +58,80 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
     public void initData() {
         JUtil.requestPermission(this);
         ignoreBatteryOptimization(this);
-        MaterialDialog.Builder builder = new MaterialDialog.Builder(LoginActivity.this).title("允许应用自启动");
-        builder.positiveText("确认").negativeText("取消").onNegative(new MaterialDialog.SingleButtonCallback() {
-            @Override
-            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                dismissDialog();
-            }
-        });
-        if (isHuawei()) {
-            builder.content("操作步骤：应用启动管理 -> 关闭应用开关 -> 打开允许自启动");
-            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
-                @Override
-                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                    goHuaweiSetting();
-                }
-            });
-        } else if (isXiaomi()) {
-            builder.content("操作步骤：授权管理 -> 自启动管理 -> 允许应用自启动");
-            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
-                @Override
-                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                    goXiaomiSetting();
-                }
-            });
-        } else if (isOPPO()) {
-            builder.content("操作步骤：权限隐私 -> 自启动管理 -> 允许应用自启动");
-            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
-                @Override
-                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                    goOPPOSetting();
-                }
-            });
-        } else if (isVIVO()) {
-            builder.content("操作步骤：权限管理 -> 自启动 -> 允许应用自启动");
-            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
-                @Override
-                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                    goVIVOSetting();
-                }
-            });
-        } else if (isMeizu()) {
-            builder.content("操作步骤：权限管理 -> 后台管理 -> 点击应用 -> 允许后台运行");
-            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
-                @Override
-                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                    goMeizuSetting();
-                }
-            });
-        } else if (isSamsung()) {
-            builder.content("操作步骤：自动运行应用程序 -> 打开应用开关 -> 电池管理 -> 未监视的应用程序 -> 添加应用");
-            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
-                @Override
-                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                    goSamsungSetting();
-                }
-            });
-        } else if (isLeTV()) {
-            builder.content("操作步骤：自启动管理 -> 允许应用自启动");
-            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
-                @Override
-                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                    goLetvSetting();
-                }
-            });
-        } else if (isSmartisan()) {
-            builder.content("操作步骤：权限管理 -> 自启动权限管理 -> 点击应用 -> 允许被系统启动");
-            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
-                @Override
-                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                    goSmartisanSetting();
-                }
-            });
-        }
-        builder.show();
+
+//        MaterialDialog.Builder builder = new MaterialDialog.Builder(LoginActivity.this).title("允许应用自启动");
+//        builder.positiveText("确认").negativeText("取消").onNegative(new MaterialDialog.SingleButtonCallback() {
+//            @Override
+//            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+//                dismissDialog();
+//            }
+//        });
+//        if (isHuawei()) {
+//            builder.content("操作步骤：应用启动管理 -> 关闭应用开关 -> 打开允许自启动");
+//            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+//                @Override
+//                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+//                    goHuaweiSetting();
+//                }
+//            });
+//        } else if (isXiaomi()) {
+//            builder.content("操作步骤：授权管理 -> 自启动管理 -> 允许应用自启动");
+//            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+//                @Override
+//                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+//                    goXiaomiSetting();
+//                }
+//            });
+//        } else if (isOPPO()) {
+//            builder.content("操作步骤：权限隐私 -> 自启动管理 -> 允许应用自启动");
+//            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+//                @Override
+//                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+//                    goOPPOSetting();
+//                }
+//            });
+//        } else if (isVIVO()) {
+//            builder.content("操作步骤：权限管理 -> 自启动 -> 允许应用自启动");
+//            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+//                @Override
+//                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+//                    goVIVOSetting();
+//                }
+//            });
+//        } else if (isMeizu()) {
+//            builder.content("操作步骤：权限管理 -> 后台管理 -> 点击应用 -> 允许后台运行");
+//            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+//                @Override
+//                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+//                    goMeizuSetting();
+//                }
+//            });
+//        } else if (isSamsung()) {
+//            builder.content("操作步骤：自动运行应用程序 -> 打开应用开关 -> 电池管理 -> 未监视的应用程序 -> 添加应用");
+//            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+//                @Override
+//                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+//                    goSamsungSetting();
+//                }
+//            });
+//        } else if (isLeTV()) {
+//            builder.content("操作步骤：自启动管理 -> 允许应用自启动");
+//            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+//                @Override
+//                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+//                    goLetvSetting();
+//                }
+//            });
+//        } else if (isSmartisan()) {
+//            builder.content("操作步骤：权限管理 -> 自启动权限管理 -> 点击应用 -> 允许被系统启动");
+//            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+//                @Override
+//                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+//                    goSmartisanSetting();
+//                }
+//            });
+//        }
+//        builder.show();
     }
 
 

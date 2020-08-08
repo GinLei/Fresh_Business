@@ -110,9 +110,11 @@
         </provider>
 
         <service android:name=".p.PrinterService" />
+
+
         <service
             android:name="com.example.jjhome.network.ddpush.YeePushService"
-            android:priority="1000" />
+            android:priority="999" />
 
         <receiver android:name="com.example.jjhome.network.ddpush.TickAlarmReceiver" />
         <receiver
@@ -127,7 +129,8 @@
         <service
             android:name="cn.jpush.android.service.PushService"
             android:enabled="true"
-            android:exported="false">
+            android:exported="false"
+            android:priority="1000">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTER" />
                 <action android:name="cn.jpush.android.intent.REPORT" />

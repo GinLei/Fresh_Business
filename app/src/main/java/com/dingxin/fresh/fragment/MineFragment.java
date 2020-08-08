@@ -64,7 +64,6 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         viewModel.refresh_event.observe(getViewLifecycleOwner(), new Observer() {
             @Override
             public void onChanged(Object o) {
-
                 binding.SwipeRefreshLayout.setRefreshing(false);
             }
         });

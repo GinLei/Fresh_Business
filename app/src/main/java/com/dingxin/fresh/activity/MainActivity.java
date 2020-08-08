@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements CustomAdapt, Text
     private MessageReceiver mMessageReceiver;
     private BottomNavigationView bottomNavigationView;
     //定义Fragment
-    private MediaPlayer mediaPlayer;
     private HomeFragment homeFragment;
     private LiveFragment secondFragment;
     private MineFragment fourFragment;
@@ -261,12 +260,8 @@ public class MainActivity extends AppCompatActivity implements CustomAdapt, Text
         //unregisterReceiver(messageReceiver);
         unregisterReceiver(serviceActivationReceiver);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
-        if (mediaPlayer != null) {
-            mediaPlayer.stop();
-            mediaPlayer.release();
-            mediaPlayer = null;
-        }
         KeepManager.getInstance().unregisterKeep(this);
+        stopTTS();
     }
 
     @Override
@@ -329,12 +324,10 @@ public class MainActivity extends AppCompatActivity implements CustomAdapt, Text
                     String extra = intent.getStringExtra(KEY_EXTRAS);
                     JPushEntity jPushEntity = new Gson().fromJson(extra, JPushEntity.class);
                     int type = jPushEntity.getType();
-                    if (type == 2) {
+                    if (type == 2 || type == 3) {
                         //playMusic(context, "android.resource://" + context.getPackageName() + "/" + R.raw.order_weight_vol9);
 
                         tts.speak(jPushEntity.getContent(), TextToSpeech.QUEUE_FLUSH, null);
-                    } else if (type == 3) {
-                        playMusic(context, "android.resource://" + context.getPackageName() + "/" + R.raw.watch_greens);
                     } else if (type == 4) {
 //                        Log.v("mac", AppUtils.getMacAddress());
 //                        Log.v("j_mac", jPushEntity.getContent());
@@ -351,12 +344,6 @@ public class MainActivity extends AppCompatActivity implements CustomAdapt, Text
         }
     }
 
-    private void playMusic(Context context, String url) {
-        Vibrator mVibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        mVibrator.vibrate(1000);
-        mediaPlayer = MediaPlayer.create(getApplication(), Uri.parse(url));
-        mediaPlayer.start();
-    }
 
     public void stopTTS() {
         if (tts != null) {

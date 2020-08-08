@@ -17,6 +17,15 @@ public class AccountInfoEntity {
     private String dis;
     private String title;
     private int color;
+    private boolean is_show;
+
+    public boolean isIs_show() {
+        return is_show;
+    }
+
+    public void setIs_show(boolean is_show) {
+        this.is_show = is_show;
+    }
 
     public String getDis() {
         return dis;

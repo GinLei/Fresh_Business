@@ -188,7 +188,7 @@
                             android:id="@+id/change_isShow"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:checked="@{viewModel.is_show}"
+                            android:checked="@{viewModel.entity.is_show}"
                             android:theme="@style/MySwitchTheme" />
                     </LinearLayout>
 

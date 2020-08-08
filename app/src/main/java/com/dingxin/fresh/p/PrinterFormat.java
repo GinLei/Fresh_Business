@@ -20,7 +20,7 @@ public class PrinterFormat {
             PrintEntity.OrderGoodsListBean goodsListBean = goods_list.get(i);
             bytes.addAll(PrinterCommand.addLeftText(goodsListBean.getTitle()));
             bytes.addAll(PrinterCommand.LeftToRightBold(goodsListBean.getPrice(), "x" + String.valueOf(goodsListBean.getGoods_num())));
-            bytes.addAll(PrinterCommand.LeftToRightBold(goodsListBean.getWeight() + "斤", goodsListBean.getMember_goods_price() + "元"));
+            bytes.addAll(PrinterCommand.LeftToRightBold(goodsListBean.getWeight(), goodsListBean.getMember_goods_price() + "元"));
             bytes.add(PrinterCommand.addLineSpacing());
         }
         bytes.addAll(PrinterCommand.addLeftText("------------收货地址------------"));
@@ -44,7 +44,7 @@ public class PrinterFormat {
             PrintEntity.OrderGoodsListBean goodsListBean = goods_list.get(i);
             bytes.addAll(PrinterCommand.addLeftText(goodsListBean.getTitle()));
             bytes.addAll(PrinterCommand.LeftToRightBold(goodsListBean.getPrice(), "x" + String.valueOf(goodsListBean.getGoods_num())));
-            bytes.addAll(PrinterCommand.LeftToRightBold(goodsListBean.getWeight() + "斤", goodsListBean.getMember_goods_price() + "元"));
+            bytes.addAll(PrinterCommand.LeftToRightBold(goodsListBean.getWeight(), goodsListBean.getMember_goods_price() + "元"));
             bytes.add(PrinterCommand.addLineSpacing());
         }
         bytes.addAll(PrinterCommand.addLeftText("------------收货地址------------"));
@@ -52,7 +52,7 @@ public class PrinterFormat {
         bytes.addAll(PrinterCommand.addLeftText("收货地址：" + entity.getAddressinfo()));
         bytes.addAll(PrinterCommand.addGapLine());
         bytes.addAll(PrinterCommand.addRightText("配送费另计"));
-        bytes.addAll(PrinterCommand.addRightText("商品总价：" + entity.getAmount()));
+        bytes.addAll(PrinterCommand.addRightText("商品总价：" + entity.getAmount() + "元"));
         bytes.addAll(PrinterCommand.addGapLine());
         bytes.addAll(PrinterCommand.addLeftText("备注"));
         bytes.addAll(PrinterCommand.addLeftText(entity.getNote()));
