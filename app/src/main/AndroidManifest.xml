@@ -77,11 +77,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activity.KeepActivity"
-            android:excludeFromRecents="true"
-            android:taskAffinity="com.example.amn.amnimageload"
-            android:theme="@style/OnePxActStyle"></activity>
         <activity android:name=".activity.RichActivity" />
         <!-- 一像素 -->
         <activity
@@ -262,15 +257,6 @@
                 <category android:name="com.dingxin.fresh" />
             </intent-filter>
         </activity>
-
-        <service
-            android:name=".s.DService"
-            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
-            android:process=":pushcore">
-            <intent-filter>
-                <action android:name="android.service.notification.NotificationListenerService" />
-            </intent-filter>
-        </service>
 
         <service
             android:name=".J.PushService"

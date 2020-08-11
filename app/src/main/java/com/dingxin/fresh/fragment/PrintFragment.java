@@ -1,8 +1,6 @@
 package com.dingxin.fresh.fragment;
 
 import android.Manifest;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +8,6 @@ import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -30,7 +27,6 @@ import com.dingxin.fresh.e.LoginEntity;
 import com.dingxin.fresh.e.PrintEntity;
 import com.dingxin.fresh.p.PrinterFormat;
 import com.dingxin.fresh.p.PrinterService;
-import com.dingxin.fresh.r.TestActivity;
 import com.dingxin.fresh.vm.PrintViewModel;
 import com.google.gson.Gson;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;

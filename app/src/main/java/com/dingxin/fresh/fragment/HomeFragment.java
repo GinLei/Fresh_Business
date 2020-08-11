@@ -40,7 +40,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Sofia.with(getActivity()).statusBarBackgroundAlpha(0).invasionStatusBar();
         return R.layout.fragment_home;
     }
 

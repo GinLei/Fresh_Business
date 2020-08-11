@@ -9,17 +9,10 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.ServiceConnection;
-import android.media.MediaPlayer;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
 import android.util.TypedValue;
 import android.view.KeyEvent;
@@ -32,12 +25,12 @@ import com.dingxin.fresh.fragment.HomeFragment;
 import com.dingxin.fresh.fragment.LiveFragment;
 import com.dingxin.fresh.fragment.MOrderFragment;
 import com.dingxin.fresh.fragment.MineFragment;
-import com.dingxin.fresh.s.KeepManager;
 //import com.dingxin.fresh.s.WebSocketClientService;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
+import com.yanzhenjie.sofia.Sofia;
 
 
 import java.lang.reflect.Field;
@@ -65,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements CustomAdapt, Text
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Sofia.with(this).statusBarBackgroundAlpha(0).invasionStatusBar().invasionNavigationBar();
         setContentView(R.layout.activity_main);
         initFragment(savedInstanceState);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation_view);
@@ -74,10 +68,12 @@ public class MainActivity extends AppCompatActivity implements CustomAdapt, Text
         //bindService();
         registerMessageReceiver();
         initTextToSpeech();
+
     }
 
     private void initTextToSpeech() {
         tts = new TextToSpeech(this, this);
+        tts.setSpeechRate(1.0f);
     }
 
     public void initFragment(Bundle savedInstanceState) {
@@ -260,7 +256,6 @@ public class MainActivity extends AppCompatActivity implements CustomAdapt, Text
         //unregisterReceiver(messageReceiver);
         unregisterReceiver(serviceActivationReceiver);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
-        KeepManager.getInstance().unregisterKeep(this);
         stopTTS();
     }
 
@@ -296,7 +291,6 @@ public class MainActivity extends AppCompatActivity implements CustomAdapt, Text
         IntentFilter filter = new IntentFilter();
         filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
         filter.addAction(MESSAGE_RECEIVED_ACTION);
-        KeepManager.getInstance().registerKeep(this);
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, filter);
 
     }
@@ -326,8 +320,12 @@ public class MainActivity extends AppCompatActivity implements CustomAdapt, Text
                     int type = jPushEntity.getType();
                     if (type == 2 || type == 3) {
                         //playMusic(context, "android.resource://" + context.getPackageName() + "/" + R.raw.order_weight_vol9);
-
-                        tts.speak(jPushEntity.getContent(), TextToSpeech.QUEUE_FLUSH, null);
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                tts.speak(jPushEntity.getContent(), TextToSpeech.QUEUE_FLUSH, null, null);
+                            }
+                        }.start();
                     } else if (type == 4) {
 //                        Log.v("mac", AppUtils.getMacAddress());
 //                        Log.v("j_mac", jPushEntity.getContent());
@@ -343,7 +341,6 @@ public class MainActivity extends AppCompatActivity implements CustomAdapt, Text
             }
         }
     }
-
 
     public void stopTTS() {
         if (tts != null) {

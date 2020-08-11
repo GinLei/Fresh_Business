@@ -22,6 +22,7 @@ import com.dingxin.fresh.e.UploadEntity;
 import com.dingxin.fresh.fragment.ClassOneFragment;
 import com.dingxin.fresh.fragment.ClassTwoFragment;
 import com.dingxin.fresh.fragment.GoodsListFragment;
+import com.dingxin.fresh.fragment.GoodsPicFragment;
 import com.dingxin.fresh.fragment.PhotoFragment;
 import com.dingxin.fresh.fragment.UnitFragment;
 import com.dingxin.fresh.utils.RetrofitClient;
@@ -201,6 +202,14 @@ public class UploadGoodsInfoViewModel extends BaseViewModel {
                     unit_type.set(unitEntity.getType());
                     clear_specs_event.call();
                     add_specs_event_first.call();
+                }
+            }
+        });
+        Messenger.getDefault().register(this, GoodsPicItemViewModel.class.getSimpleName(), String.class, new BindingConsumer<String>() {
+            @Override
+            public void call(String s) {
+                if (!TextUtils.isEmpty(s)) {
+                    img_url.set(s);
                 }
             }
         });

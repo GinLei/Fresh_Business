@@ -73,7 +73,6 @@ public class ModifyGreensInfoFragment extends BaseFragment<FragmentModifygreensi
         viewModel.cid.set(String.valueOf(entity.getCid()));
         viewModel.spec_id.set(entity.getSpec_id());
         //entity.getSpec_id();
-
         specsEntities = new Gson().fromJson(entity.getGoods_specs(), new TypeToken<List<SpecsEntity>>() {
         }.getType());
         for (int i = 0; i < specsEntities.size(); i++) {
@@ -127,7 +126,7 @@ public class ModifyGreensInfoFragment extends BaseFragment<FragmentModifygreensi
             @Override
             public void onChanged(Object o) {
                 new MaterialDialog.Builder(getActivity()).title("商品图片")
-                        .items(new String[]{"相册", "拍照"})
+                        .items(new String[]{"相册", "拍照", "默认"})
                         .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
                             @Override
                             public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
@@ -142,7 +141,7 @@ public class ModifyGreensInfoFragment extends BaseFragment<FragmentModifygreensi
                                             }
                                         }
                                     });
-                                } else {
+                                } else if (TextUtils.equals(text, "拍照")) {
                                     new RxPermissions(getActivity()).request(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA).subscribe(new Consumer<Boolean>() {
                                         @Override
                                         public void accept(Boolean granted) throws Exception {
@@ -153,6 +152,10 @@ public class ModifyGreensInfoFragment extends BaseFragment<FragmentModifygreensi
                                             }
                                         }
                                     });
+                                } else if (TextUtils.equals(text, "默认")) {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("greens_cate_id", viewModel.class_id_two.get());
+                                    startContainerActivity(GoodsPicFragment.class.getCanonicalName(), bundle);
                                 }
                                 return true;
                             }
@@ -207,6 +210,9 @@ public class ModifyGreensInfoFragment extends BaseFragment<FragmentModifygreensi
                             entity.setSchedule_price(((EditText) view.findViewById(R.id.edit_2)).getText().toString());
                             break;
                     }
+                    if (view.getTag() != null) {
+                        entity.setSpec_id(String.valueOf(view.getTag()));
+                    }
                     list.add(entity);
                 }
                 viewModel.goods_specs.set(new Gson().toJson(list));
@@ -249,14 +255,17 @@ public class ModifyGreensInfoFragment extends BaseFragment<FragmentModifygreensi
         switch (viewModel.unit_type.get()) {
             //成品  规格名称  净重
             case 1:
+                binding.addSpecs.setVisibility(View.VISIBLE);
                 addTypeOne(specsEntity);
                 break;
             //范围称重  斤/个
             case 2:
+                binding.addSpecs.setVisibility(View.VISIBLE);
                 addTypeTwo(specsEntity);
                 break;
             //直接单价
             case 3:
+                binding.addSpecs.setVisibility(View.GONE);
                 addTypeThree(specsEntity);
                 break;
         }
@@ -377,6 +386,10 @@ public class ModifyGreensInfoFragment extends BaseFragment<FragmentModifygreensi
             ((EditText) view.findViewById(R.id.edit_4)).setText(specsEntity.getSchedule_price());
             ((TextView) view.findViewById(R.id.price_1)).setText(specsEntity.getPrice_old());
             ((TextView) view.findViewById(R.id.price_2)).setText(specsEntity.getMoney_old());
+            String spec_id = specsEntity.getSpec_id();
+            if (!TextUtils.isEmpty(spec_id)) {
+                view.setTag(spec_id);
+            }
         }
         binding.container.addView(view);
     }
@@ -483,6 +496,10 @@ public class ModifyGreensInfoFragment extends BaseFragment<FragmentModifygreensi
             ((EditText) view.findViewById(R.id.edit_4)).setText(specsEntity.getSchedule_price());
             ((TextView) view.findViewById(R.id.price_1)).setText(specsEntity.getPrice_old());
             ((TextView) view.findViewById(R.id.price_2)).setText(specsEntity.getMoney_old());
+            String spec_id = specsEntity.getSpec_id();
+            if (!TextUtils.isEmpty(spec_id)) {
+                view.setTag(spec_id);
+            }
         }
         binding.container.addView(view);
     }
@@ -546,6 +563,10 @@ public class ModifyGreensInfoFragment extends BaseFragment<FragmentModifygreensi
             ((EditText) view.findViewById(R.id.edit_2)).setText(specsEntity.getSchedule_price());
             ((TextView) view.findViewById(R.id.price_1)).setText(specsEntity.getPrice_old());
             ((TextView) view.findViewById(R.id.price_2)).setText(specsEntity.getMoney_old());
+            String spec_id = specsEntity.getSpec_id();
+            if (!TextUtils.isEmpty(spec_id)) {
+                view.setTag(spec_id);
+            }
         }
         binding.container.addView(view);
     }

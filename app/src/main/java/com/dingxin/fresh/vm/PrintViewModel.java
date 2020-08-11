@@ -3,28 +3,14 @@ package com.dingxin.fresh.vm;
 import android.app.Application;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Handler;
-import android.text.TextUtils;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableField;
 
 import com.dingxin.fresh.api.ApiService;
-import com.dingxin.fresh.e.LoginEntity;
 import com.dingxin.fresh.e.PrintEntity;
-import com.dingxin.fresh.p.PrinterFormat;
-import com.dingxin.fresh.p.PrinterService;
-import com.dingxin.fresh.r.TestActivity;
-import com.dingxin.fresh.utils.BluetoothConnectCallback;
 import com.dingxin.fresh.utils.ConnectThread;
-import com.dingxin.fresh.utils.PrintUtil;
 import com.dingxin.fresh.utils.RetrofitClient;
-import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -36,8 +22,6 @@ import me.goldze.mvvmhabit.binding.command.BindingCommand;
 import me.goldze.mvvmhabit.bus.event.SingleLiveEvent;
 import me.goldze.mvvmhabit.http.ApiDisposableObserver;
 import me.goldze.mvvmhabit.utils.RxUtils;
-import me.goldze.mvvmhabit.utils.SPUtils;
-import me.goldze.mvvmhabit.utils.ToastUtils;
 
 public class PrintViewModel extends BaseViewModel {
     public int startPosition = 0;

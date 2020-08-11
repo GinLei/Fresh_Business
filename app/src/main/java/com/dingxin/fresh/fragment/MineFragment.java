@@ -49,13 +49,6 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
                 viewModel.RefreshAccountInfo();
             }
         });
-
-        binding.changeIsShow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                viewModel.change_isShow();
-            }
-        });
         viewModel.getAccountInfo();
     }
 
@@ -65,6 +58,12 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             @Override
             public void onChanged(Object o) {
                 binding.SwipeRefreshLayout.setRefreshing(false);
+            }
+        });
+        viewModel.switch_event.observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean != null) binding.Switch.setChecked(aBoolean);
             }
         });
     }

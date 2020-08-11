@@ -49,9 +49,14 @@ public class PrintOrderChildAdapter extends RecyclerView.Adapter<PrintOrderChild
         } else {
             holder.tv_3.setText("规格:无");
         }
-        holder.tv_4.setText("数量: x" + entity.getMin_dada_weight());
+        holder.tv_4.setText("数量: x" + entity.getGoods_num());
         holder.tv_5.setText("重量:" + entity.getGoods_weight());
-        holder.tv_6.setText("称重重量:" + entity.getWeight());
+        int cancel_weight_status = entity.getCancel_weight_status();
+        if (cancel_weight_status == 1) {
+            holder.tv_6.setText("商品缺货");
+        } else {
+            holder.tv_6.setText("称重重量:" + entity.getWeight());
+        }
         holder.tv_7.setText("预付价格:¥" + entity.getFinal_price());
         holder.tv_8.setText("实付价格:¥" + entity.getMember_goods_price());
     }

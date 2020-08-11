@@ -236,5 +236,13 @@ public class ModifyGreensInfoViewModel extends BaseViewModel {
 
     public ModifyGreensInfoViewModel(@NonNull Application application) {
         super(application);
+        Messenger.getDefault().register(this, GoodsPicItemViewModel.class.getSimpleName(), String.class, new BindingConsumer<String>() {
+            @Override
+            public void call(String s) {
+                if (!TextUtils.isEmpty(s)) {
+                    img_url.set(s);
+                }
+            }
+        });
     }
 }

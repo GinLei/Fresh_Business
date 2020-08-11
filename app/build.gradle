@@ -46,12 +46,13 @@ android {
 }
 
 dependencies {
+    implementation 'com.fanjun:keeplive:1.1.22'
     implementation 'me.jessyan:autosize:1.2.1'
     implementation files('libs/liteavsdk.jar')
     implementation files('libs\\jcore-android-2.4.0.jar')
     implementation 'org.jetbrains:annotations:15.0'
-    debugApi 'com.squareup.leakcanary:leakcanary-android:1.6.2'
-    releaseApi 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
+    //debugApi 'com.squareup.leakcanary:leakcanary-android:1.6.2'
+    //releaseApi 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
     implementation 'com.zzhoujay.richtext:richtext:3.0.8'//富文本
     implementation 'com.clj.fastble:FastBleLib:2.3.4' //蓝牙库
     implementation 'com.shizhefei:LargeImageView:1.1.0'   //查看大图

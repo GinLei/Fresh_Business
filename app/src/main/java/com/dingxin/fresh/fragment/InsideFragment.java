@@ -48,17 +48,13 @@ public class InsideFragment extends BaseFragment<FragmentInsideBinding, InsideVi
 
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Sofia.with(getActivity()).invasionStatusBar().statusBarBackground(R.color.color_orange_2).statusBarBackgroundAlpha(0);
         return R.layout.fragment_inside;
     }
 
     @Override
     public int initVariableId() {
         return BR.viewModel;
-    }
-
-    @Override
-    public void initData() {
-        Sofia.with(getActivity()).invasionStatusBar().statusBarBackground(R.color.color_orange_2).statusBarBackgroundAlpha(0);
     }
 
     @Override

@@ -23,6 +23,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.dingxin.fresh.R;
 import com.dingxin.fresh.databinding.FragmentUploadgoodsinfoBinding;
 import com.dingxin.fresh.e.SpecsEntity;
+import com.dingxin.fresh.vm.GoodsPicViewModel;
 import com.dingxin.fresh.vm.UploadGoodsInfoViewModel;
 import com.google.gson.Gson;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -64,7 +65,6 @@ public class UploadGoodsInfoFragment extends BaseFragment<FragmentUploadgoodsinf
         viewModel.target_id.set(bundle.getString("target_id"));
         viewModel.freight_fee.set(bundle.getString("freight_fee"));
         viewModel.service_fee.set(bundle.getString("service_fee"));
-        //TODO
     }
 
     @Override
@@ -113,12 +113,6 @@ public class UploadGoodsInfoFragment extends BaseFragment<FragmentUploadgoodsinf
             @Override
             public void onChanged(Object o) {
                 addSpecs();
-                binding.scrollView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        binding.scrollView.fullScroll(View.FOCUS_DOWN);
-                    }
-                });
             }
         });
         viewModel.clear_specs_event.observe(getViewLifecycleOwner(), new Observer() {
@@ -163,6 +157,10 @@ public class UploadGoodsInfoFragment extends BaseFragment<FragmentUploadgoodsinf
                                             }
                                         }
                                     });
+                                } else if (TextUtils.equals(text, "默认")) {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("greens_cate_id", viewModel.class_id_two.get());
+                                    startContainerActivity(GoodsPicFragment.class.getCanonicalName(), bundle);
                                 }
                                 return true;
                             }
@@ -217,14 +215,17 @@ public class UploadGoodsInfoFragment extends BaseFragment<FragmentUploadgoodsinf
         switch (viewModel.unit_type.get()) {
             //成品  规格名称  净重
             case 1:
+                binding.addSpecs.setVisibility(View.VISIBLE);
                 addTypeOne();
                 break;
             //范围称重  斤/个
             case 2:
+                binding.addSpecs.setVisibility(View.VISIBLE);
                 addTypeTwo();
                 break;
             //直接单价
             case 3:
+                binding.addSpecs.setVisibility(View.GONE);
                 addTypeThree();
                 break;
         }

@@ -13,6 +13,15 @@ public class CommonEntity {
     private Boolean is_on_sale;
     private int cancel_weight_status;
     private Boolean is_show;
+    private String pic;
+
+    public String getPic() {
+        return pic;
+    }
+
+    public void setPic(String pic) {
+        this.pic = pic;
+    }
 
     public Boolean getIs_show() {
         return is_show;

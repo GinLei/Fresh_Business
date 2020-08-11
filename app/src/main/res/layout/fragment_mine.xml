@@ -184,12 +184,21 @@
                             android:textColor="#ff8799a3"
                             android:textSize="12sp" />
 
-                        <androidx.appcompat.widget.SwitchCompat
+                        <RelativeLayout
                             android:id="@+id/change_isShow"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:checked="@{viewModel.entity.is_show}"
-                            android:theme="@style/MySwitchTheme" />
+                            android:clickable="true"
+                            binding:onClickCommand="@{viewModel.change_isShow}">
+
+                            <androidx.appcompat.widget.SwitchCompat
+                                android:id="@+id/Switch"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{viewModel.entity.is_show}"
+                                android:clickable="false"
+                                android:theme="@style/MySwitchTheme" />
+                        </RelativeLayout>
                     </LinearLayout>
 
                     <View

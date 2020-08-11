@@ -23,6 +23,13 @@ import me.goldze.mvvmhabit.utils.RxUtils;
 public class MineViewModel extends BaseViewModel {
     public ObservableField<AccountInfoEntity> entity = new ObservableField<>();
     public SingleLiveEvent refresh_event = new SingleLiveEvent();
+    public SingleLiveEvent<Boolean> switch_event = new SingleLiveEvent<>();
+    public BindingCommand change_isShow = new BindingCommand(new BindingAction() {
+        @Override
+        public void call() {
+            change_isShow();
+        }
+    });
     public BindingCommand to_balance = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
@@ -108,7 +115,8 @@ public class MineViewModel extends BaseViewModel {
                 .subscribe(new ApiDisposableObserver<CommonEntity>() {
                     @Override
                     public void onResult(CommonEntity m_entity) {
-                        entity.get().setIs_show(m_entity.getIs_show());
+                        switch_event.setValue(m_entity.getIs_show());
+                        switch_event.call();
                     }
 
                     @Override

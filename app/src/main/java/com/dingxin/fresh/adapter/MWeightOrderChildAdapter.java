@@ -148,7 +148,8 @@ public class MWeightOrderChildAdapter extends RecyclerView.Adapter<RecyclerView.
             }
             viewHolder4.tv_4.setText("数量: x" + entity.getMin_dada_weight());
             viewHolder4.tv_5.setText("重量:" + entity.getGoods_weight());
-            viewHolder4.tv_6.setText(entity.getWeight());
+//            viewHolder4.tv_6.setText(entity.getWeight());
+            viewHolder4.tv_6.setText("不需要称重");
             viewHolder4.tv_7.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

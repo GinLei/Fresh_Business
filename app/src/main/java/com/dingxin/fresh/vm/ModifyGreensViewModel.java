@@ -95,43 +95,6 @@ public class ModifyGreensViewModel extends BaseViewModel {
         }
     });
 
-    public void pic_list() {
-        if (is_haveData.get()) {
-            RetrofitClient.getInstance().create(ApiService.class).pic_list(String.valueOf(two_level_class_id.get()), String.valueOf(page.get()))
-                    .doOnSubscribe(new Consumer<Disposable>() {
-                        @Override
-                        public void accept(Disposable disposable) throws Exception {
-
-                        }
-                    })
-                    .compose(RxUtils.bindToLifecycle(getLifecycleProvider()))
-                    .compose(RxUtils.schedulersTransformer())
-                    .compose(RxUtils.exceptionTransformer())
-                    .subscribe(new ApiDisposableObserver<List<CommonEntity>>() {
-                        @Override
-                        public void onComplete() {
-
-                        }
-
-                        @Override
-                        public void onResult(List<CommonEntity> entity) {
-                            if (entity.size() == 0) {
-                                is_haveData.set(false);
-                                return;
-                            }
-                            page.set(page.get() + 1);
-                            pic_event.setValue(entity);
-                            pic_event.call();
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            super.onError(e);
-                        }
-                    });
-        }
-    }
-
     public void new_price(TextView tv_1, TextView tv, String price, String goods_weight) {
         RetrofitClient.getInstance().create(ApiService.class).new_price(String.valueOf(two_level_class_id.get()), price, unit_name.get(), goods_weight)
                 .doOnSubscribe(new Consumer<Disposable>() {

@@ -126,7 +126,7 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("member/greens_pic_list")
-    Observable<BaseResponse<List<CommonEntity>>> pic_list(@Field("greens_cate_id") String greens_cate_id, @Field("page") String page);
+    Observable<BaseResponse<List<CommonEntity>>> pic_list(@Field("greens_cate_id") String greens_cate_id);
 
     @FormUrlEncoded
     @POST("member/greens_add")

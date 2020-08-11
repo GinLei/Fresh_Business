@@ -4,25 +4,25 @@ import android.app.ActivityManager;
 import android.content.Context;
 
 import com.clj.fastble.BleManager;
-import com.dingxin.fresh.activity.MainActivity;
+import com.dingxin.fresh.R;
 import com.dingxin.fresh.e.LoginBean;
-import com.dingxin.fresh.s.KeepManager;
 import com.example.jjhome.network.DeviceUtils;
 import com.example.jjhome.network.TestEvent;
+import com.fanjun.keeplive.KeepLive;
+import com.fanjun.keeplive.config.ForegroundNotification;
+import com.fanjun.keeplive.config.ForegroundNotificationClickListener;
+import com.fanjun.keeplive.config.KeepLiveService;
 import com.jjhome.master.http.MasterRequest;
-import com.squareup.leakcanary.LeakCanary;
 import com.tencent.rtmp.TXLiveBase;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Process;
-import android.os.StrictMode;
-import android.util.Log;
 
+import java.net.Socket;
 import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
-import cn.jpush.android.api.JPushMessage;
 import me.goldze.mvvmhabit.base.BaseApplication;
 import me.goldze.mvvmhabit.crash.CaocConfig;
 import me.goldze.mvvmhabit.utils.KLog;
@@ -45,9 +45,9 @@ public class MyApplication extends BaseApplication {
     public void onCreate() {
         super.onCreate();
         mContext = getApplicationContext();
-        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-        StrictMode.setVmPolicy(builder.build());
-        builder.detectFileUriExposure();
+        //StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        //StrictMode.setVmPolicy(builder.build());
+        //builder.detectFileUriExposure();
         KLog.init(false);
 //配置全局异常崩溃操作
         CaocConfig.Builder.create()
@@ -76,12 +76,43 @@ public class MyApplication extends BaseApplication {
         JPushInterface.setDebugMode(false);    // 设置开启日志,发布时请关闭日志
         JPushInterface.init(this);// 初始化 JPush
         rid = JPushInterface.getRegistrationID(getApplicationContext());
+        ForegroundNotification foregroundNotification = new ForegroundNotification("鲜到家", "商户平台", R.mipmap.ic_launcher,
+                //定义前台服务的通知点击事件
+                new ForegroundNotificationClickListener() {
+
+                    @Override
+                    public void foregroundNotificationClick(Context context, Intent intent) {
+
+                    }
+                });
+        KeepLive.startWork(this, KeepLive.RunMode.ENERGY, foregroundNotification,
+                //你需要保活的服务，如socket连接、定时任务等，建议不用匿名内部类的方式在这里写
+                new KeepLiveService() {
+                    /**
+                     * 运行中
+                     * 由于服务可能会多次自动启动，该方法可能重复调用
+                     */
+                    @Override
+                    public void onWorking() {
+
+                    }
+
+                    /**
+                     * 服务终止
+                     * 由于服务可能会被多次终止，该方法可能重复调用，需同onWorking配套使用，如注册和注销broadcast
+                     */
+                    @Override
+                    public void onStop() {
+
+                    }
+                }
+        );
     }
 
     private void initBle() {
         BleManager.getInstance()
                 .enableLog(true)
-                .setConnectOverTime(50000)
+                .setConnectOverTime(30000)
                 .setOperateTimeout(5000).init(this);
 
     }
