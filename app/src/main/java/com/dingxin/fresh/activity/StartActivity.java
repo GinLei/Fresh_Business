@@ -30,7 +30,7 @@ public class StartActivity extends AppCompatActivity implements CustomAdapt {
                 if (TextUtils.isEmpty(SPUtils.getInstance().getString("token"))) {
                     intent.setClass(StartActivity.this, LoginActivity.class);
                 } else {
-                    intent.setClass(StartActivity.this, MainActivity.class);
+                    intent.setClass(StartActivity.this, TabBarActivity.class);
                 }
                 startActivity(intent);
                 finish();

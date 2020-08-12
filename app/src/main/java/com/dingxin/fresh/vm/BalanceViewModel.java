@@ -19,6 +19,7 @@ import io.reactivex.functions.Consumer;
 import me.goldze.mvvmhabit.base.BaseViewModel;
 import me.goldze.mvvmhabit.binding.command.BindingAction;
 import me.goldze.mvvmhabit.binding.command.BindingCommand;
+import me.goldze.mvvmhabit.bus.Messenger;
 import me.goldze.mvvmhabit.bus.event.SingleLiveEvent;
 import me.goldze.mvvmhabit.http.ApiDisposableObserver;
 import me.goldze.mvvmhabit.utils.RxUtils;
@@ -52,6 +53,12 @@ public class BalanceViewModel extends BaseViewModel {
 
     public BalanceViewModel(@NonNull Application application) {
         super(application);
+        Messenger.getDefault().register(this, CashViewModel.class.getSimpleName(), new BindingAction() {
+            @Override
+            public void call() {
+                getAccountInfo();
+            }
+        });
     }
 
     public void getAccountInfo() {

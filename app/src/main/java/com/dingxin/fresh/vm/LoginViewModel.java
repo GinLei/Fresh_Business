@@ -7,7 +7,7 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableField;
 
-import com.dingxin.fresh.activity.MainActivity;
+import com.dingxin.fresh.activity.TabBarActivity;
 import com.dingxin.fresh.api.ApiService;
 import com.dingxin.fresh.e.LoginEntity;
 import com.dingxin.fresh.fragment.InsideFragment;
@@ -23,7 +23,6 @@ import me.goldze.mvvmhabit.binding.command.BindingAction;
 import me.goldze.mvvmhabit.binding.command.BindingCommand;
 import me.goldze.mvvmhabit.bus.event.SingleLiveEvent;
 import me.goldze.mvvmhabit.http.ApiDisposableObserver;
-import me.goldze.mvvmhabit.utils.RegexUtils;
 import me.goldze.mvvmhabit.utils.RxUtils;
 import me.goldze.mvvmhabit.utils.SPUtils;
 import me.goldze.mvvmhabit.utils.ToastUtils;
@@ -89,7 +88,7 @@ public class LoginViewModel extends BaseViewModel {
                         SPUtils.getInstance().put("token", entity.getToken());
                         JPushInterface.setAlias(getApplication(), 0, userName.get());
                         JPushInterface.setPowerSaveMode(getApplication(), true);
-                        startActivity(MainActivity.class);
+                        startActivity(TabBarActivity.class);
                         finish();
                     }
 

@@ -2,14 +2,10 @@ package com.dingxin.fresh.fragment;
 
 import android.Manifest;
 import android.content.Intent;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,25 +14,21 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.util.DialogUtils;
 import com.dingxin.fresh.R;
 import com.dingxin.fresh.databinding.FragmentInsideBinding;
 import com.dingxin.fresh.e.MarketEntity;
 import com.dingxin.fresh.e.TargetEntity;
-import com.dingxin.fresh.view.SelectorView;
 import com.dingxin.fresh.vm.InsideViewModel;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.yanzhenjie.sofia.Sofia;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.functions.Consumer;
 import me.goldze.mvvmhabit.base.BaseFragment;
 import me.goldze.mvvmhabit.utils.ImageUtils;
-import me.goldze.mvvmhabit.utils.ToastUtils;
 import me.jessyan.autosize.internal.CustomAdapt;
 import me.tatarka.bindingcollectionadapter2.BR;
 

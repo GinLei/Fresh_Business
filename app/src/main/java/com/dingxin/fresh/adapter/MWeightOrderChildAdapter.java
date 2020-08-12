@@ -61,8 +61,8 @@ public class MWeightOrderChildAdapter extends RecyclerView.Adapter<RecyclerView.
         if (holder instanceof ViewHolder1) {
             ViewHolder1 viewHolder1 = (ViewHolder1) holder;
             Glide.with(mContext.getApplicationContext()).load(entity.getThumb()).into(viewHolder1.img);
-            viewHolder1.tv_1.setText(entity.getTitle());
-            viewHolder1.tv_2.setText(entity.getGoods_price() + entity.getUnit_name());
+            viewHolder1.tv_1.setText(entity.getGoods_name());
+            viewHolder1.tv_2.setText("¥" + entity.getGoods_price() + entity.getUnit_name());
             String spec_name = entity.getSpec_name();
             if (!TextUtils.isEmpty(spec_name)) {
                 viewHolder1.tv_3.setText("规格:" + entity.getSpec_name());

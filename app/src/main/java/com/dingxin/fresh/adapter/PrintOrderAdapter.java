@@ -2,6 +2,7 @@ package com.dingxin.fresh.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -62,8 +64,12 @@ public class PrintOrderAdapter extends RecyclerView.Adapter<PrintOrderAdapter.Vi
         });
         if (entity.getPrint_status() == 1) {
             holder.print.setText("重复打印");
+            holder.print.setTextColor(Color.parseColor("#999999"));
+            holder.print.setBackground(ContextCompat.getDrawable(mContext, R.drawable.gray_border_shape_button));
         } else {
             holder.print.setText("立即打印");
+            holder.print.setTextColor(Color.parseColor("#ffe54d42"));
+            holder.print.setBackground(ContextCompat.getDrawable(mContext, R.drawable.orange_border_shape_button));
         }
         holder.print.setOnClickListener(new View.OnClickListener() {
             @Override

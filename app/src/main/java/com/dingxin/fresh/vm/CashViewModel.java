@@ -5,20 +5,17 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableField;
 
-import com.dingxin.fresh.activity.MainActivity;
 import com.dingxin.fresh.api.ApiService;
-import com.dingxin.fresh.e.LoginEntity;
 import com.dingxin.fresh.utils.RetrofitClient;
-import com.google.gson.Gson;
 
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import me.goldze.mvvmhabit.base.BaseViewModel;
 import me.goldze.mvvmhabit.binding.command.BindingAction;
 import me.goldze.mvvmhabit.binding.command.BindingCommand;
+import me.goldze.mvvmhabit.bus.Messenger;
 import me.goldze.mvvmhabit.http.ApiDisposableObserver;
 import me.goldze.mvvmhabit.utils.RxUtils;
-import me.goldze.mvvmhabit.utils.SPUtils;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 
 public class CashViewModel extends BaseViewModel {
@@ -61,6 +58,7 @@ public class CashViewModel extends BaseViewModel {
                     public void onResult(Object o) {
                         dismissDialog();
                         ToastUtils.showShort("提现申请成功，我们将在24内为你打款");
+                        Messenger.getDefault().sendNoMsg(CashViewModel.class.getSimpleName());
                         finish();
                     }
 

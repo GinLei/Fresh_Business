@@ -6,6 +6,7 @@ import android.content.Context;
 import com.clj.fastble.BleManager;
 import com.dingxin.fresh.R;
 import com.dingxin.fresh.e.LoginBean;
+import com.dingxin.fresh.utils.PollingUtil;
 import com.example.jjhome.network.DeviceUtils;
 import com.example.jjhome.network.TestEvent;
 import com.fanjun.keeplive.KeepLive;
@@ -17,9 +18,10 @@ import com.tencent.rtmp.TXLiveBase;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Process;
+import android.os.StrictMode;
 
-import java.net.Socket;
 import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
@@ -34,8 +36,8 @@ public class MyApplication extends BaseApplication {
     public static MyApplication instance;
     public LoginBean loginBean;
     private static Context mContext;
-    private static TestEvent event;
-    private static Bundle bundle;
+    private PollingUtil pollingUtil;
+    private Runnable runnable;
     public static MasterRequest masterRequest;
 
     //public static final String APP_ID = "a27xxxxxxxxxxxxxxxxxxxxxxxx22";
@@ -45,11 +47,13 @@ public class MyApplication extends BaseApplication {
     public void onCreate() {
         super.onCreate();
         mContext = getApplicationContext();
-        //StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-        //StrictMode.setVmPolicy(builder.build());
-        //builder.detectFileUriExposure();
+
+
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+        builder.detectFileUriExposure();
+
         KLog.init(false);
-//配置全局异常崩溃操作
         CaocConfig.Builder.create()
                 .backgroundMode(CaocConfig.BACKGROUND_MODE_SILENT) //背景模式,开启沉浸式
                 .enabled(true) //是否启动全局异常捕获
@@ -63,13 +67,6 @@ public class MyApplication extends BaseApplication {
                 //.eventListener(new YourCustomEventListener()) //崩溃后的错误监听
                 .apply();
         initBle();
-//        if (LeakCanary.isInAnalyzerProcess(this)) {//1
-//            // This process is dedicated to LeakCanary for heap analysis.
-//            // You should not init your app in this process.
-//            return;
-//        }
-//        //initMI();
-//        LeakCanary.install(this);
         AutoSize.checkAndInit(this);
         AutoSizeConfig.getInstance().setCustomFragment(true);
         TXLiveBase.getInstance().setLicence(this, "http://license.vod2.myqcloud.com/license/v1/701947fd803f8c5f878a2c6fd8086eca/TXLiveSDK.licence", "430ab98fe8f19f8b69ae47b039407d33");
@@ -94,7 +91,16 @@ public class MyApplication extends BaseApplication {
                      */
                     @Override
                     public void onWorking() {
+                        //TODO 长链接(备选方案)
 
+                        pollingUtil = new PollingUtil(new Handler(getMainLooper()));
+                        runnable = new Runnable() {
+                            @Override
+                            public void run() {
+
+                            }
+                        };
+                        pollingUtil.startPolling(runnable, 5000, true);
                     }
 
                     /**
@@ -103,7 +109,9 @@ public class MyApplication extends BaseApplication {
                      */
                     @Override
                     public void onStop() {
-
+                        pollingUtil.endPolling(runnable);
+                        pollingUtil = null;
+                        runnable = null;
                     }
                 }
         );

@@ -30,12 +30,12 @@ import me.goldze.mvvmhabit.base.BaseFragment;
 import me.jessyan.autosize.internal.CustomAdapt;
 import me.tatarka.bindingcollectionadapter2.BR;
 
-public class MWeighFragment extends BaseFragment<FragmentMweighBinding, MWeighViewModel> implements CustomAdapt {
+public class MWeighFragment extends BaseFragment<FragmentMweighBinding, MWeighViewModel> {
     private MWeightOrderAdapter adapter;
 
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Sofia.with(getActivity()).invasionStatusBar().statusBarBackground(R.color.color_orange_2).statusBarBackgroundAlpha(0);
+        Sofia.with(getActivity()).invasionStatusBar().invasionNavigationBar().statusBarBackground(R.color.color_orange_2).statusBarBackgroundAlpha(0);
         return R.layout.fragment_mweigh;
     }
 
@@ -164,16 +164,6 @@ public class MWeighFragment extends BaseFragment<FragmentMweighBinding, MWeighVi
                 }
             }
         });
-    }
-
-    @Override
-    public boolean isBaseOnWidth() {
-        return false;
-    }
-
-    @Override
-    public float getSizeInDp() {
-        return 640;
     }
 
     @Override

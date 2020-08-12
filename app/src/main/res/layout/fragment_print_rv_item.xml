@@ -81,13 +81,10 @@
                 android:id="@+id/print"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/orange_border_shape_button"
                 android:paddingLeft="16dp"
                 android:paddingTop="4dp"
                 android:paddingRight="16dp"
                 android:paddingBottom="4dp"
-                android:text="立即打印"
-                android:textColor="#ffe54d42"
                 android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>

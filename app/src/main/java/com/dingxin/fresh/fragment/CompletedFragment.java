@@ -42,12 +42,12 @@ import me.jessyan.autosize.internal.CustomAdapt;
 import me.tatarka.bindingcollectionadapter2.BR;
 import me.tatarka.bindingcollectionadapter2.ItemBinding;
 
-public class CompletedFragment extends BaseFragment<FragmentCompletedBinding, CompletedViewModel> implements CustomAdapt {
+public class CompletedFragment extends BaseFragment<FragmentCompletedBinding, CompletedViewModel> {
     private CompletedAdapter adapter;
 
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Sofia.with(getActivity()).invasionStatusBar().statusBarBackground(R.color.color_orange_2).statusBarBackgroundAlpha(0);
+        Sofia.with(getActivity()).invasionStatusBar().invasionNavigationBar().statusBarBackground(R.color.color_orange_2).statusBarBackgroundAlpha(0);
         return R.layout.fragment_completed;
     }
 
@@ -116,15 +116,5 @@ public class CompletedFragment extends BaseFragment<FragmentCompletedBinding, Co
                 }
             }
         });
-    }
-
-    @Override
-    public boolean isBaseOnWidth() {
-        return false;
-    }
-
-    @Override
-    public float getSizeInDp() {
-        return 640;
     }
 }

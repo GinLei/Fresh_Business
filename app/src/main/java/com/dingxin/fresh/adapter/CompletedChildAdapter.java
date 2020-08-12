@@ -39,8 +39,8 @@ public class CompletedChildAdapter extends RecyclerView.Adapter<CompletedChildAd
     public void onBindViewHolder(@NonNull CompletedChildAdapter.ViewHolder holder, int position) {
         CompletedEntity.OrderGoodsListBean entity = getList().get(position);
         Glide.with(mContext.getApplicationContext()).load(entity.getThumb()).into(holder.img);
-        holder.tv_1.setText(entity.getTitle());
-        holder.tv_2.setText(entity.getGoods_price() + entity.getUnit_name());
+        holder.tv_1.setText(entity.getGoods_name());
+        holder.tv_2.setText("¥" + entity.getGoods_price() + entity.getUnit_name());
         String spec_name = entity.getSpec_name();
         if (!TextUtils.isEmpty(spec_name)) {
             holder.tv_3.setText("规格:" + entity.getSpec_name());
@@ -52,7 +52,7 @@ public class CompletedChildAdapter extends RecyclerView.Adapter<CompletedChildAd
         holder.tv_6.setText("称重重量:" + entity.getWeight());
         holder.tv_7.setText("预付价格:¥" + entity.getFinal_price());
         holder.tv_8.setText("实付价格:¥" + entity.getMember_goods_price());
-        holder.tv_9.setText("实际菜钱:¥" + entity.getGuser_price());
+        holder.tv_9.setText("实得菜钱:¥" + entity.getGuser_price());
     }
 
     @Override

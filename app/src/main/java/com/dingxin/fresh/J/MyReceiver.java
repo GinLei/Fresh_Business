@@ -11,10 +11,9 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import androidx.core.app.NotificationCompat;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.dingxin.fresh.R;
-import com.dingxin.fresh.activity.MainActivity;
+import com.dingxin.fresh.activity.TabBarActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -118,7 +117,7 @@ public class MyReceiver extends BroadcastReceiver {
         String channelName = "channel_name";
 
         // 跳转的Activity
-        Intent intent = new Intent(context, MainActivity.class);
+        Intent intent = new Intent(context, TabBarActivity.class);
         intent.putExtras(bundle);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 

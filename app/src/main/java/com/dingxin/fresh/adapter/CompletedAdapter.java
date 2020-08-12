@@ -45,7 +45,7 @@ public class CompletedAdapter extends RecyclerView.Adapter<CompletedAdapter.View
         CompletedEntity entity = getList().get(position);
         holder.nick_name.setText("下单人:" + entity.getNick_name());
         holder.order_time.setText(entity.getCreated_at());
-        holder.g_user.setText("实得菜钱:" + entity.getGuser_price());
+        holder.g_user.setText("总实得菜钱¥:" + entity.getGuser_price());
         if (entity.getIs_train() != 0) {
             holder.is_test.setVisibility(View.VISIBLE);
         }

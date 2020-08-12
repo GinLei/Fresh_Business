@@ -29,6 +29,7 @@ import me.goldze.mvvmhabit.bus.Messenger;
 import me.goldze.mvvmhabit.bus.event.SingleLiveEvent;
 import me.goldze.mvvmhabit.http.ApiDisposableObserver;
 import me.goldze.mvvmhabit.utils.RxUtils;
+import me.goldze.mvvmhabit.utils.ToastUtils;
 import me.tatarka.bindingcollectionadapter2.ItemBinding;
 
 public class HomeViewModel extends BaseViewModel {
@@ -48,12 +49,12 @@ public class HomeViewModel extends BaseViewModel {
                     case "商户资料":
                         startContainerActivity(AccountDataFragment.class.getCanonicalName());
                         break;
-                    case "摊位管理":
-                        break;
                     case "商品管理":
                         startContainerActivity(GoodsListFragment.class.getCanonicalName());
                         break;
                     case "用户资料":
+                    case "摊位管理":
+                        ToastUtils.showShort("敬请期待");
                         break;
                 }
             }
@@ -120,6 +121,7 @@ public class HomeViewModel extends BaseViewModel {
 
                     @Override
                     public void onComplete() {
+                        refresh_event.call();
                     }
                 });
     }

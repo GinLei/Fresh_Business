@@ -1,26 +1,14 @@
 package com.dingxin.fresh.vm;
 
 import android.app.Application;
-import android.net.Uri;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableField;
 
-import com.dingxin.fresh.activity.MainActivity;
 import com.dingxin.fresh.api.ApiService;
-import com.dingxin.fresh.e.BannerEntity;
 import com.dingxin.fresh.e.BusinessInfoEntity;
-import com.dingxin.fresh.e.LoginEntity;
-import com.dingxin.fresh.e.UploadEntity;
-import com.dingxin.fresh.fragment.AccountDataFragment;
 import com.dingxin.fresh.fragment.ModifyAccountDataFragment;
 import com.dingxin.fresh.utils.RetrofitClient;
-
-import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
@@ -30,17 +18,9 @@ import me.goldze.mvvmhabit.binding.command.BindingCommand;
 import me.goldze.mvvmhabit.bus.Messenger;
 import me.goldze.mvvmhabit.bus.event.SingleLiveEvent;
 import me.goldze.mvvmhabit.http.ApiDisposableObserver;
-import me.goldze.mvvmhabit.http.BaseResponse;
 import me.goldze.mvvmhabit.http.DownLoadManager;
-import me.goldze.mvvmhabit.http.ResponseThrowable;
 import me.goldze.mvvmhabit.http.download.ProgressCallBack;
-import me.goldze.mvvmhabit.utils.ImageUtils;
 import me.goldze.mvvmhabit.utils.RxUtils;
-import me.goldze.mvvmhabit.utils.SPUtils;
-import me.goldze.mvvmhabit.utils.ToastUtils;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 
 public class AccountDataViewModel extends BaseViewModel {

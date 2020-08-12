@@ -32,7 +32,7 @@ import me.jessyan.autosize.internal.CustomAdapt;
 import me.tatarka.bindingcollectionadapter2.BR;
 
 
-public class GoodsListFragment extends BaseFragment<FragmentGoodslistBinding, GoodsListViewModel> implements CustomAdapt {
+public class GoodsListFragment extends BaseFragment<FragmentGoodslistBinding, GoodsListViewModel> {
     public static final String TAG = "GoodsListFragment";
     private GreensAdapter adapter;
 
@@ -170,15 +170,5 @@ public class GoodsListFragment extends BaseFragment<FragmentGoodslistBinding, Go
             if (entity.getIs_on_sale()) return false;
         }
         return true;
-    }
-
-    @Override
-    public boolean isBaseOnWidth() {
-        return false;
-    }
-
-    @Override
-    public float getSizeInDp() {
-        return 640;
     }
 }

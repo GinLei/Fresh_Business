@@ -23,7 +23,7 @@ public class CashFragment extends BaseFragment<FragmentCashBinding, CashViewMode
 
     @Override
     public int initVariableId() {
-        Sofia.with(getActivity()).invasionStatusBar().statusBarBackground(R.color.color_orange_2).statusBarBackgroundAlpha(0);
+        Sofia.with(getActivity()).invasionStatusBar().invasionNavigationBar().statusBarBackground(R.color.color_orange_2).statusBarBackgroundAlpha(0);
         return BR.viewModel;
     }
 

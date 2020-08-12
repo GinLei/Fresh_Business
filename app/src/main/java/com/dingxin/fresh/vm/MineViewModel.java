@@ -16,6 +16,7 @@ import io.reactivex.functions.Consumer;
 import me.goldze.mvvmhabit.base.BaseViewModel;
 import me.goldze.mvvmhabit.binding.command.BindingAction;
 import me.goldze.mvvmhabit.binding.command.BindingCommand;
+import me.goldze.mvvmhabit.bus.Messenger;
 import me.goldze.mvvmhabit.bus.event.SingleLiveEvent;
 import me.goldze.mvvmhabit.http.ApiDisposableObserver;
 import me.goldze.mvvmhabit.utils.RxUtils;
@@ -39,6 +40,13 @@ public class MineViewModel extends BaseViewModel {
 
     public MineViewModel(@NonNull Application application) {
         super(application);
+        Messenger.getDefault().register(this, CashViewModel.class.getSimpleName(), new BindingAction() {
+            @Override
+            public void call() {
+                getAccountInfo();
+            }
+        });
+
     }
 
     public void getAccountInfo() {
@@ -67,7 +75,7 @@ public class MineViewModel extends BaseViewModel {
 
                     @Override
                     public void onComplete() {
-
+                        dismissDialog();
                     }
                 });
     }
@@ -97,7 +105,7 @@ public class MineViewModel extends BaseViewModel {
 
                     @Override
                     public void onComplete() {
-
+                        refresh_event.call();
                     }
                 });
     }

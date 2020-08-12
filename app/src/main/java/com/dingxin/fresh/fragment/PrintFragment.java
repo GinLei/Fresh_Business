@@ -43,14 +43,14 @@ import me.goldze.mvvmhabit.utils.ToastUtils;
 import me.jessyan.autosize.internal.CustomAdapt;
 
 
-public class PrintFragment extends BaseFragment<FragmentPrintBinding, PrintViewModel> implements CustomAdapt {
+public class PrintFragment extends BaseFragment<FragmentPrintBinding, PrintViewModel> {
     private PrintOrderAdapter adapter;
     private static final String TAG = PrintFragment.class.getSimpleName();
 
 
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Sofia.with(getActivity()).invasionStatusBar().statusBarBackground(R.color.color_orange_2).statusBarBackgroundAlpha(0);
+        Sofia.with(getActivity()).invasionStatusBar().invasionNavigationBar().statusBarBackground(R.color.color_orange_2).statusBarBackgroundAlpha(0);
         return R.layout.fragment_print;
     }
 
@@ -160,7 +160,6 @@ public class PrintFragment extends BaseFragment<FragmentPrintBinding, PrintViewM
                         }
                     }
                 });
-                print();
             }
         });
     }
@@ -171,15 +170,6 @@ public class PrintFragment extends BaseFragment<FragmentPrintBinding, PrintViewM
         getActivity().unregisterReceiver(mPrinterReceiver);
     }
 
-    @Override
-    public boolean isBaseOnWidth() {
-        return false;
-    }
-
-    @Override
-    public float getSizeInDp() {
-        return 640;
-    }
 
     private BroadcastReceiver mPrinterReceiver = new BroadcastReceiver() {
         @Override

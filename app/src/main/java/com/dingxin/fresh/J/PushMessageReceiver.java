@@ -1,30 +1,13 @@
 package com.dingxin.fresh.J;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Vibrator;
 import android.text.TextUtils;
 import android.util.Log;
 
-import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import com.dingxin.fresh.R;
-import com.dingxin.fresh.activity.MainActivity;
-import com.dingxin.fresh.utils.AppUtils;
-import com.google.gson.Gson;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.dingxin.fresh.activity.TabBarActivity;
 
 import cn.jpush.android.api.CmdMessage;
 import cn.jpush.android.api.CustomMessage;
@@ -32,9 +15,6 @@ import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.JPushMessage;
 import cn.jpush.android.api.NotificationMessage;
 import cn.jpush.android.service.JPushMessageReceiver;
-import me.goldze.mvvmhabit.utils.ToastUtils;
-
-import static android.content.Context.NOTIFICATION_SERVICE;
 
 public class PushMessageReceiver extends JPushMessageReceiver {
     private static final String TAG = "PushMessageReceiver";
@@ -186,8 +166,8 @@ public class PushMessageReceiver extends JPushMessageReceiver {
 //                    .setContentIntent(pendingIntent);
 //            notificationManager.notify((int) (System.currentTimeMillis() / 1000), notification.build());
         if (!TextUtils.isEmpty(customMessage.message)) {
-            Intent msgIntent = new Intent(MainActivity.MESSAGE_RECEIVED_ACTION);
-            msgIntent.putExtra(MainActivity.KEY_EXTRAS, customMessage.message);
+            Intent msgIntent = new Intent(TabBarActivity.MESSAGE_RECEIVED_ACTION);
+            msgIntent.putExtra(TabBarActivity.KEY_EXTRAS, customMessage.message);
             LocalBroadcastManager.getInstance(context).sendBroadcast(msgIntent);
         }
     }

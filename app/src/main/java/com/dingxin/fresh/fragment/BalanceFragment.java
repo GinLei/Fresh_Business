@@ -20,6 +20,7 @@ import me.jessyan.autosize.internal.CustomAdapt;
 public class BalanceFragment extends BaseFragment<FragmentBalanceBinding, BalanceViewModel> implements CustomAdapt {
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Sofia.with(getActivity()).invasionStatusBar().invasionNavigationBar().statusBarBackground(R.color.color_orange_2).statusBarBackgroundAlpha(0);
         return R.layout.fragment_balance;
     }
 
@@ -30,7 +31,6 @@ public class BalanceFragment extends BaseFragment<FragmentBalanceBinding, Balanc
 
     @Override
     public void initData() {
-        Sofia.with(getActivity()).invasionStatusBar().statusBarBackground(R.color.color_orange_2).statusBarBackgroundAlpha(0);
         viewModel.getAccountInfo();
     }
 
@@ -39,6 +39,7 @@ public class BalanceFragment extends BaseFragment<FragmentBalanceBinding, Balanc
         viewModel.dataEvent.observe(getViewLifecycleOwner(), new Observer() {
             @Override
             public void onChanged(Object o) {
+                binding.tab.removeAllTabs();
                 TabLayout.Tab tab_1 = binding.tab.newTab().setText("今日统计");
                 TabLayout.Tab tab_2 = binding.tab.newTab().setText("本周统计");
                 TabLayout.Tab tab_3 = binding.tab.newTab().setText("本月统计");

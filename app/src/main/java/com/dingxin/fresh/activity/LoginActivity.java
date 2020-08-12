@@ -43,7 +43,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
-        Sofia.with(this).statusBarBackgroundAlpha(0).invasionStatusBar().invasionNavigationBar();
+        Sofia.with(this).statusBarBackgroundAlpha(0).invasionStatusBar();
         return R.layout.activity_login;
     }
 
