@@ -4,55 +4,71 @@ import android.app.ActivityManager;
 import android.content.Context;
 
 import com.clj.fastble.BleManager;
+import com.dingxin.fresh.J.JPushEntity;
 import com.dingxin.fresh.R;
 import com.dingxin.fresh.e.LoginBean;
-import com.dingxin.fresh.utils.PollingUtil;
+import com.dingxin.fresh.e.LoginEntity;
+import com.dingxin.fresh.e.SpecsEntity;
 import com.example.jjhome.network.DeviceUtils;
-import com.example.jjhome.network.TestEvent;
 import com.fanjun.keeplive.KeepLive;
 import com.fanjun.keeplive.config.ForegroundNotification;
 import com.fanjun.keeplive.config.ForegroundNotificationClickListener;
 import com.fanjun.keeplive.config.KeepLiveService;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.jjhome.master.http.MasterRequest;
 import com.tencent.rtmp.TXLiveBase;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Process;
 import android.os.StrictMode;
+import android.speech.tts.TextToSpeech;
+import android.text.TextUtils;
+import android.util.Log;
 
+import org.java_websocket.client.WebSocketClient;
+import org.java_websocket.drafts.Draft_6455;
+import org.java_websocket.handshake.ServerHandshake;
+
+import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import cn.jpush.android.api.JPushInterface;
 import me.goldze.mvvmhabit.base.BaseApplication;
 import me.goldze.mvvmhabit.crash.CaocConfig;
 import me.goldze.mvvmhabit.utils.KLog;
+import me.goldze.mvvmhabit.utils.SPUtils;
+import me.goldze.mvvmhabit.utils.ToastUtils;
 import me.jessyan.autosize.AutoSize;
 import me.jessyan.autosize.AutoSizeConfig;
 
-public class MyApplication extends BaseApplication {
+public class MyApplication extends BaseApplication implements TextToSpeech.OnInitListener {
     public static String rid = "";
     public static MyApplication instance;
     public LoginBean loginBean;
     private static Context mContext;
-    private PollingUtil pollingUtil;
     private Runnable runnable;
     public static MasterRequest masterRequest;
-
+    private WebSocketClient client;
+    private TextToSpeech tts;
     //public static final String APP_ID = "a27xxxxxxxxxxxxxxxxxxxxxxxx22";
 
 
     @Override
     public void onCreate() {
         super.onCreate();
+        tts = new TextToSpeech(getApplicationContext(), this);
+        tts.setPitch(0.5f);
+        tts.setSpeechRate(1.0f);
         mContext = getApplicationContext();
-
-
+        initBle();
+        initSocketClient();
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         builder.detectFileUriExposure();
-
         KLog.init(false);
         CaocConfig.Builder.create()
                 .backgroundMode(CaocConfig.BACKGROUND_MODE_SILENT) //背景模式,开启沉浸式
@@ -66,13 +82,12 @@ public class MyApplication extends BaseApplication {
                 //.errorActivity(YourCustomErrorActivity.class) //崩溃后的错误activity
                 //.eventListener(new YourCustomEventListener()) //崩溃后的错误监听
                 .apply();
-        initBle();
         AutoSize.checkAndInit(this);
         AutoSizeConfig.getInstance().setCustomFragment(true);
-        TXLiveBase.getInstance().setLicence(this, "http://license.vod2.myqcloud.com/license/v1/701947fd803f8c5f878a2c6fd8086eca/TXLiveSDK.licence", "430ab98fe8f19f8b69ae47b039407d33");
-        JPushInterface.setDebugMode(false);    // 设置开启日志,发布时请关闭日志
-        JPushInterface.init(this);// 初始化 JPush
-        rid = JPushInterface.getRegistrationID(getApplicationContext());
+        //TXLiveBase.getInstance().setLicence(this, "http://license.vod2.myqcloud.com/license/v1/701947fd803f8c5f878a2c6fd8086eca/TXLiveSDK.licence", "430ab98fe8f19f8b69ae47b039407d33");
+        //JPushInterface.setDebugMode(false);    // 设置开启日志,发布时请关闭日志
+        //JPushInterface.init(this);// 初始化 JPush
+        //rid = JPushInterface.getRegistrationID(getApplicationContext());
         ForegroundNotification foregroundNotification = new ForegroundNotification("鲜到家", "商户平台", R.mipmap.ic_launcher,
                 //定义前台服务的通知点击事件
                 new ForegroundNotificationClickListener() {
@@ -91,16 +106,7 @@ public class MyApplication extends BaseApplication {
                      */
                     @Override
                     public void onWorking() {
-                        //TODO 长链接(备选方案)
-
-                        pollingUtil = new PollingUtil(new Handler(getMainLooper()));
-                        runnable = new Runnable() {
-                            @Override
-                            public void run() {
-
-                            }
-                        };
-                        pollingUtil.startPolling(runnable, 5000, true);
+                        mHandler.post(heartBeatRunnable);
                     }
 
                     /**
@@ -109,9 +115,22 @@ public class MyApplication extends BaseApplication {
                      */
                     @Override
                     public void onStop() {
-                        pollingUtil.endPolling(runnable);
-                        pollingUtil = null;
-                        runnable = null;
+                        if (client != null) {
+                            if (client.isOpen()) {
+                                try {
+                                    client.closeBlocking();
+                                    client = null;
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                        if (tts != null) {
+                            tts.shutdown();
+                            tts.stop();
+                            tts = null;
+                        }
+                        mHandler.removeCallbacks(heartBeatRunnable);
                     }
                 }
         );
@@ -168,4 +187,97 @@ public class MyApplication extends BaseApplication {
         return mContext;
     }
 
+    private static final long HEART_BEAT_RATE = 10 * 1000;//每隔10秒进行一次对长连接的心跳检测,考虑到网络切换的情况心跳
+    private Handler mHandler = new Handler();
+    private Runnable heartBeatRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (client != null) {
+                if (client.isClosed()) {
+                    reconnectWs();
+                } else {
+                    client.send("KeepAlive");
+                }
+            } else {
+                //如果client已为空，重新初始化websocket
+                initSocketClient();
+            }
+            //定时对长连接进行心跳检测
+            mHandler.postDelayed(this, HEART_BEAT_RATE);
+        }
+    };
+
+    private void initSocketClient() {
+        try {
+            if (client != null) {
+                if (client.isOpen()) {
+                    client.closeBlocking();
+                    client = null;
+                }
+            }
+            client = new WebSocketClient(URI.create("wss://7chezhibo.com/wss")) {
+                @Override
+                public void onOpen(ServerHandshake handshake) {
+                }
+
+                @Override
+                public void onMessage(String message) {
+                    try {
+                        String user_info = SPUtils.getInstance().getString("user_info");
+                        if (!TextUtils.isEmpty(user_info)) {
+                            LoginEntity entity = new Gson().fromJson(user_info, LoginEntity.class);
+                            ArrayList<JPushEntity> list = new Gson().fromJson(message, new TypeToken<List<JPushEntity>>() {
+                            }.getType());
+                            for (JPushEntity pushEntity : list) {
+                                if (TextUtils.equals(pushEntity.getUid(), String.valueOf(entity.getId()))) {
+                                    tts.speak(pushEntity.getContent(), TextToSpeech.QUEUE_ADD, null, null);
+                                    return;
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onClose(int code, String reason, boolean remote) {
+
+                }
+
+                @Override
+                public void onError(Exception ex) {
+
+                }
+            };
+            client.connectBlocking();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 开启重连
+     */
+    private void reconnectWs() {
+        mHandler.removeCallbacks(heartBeatRunnable);
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    //重连
+                    client.reconnectBlocking();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
+
+    @Override
+    public void onInit(int status) {
+        if (status == TextToSpeech.SUCCESS) {
+            tts.setLanguage(Locale.CHINESE);
+        }
+    }
 }

@@ -55,7 +55,7 @@
             android:inputType="number"
             android:singleLine="true"
             android:text="@={viewModel.money}"
-            android:textSize="14dp" />
+            android:textSize="16sp" />
 
         <View
             android:layout_width="match_parent"
@@ -67,16 +67,16 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="28dp"
+            android:layout_marginLeft="56dp"
             android:layout_marginTop="28dp"
-            android:layout_marginRight="28dp"
+            android:layout_marginRight="56dp"
             android:background="@drawable/orange_shape_button"
             android:gravity="center"
             android:paddingTop="6dp"
             android:paddingBottom="6dp"
             android:text="发起提现"
             android:textColor="#ffffffff"
-            android:textSize="14sp"
+            android:textSize="16sp"
             binding:onClickCommand="@{viewModel.cash_command}" />
     </LinearLayout>
 </layout>

@@ -35,22 +35,21 @@ public class LiveFragment extends BaseFragment<FragmentLiveBinding, LiveViewMode
 
     @Override
     public void initData() {
-        TXLivePusher mLivePusher = new TXLivePusher(getActivity());
-        config = new TXLivePushConfig();
-        mLivePusher.setPushListener(new ITXLivePushListener() {
-            @Override
-            public void onPushEvent(int i, Bundle bundle) {
-
-            }
-
-            @Override
-            public void onNetStatus(Bundle bundle) {
-
-            }
-        });
-        mLivePusher.setConfig(config);
-        mLivePusher.startCameraPreview(binding.TXCloudVideoView);
-        mLivePusher.startScreenCapture();
-        ToastUtils.showShort("" + mLivePusher.startPusher(rtmpUrl));
+//        TXLivePusher mLivePusher = new TXLivePusher(getActivity());
+//        config = new TXLivePushConfig();
+//        mLivePusher.setPushListener(new ITXLivePushListener() {
+//            @Override
+//            public void onPushEvent(int i, Bundle bundle) {
+//
+//            }
+//
+//            @Override
+//            public void onNetStatus(Bundle bundle) {
+//
+//            }
+//        });
+//        mLivePusher.setConfig(config);
+//        mLivePusher.startCameraPreview(binding.TXCloudVideoView);
+//        mLivePusher.startScreenCapture();
     }
 }

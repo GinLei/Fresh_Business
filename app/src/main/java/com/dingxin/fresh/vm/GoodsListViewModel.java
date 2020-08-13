@@ -100,7 +100,6 @@ public class GoodsListViewModel extends BaseViewModel {
                         bundle.putString("freight_fee", entity.get(0).getFreight_fee());
                         bundle.putString("service_fee", entity.get(0).getService_fee());
                         startContainerActivity(UploadGoodsInfoFragment.class.getCanonicalName(), bundle);
-                        dismissDialog();
                     }
 
                     @Override
@@ -140,8 +139,8 @@ public class GoodsListViewModel extends BaseViewModel {
 
                     @Override
                     public void onError(Throwable e) {
-                        dismissDialog();
                         super.onError(e);
+                        dismissDialog();
                     }
                 });
     }
@@ -178,8 +177,8 @@ public class GoodsListViewModel extends BaseViewModel {
 
                     @Override
                     public void onError(Throwable e) {
-                        dismissDialog();
                         super.onError(e);
+                        dismissDialog();
                     }
                 });
     }

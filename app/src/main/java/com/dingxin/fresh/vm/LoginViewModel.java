@@ -86,8 +86,8 @@ public class LoginViewModel extends BaseViewModel {
                         dismissDialog();
                         SPUtils.getInstance().put("user_info", new Gson().toJson(entity));
                         SPUtils.getInstance().put("token", entity.getToken());
-                        JPushInterface.setAlias(getApplication(), 0, userName.get());
-                        JPushInterface.setPowerSaveMode(getApplication(), true);
+                        //JPushInterface.setAlias(getApplication(), 0, userName.get());
+                        //JPushInterface.setPowerSaveMode(getApplication(), true);
                         startActivity(TabBarActivity.class);
                         finish();
                     }

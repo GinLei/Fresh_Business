@@ -3,6 +3,15 @@ package com.dingxin.fresh.J;
 public class JPushEntity {
     private int type;
     private String content;
+    private String uid;
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
 
     public int getType() {
         return type;

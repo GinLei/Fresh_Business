@@ -60,17 +60,24 @@
             android:name="design_height_in_dp"
             android:value="640" />
 
-        <activity android:name=".activity.TabBarActivity" />
-        <activity android:name=".activity.LoginActivity" />
+        <activity
+            android:name=".activity.TabBarActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.LoginActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.StartActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/theme_fullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.RichActivity" />
+        <activity
+            android:name=".activity.RichActivity"
+            android:screenOrientation="portrait" />
         <!-- 一像素 -->
         <activity
             android:name="com.tencent.rtmp.video.TXScreenCapture$TXScreenCaptureAssistantActivity"

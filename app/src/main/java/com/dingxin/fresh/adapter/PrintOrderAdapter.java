@@ -74,6 +74,7 @@ public class PrintOrderAdapter extends RecyclerView.Adapter<PrintOrderAdapter.Vi
         holder.print.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 model.entity.set(entity);
                 model.print();
             }

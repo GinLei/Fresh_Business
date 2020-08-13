@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -143,7 +144,6 @@ public class PrintFragment extends BaseFragment<FragmentPrintBinding, PrintViewM
                 BleManager.getInstance().scan(new BleScanCallback() {
                     @Override
                     public void onScanFinished(List<BleDevice> scanResultList) {
-                        dismissDialog();
                     }
 
                     @Override
@@ -153,10 +153,13 @@ public class PrintFragment extends BaseFragment<FragmentPrintBinding, PrintViewM
 
                     @Override
                     public void onScanning(BleDevice bleDevice) {
+                        ToastUtils.showShort("匹配");
+                        Log.v("扫描地址", bleDevice.getMac());
+                        Log.v("实际地址", new Gson().fromJson(SPUtils.getInstance().getString("user_info"), LoginEntity.class).getTicket());
                         if (TextUtils.equals(bleDevice.getMac(), new Gson().fromJson(SPUtils.getInstance().getString("user_info"), LoginEntity.class).getTicket())) {
+                            ToastUtils.showShort("匹配成功");
                             BleManager.getInstance().cancelScan();
                             print();
-                            dismissDialog();
                         }
                     }
                 });
@@ -174,6 +177,7 @@ public class PrintFragment extends BaseFragment<FragmentPrintBinding, PrintViewM
     private BroadcastReceiver mPrinterReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            dismissDialog();
             PrinterService.STATUS status =
                     (PrinterService.STATUS) intent.getSerializableExtra(PrinterService.FILTER_ACTION);
             String errorMsg = "";

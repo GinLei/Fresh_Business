@@ -92,6 +92,7 @@ public class HomeViewModel extends BaseViewModel {
 
                     @Override
                     public void onComplete() {
+                        dismissDialog();
                     }
                 });
     }

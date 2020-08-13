@@ -119,13 +119,14 @@ public class PosViewModel extends BaseViewModel {
 
         @Override
         public void onScanning(BleDevice bleDevice) {
-            if (TextUtils.isEmpty(bleDevice.getName())) return;
-            ScalesEntity entity = new ScalesEntity();
-            entity.setScale_name(bleDevice.getName());
-            entity.setScale_rssI("信号强度" + bleDevice.getRssi());
-            entity.setScale_mac(bleDevice.getMac());
-            PosItemViewModel itemViewModel = new PosItemViewModel(PosViewModel.this, entity);
-            listObservableField.add(itemViewModel);
+            if (!TextUtils.isEmpty(bleDevice.getName())) {
+                ScalesEntity entity = new ScalesEntity();
+                entity.setScale_name(bleDevice.getName());
+                entity.setScale_rssI("信号强度" + bleDevice.getRssi());
+                entity.setScale_mac(bleDevice.getMac());
+                PosItemViewModel itemViewModel = new PosItemViewModel(PosViewModel.this, entity);
+                listObservableField.add(itemViewModel);
+            }
         }
     };
 

@@ -56,7 +56,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void initData() {
-        JUtil.requestPermission(this);
+        //JUtil.requestPermission(this);
         ignoreBatteryOptimization(this);
 
 //        MaterialDialog.Builder builder = new MaterialDialog.Builder(LoginActivity.this).title("允许应用自启动");
