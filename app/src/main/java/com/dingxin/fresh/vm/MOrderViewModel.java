@@ -1,7 +1,9 @@
 package com.dingxin.fresh.vm;
 
+import android.Manifest;
 import android.app.Application;
 import android.content.Intent;
+import android.net.Uri;
 import android.provider.Settings;
 
 import androidx.annotation.NonNull;
@@ -13,9 +15,11 @@ import com.dingxin.fresh.fragment.PosFragment;
 import com.dingxin.fresh.fragment.PrintFragment;
 import com.dingxin.fresh.fragment.ScalesFragment;
 import com.dingxin.fresh.utils.AppUtils;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.time.Instant;
 
+import io.reactivex.functions.Consumer;
 import me.goldze.mvvmhabit.base.BaseViewModel;
 import me.goldze.mvvmhabit.binding.command.BindingAction;
 import me.goldze.mvvmhabit.binding.command.BindingCommand;

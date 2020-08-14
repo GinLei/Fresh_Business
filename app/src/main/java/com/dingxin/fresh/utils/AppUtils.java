@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.PowerManager;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
@@ -54,5 +55,4 @@ public class AppUtils {
         }
         return "02:00:00:00:00:00";
     }
-
 }

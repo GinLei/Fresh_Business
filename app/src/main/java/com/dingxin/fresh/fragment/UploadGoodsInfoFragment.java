@@ -131,7 +131,7 @@ public class UploadGoodsInfoFragment extends BaseFragment<FragmentUploadgoodsinf
             @Override
             public void onChanged(Object o) {
                 new MaterialDialog.Builder(getActivity()).title("商品图片")
-                        .items(new String[]{"相册", "拍照", "默认"})
+                        .items(new String[]{"相册", "拍照", "默认图片"})
                         .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
                             @Override
                             public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
@@ -157,7 +157,7 @@ public class UploadGoodsInfoFragment extends BaseFragment<FragmentUploadgoodsinf
                                             }
                                         }
                                     });
-                                } else if (TextUtils.equals(text, "默认")) {
+                                } else if (TextUtils.equals(text, "默认图片")) {
                                     Bundle bundle = new Bundle();
                                     bundle.putString("greens_cate_id", viewModel.class_id_two.get());
                                     startContainerActivity(GoodsPicFragment.class.getCanonicalName(), bundle);

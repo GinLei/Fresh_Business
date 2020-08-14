@@ -6,6 +6,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 
+import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.ComponentName;
@@ -30,10 +31,12 @@ import com.dingxin.fresh.J.JUtil;
 import com.dingxin.fresh.R;
 import com.dingxin.fresh.databinding.ActivityLoginBinding;
 import com.dingxin.fresh.vm.LoginViewModel;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.yanzhenjie.sofia.Sofia;
 
 import java.util.Locale;
 
+import io.reactivex.functions.Consumer;
 import me.goldze.mvvmhabit.base.BaseActivity;
 import me.jessyan.autosize.internal.CustomAdapt;
 
@@ -53,12 +56,16 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void initData() {
         //JUtil.requestPermission(this);
         ignoreBatteryOptimization(this);
+        new RxPermissions(this).request(Manifest.permission.CALL_PHONE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean granted) throws Exception {
 
+            }
+        });
 //        MaterialDialog.Builder builder = new MaterialDialog.Builder(LoginActivity.this).title("允许应用自启动");
 //        builder.positiveText("确认").negativeText("取消").onNegative(new MaterialDialog.SingleButtonCallback() {
 //            @Override

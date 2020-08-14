@@ -309,7 +309,7 @@
             android:background="@color/color_red"
             android:gravity="center"
             android:padding="15dp"
-            android:text="上传商品"
+            android:text="提交"
             android:textColor="@color/white"
             android:textSize="13sp"
             binding:onClickCommand="@{viewModel.submit_command}" />

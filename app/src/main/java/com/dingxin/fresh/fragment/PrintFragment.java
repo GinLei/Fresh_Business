@@ -153,11 +153,8 @@ public class PrintFragment extends BaseFragment<FragmentPrintBinding, PrintViewM
 
                     @Override
                     public void onScanning(BleDevice bleDevice) {
-                        ToastUtils.showShort("匹配");
-                        Log.v("扫描地址", bleDevice.getMac());
-                        Log.v("实际地址", new Gson().fromJson(SPUtils.getInstance().getString("user_info"), LoginEntity.class).getTicket());
+
                         if (TextUtils.equals(bleDevice.getMac(), new Gson().fromJson(SPUtils.getInstance().getString("user_info"), LoginEntity.class).getTicket())) {
-                            ToastUtils.showShort("匹配成功");
                             BleManager.getInstance().cancelScan();
                             print();
                         }
@@ -199,10 +196,10 @@ public class PrintFragment extends BaseFragment<FragmentPrintBinding, PrintViewM
                     Toast.makeText(context, "打印机缺纸", Toast.LENGTH_SHORT).show();
                     break;
                 case CONNECTED:// 打印机连接成功。
-                    Toast.makeText(context, "打印机连接成功", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, "打印机连接成功", Toast.LENGTH_SHORT).show();
                     break;
                 case CONNECTING:// 正在连接打印机。
-                    Toast.makeText(context, "正在连接打印机", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, "正在连接打印机", Toast.LENGTH_SHORT).show();
                     break;
                 case DISCONNECTED:// 打印机断开连接。
                     Toast.makeText(context, "打印机断开连接", Toast.LENGTH_SHORT).show();

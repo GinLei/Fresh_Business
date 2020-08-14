@@ -1,6 +1,8 @@
 package com.dingxin.fresh.app;
 
+import android.annotation.SuppressLint;
 import android.app.ActivityManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 
 import com.clj.fastble.BleManager;
@@ -20,7 +22,10 @@ import com.jjhome.master.http.MasterRequest;
 import com.tencent.rtmp.TXLiveBase;
 
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Environment;
 import android.os.Handler;
+import android.os.PowerManager;
 import android.os.Process;
 import android.os.StrictMode;
 import android.speech.tts.TextToSpeech;
@@ -60,6 +65,7 @@ public class MyApplication extends BaseApplication implements TextToSpeech.OnIni
     @Override
     public void onCreate() {
         super.onCreate();
+
         tts = new TextToSpeech(getApplicationContext(), this);
         tts.setPitch(0.5f);
         tts.setSpeechRate(1.0f);
@@ -134,11 +140,12 @@ public class MyApplication extends BaseApplication implements TextToSpeech.OnIni
                     }
                 }
         );
+
     }
 
     private void initBle() {
         BleManager.getInstance()
-                .enableLog(true)
+                .enableLog(false)
                 .setConnectOverTime(30000)
                 .setOperateTimeout(5000).init(this);
 
@@ -186,6 +193,7 @@ public class MyApplication extends BaseApplication implements TextToSpeech.OnIni
     public static Context getContext() {
         return mContext;
     }
+
 
     private static final long HEART_BEAT_RATE = 10 * 1000;//每隔10秒进行一次对长连接的心跳检测,考虑到网络切换的情况心跳
     private Handler mHandler = new Handler();
@@ -280,4 +288,6 @@ public class MyApplication extends BaseApplication implements TextToSpeech.OnIni
             tts.setLanguage(Locale.CHINESE);
         }
     }
+
+
 }

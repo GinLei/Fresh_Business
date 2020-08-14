@@ -1,5 +1,6 @@
 package com.dingxin.fresh.fragment;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -12,8 +13,10 @@ import com.dingxin.fresh.R;
 import com.dingxin.fresh.databinding.FragmentScalesBinding;
 import com.dingxin.fresh.vm.InsideViewModel;
 import com.dingxin.fresh.vm.ScalesViewModel;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.yanzhenjie.sofia.Sofia;
 
+import io.reactivex.functions.Consumer;
 import me.goldze.mvvmhabit.base.BaseFragment;
 import me.goldze.mvvmhabit.bus.Messenger;
 
@@ -32,6 +35,13 @@ public class ScalesFragment extends BaseFragment<FragmentScalesBinding, ScalesVi
 
     @Override
     public void initData() {
-        viewModel.Scan();
+        new RxPermissions(this).request(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION).subscribe(new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean granted) throws Exception {
+                if (granted) {
+                    viewModel.Scan();
+                }
+            }
+        });
     }
 }

@@ -9,7 +9,10 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.PowerManager;
+import android.util.Log;
 import android.view.KeyEvent;
 
 import androidx.core.content.ContextCompat;
@@ -47,7 +50,18 @@ public class TabBarActivity extends BaseActivity<ActivityTabBarBinding, BaseView
     public static final String MESSAGE_RECEIVED_ACTION = "com.dingxin.fresh.MESSAGE_RECEIVED_ACTION";
     public static final String KEY_EXTRAS = "extras";
     public static boolean isForeground = false;
+    private Handler alive = new Handler();
+    @SuppressLint("InvalidWakeLockTag")
+    private PowerManager.WakeLock mWakeLock;
+    private Runnable alive_runnable = new Runnable() {
+        @Override
+        public void run() {
+            mWakeLock.acquire(5 * 1000L /*1 minutes*/);
+            mWakeLock.release();
+        }
+    };
     private NotificationService.MyBinder myBinder;
+    private ScreenStatusReceiver mScreenStatusReceiver;
     private ServiceConnection connection = new ServiceConnection() {
         @Override
         public void onServiceDisconnected(ComponentName name) {
@@ -74,10 +88,17 @@ public class TabBarActivity extends BaseActivity<ActivityTabBarBinding, BaseView
         return BR.viewModel;
     }
 
+    @SuppressLint("InvalidWakeLockTag")
     @Override
     public void initData() {
         initFragment();
         initBottomTab();
+        mWakeLock = ((PowerManager) getSystemService(POWER_SERVICE)).newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "tag");
+        mScreenStatusReceiver = new ScreenStatusReceiver();
+        IntentFilter screenStatusIF = new IntentFilter();
+        screenStatusIF.addAction(Intent.ACTION_SCREEN_ON);
+        screenStatusIF.addAction(Intent.ACTION_SCREEN_OFF);
+        registerReceiver(mScreenStatusReceiver, screenStatusIF);
     }
 
     private void initFragment() {
@@ -148,6 +169,9 @@ public class TabBarActivity extends BaseActivity<ActivityTabBarBinding, BaseView
         super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
         unbindService(connection);
+        unregisterReceiver(mScreenStatusReceiver);
+        alive = null;
+        alive_runnable = null;
     }
 
     @Override
@@ -211,5 +235,19 @@ public class TabBarActivity extends BaseActivity<ActivityTabBarBinding, BaseView
             }
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    class ScreenStatusReceiver extends BroadcastReceiver {
+        String SCREEN_OFF = "android.intent.action.SCREEN_OFF";
+        String SCREEN_ON = "android.intent.action.SCREEN_ON";
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (SCREEN_OFF.equals(intent.getAction())) {
+                alive.postDelayed(alive_runnable, 1000L * 60);
+            } else if (SCREEN_ON.equals(intent.getAction())) {
+                alive.removeCallbacks(alive_runnable);
+            }
+        }
     }
 }

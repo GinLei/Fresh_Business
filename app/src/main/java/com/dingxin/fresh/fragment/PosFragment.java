@@ -1,5 +1,6 @@
 package com.dingxin.fresh.fragment;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -11,8 +12,10 @@ import com.dingxin.fresh.R;
 import com.dingxin.fresh.databinding.FragmentPosBinding;
 import com.dingxin.fresh.utils.BluetoothUtils;
 import com.dingxin.fresh.vm.PosViewModel;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.yanzhenjie.sofia.Sofia;
 
+import io.reactivex.functions.Consumer;
 import me.goldze.mvvmhabit.base.BaseFragment;
 
 
@@ -31,6 +34,13 @@ public class PosFragment extends BaseFragment<FragmentPosBinding, PosViewModel> 
 
     @Override
     public void initData() {
-        viewModel.Scan(getActivity());
+        new RxPermissions(this).request(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION).subscribe(new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean granted) throws Exception {
+                if (granted) {
+                    viewModel.Scan(getActivity());
+                }
+            }
+        });
     }
 }

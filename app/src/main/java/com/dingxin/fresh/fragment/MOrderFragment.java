@@ -1,6 +1,9 @@
 package com.dingxin.fresh.fragment;
 
+import android.Manifest;
 import android.app.Application;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -11,7 +14,9 @@ import androidx.annotation.Nullable;
 import com.dingxin.fresh.R;
 import com.dingxin.fresh.databinding.FragmentMorderBinding;
 import com.dingxin.fresh.vm.MOrderViewModel;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
+import io.reactivex.functions.Consumer;
 import me.goldze.mvvmhabit.base.BaseFragment;
 import me.goldze.mvvmhabit.base.BaseViewModel;
 import me.tatarka.bindingcollectionadapter2.BR;
