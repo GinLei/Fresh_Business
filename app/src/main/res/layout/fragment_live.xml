@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -10,8 +8,52 @@
             type="com.dingxin.fresh.vm.LiveViewModel" />
     </data>
 
-    <com.tencent.rtmp.ui.TXCloudVideoView
-        android:id="@+id/TXCloudVideoView"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="@mipmap/livepusher_main_bkg">
+
+        <com.tencent.rtmp.ui.TXCloudVideoView
+            android:id="@+id/TXCloudVideoView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:id="@+id/livepusher_ll_bottom_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/livepusher_btn_start"
+                android:layout_width="37dp"
+                android:layout_height="37dp"
+                android:background="@mipmap/livepusher_start" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/livepusher_btn_switch_camera"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@mipmap/livepusher_camera_front" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
 </layout>

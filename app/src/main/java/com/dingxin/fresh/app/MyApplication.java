@@ -90,7 +90,7 @@ public class MyApplication extends BaseApplication implements TextToSpeech.OnIni
                 .apply();
         AutoSize.checkAndInit(this);
         AutoSizeConfig.getInstance().setCustomFragment(true);
-        //TXLiveBase.getInstance().setLicence(this, "http://license.vod2.myqcloud.com/license/v1/701947fd803f8c5f878a2c6fd8086eca/TXLiveSDK.licence", "430ab98fe8f19f8b69ae47b039407d33");
+        TXLiveBase.getInstance().setLicence(this, "http://license.vod2.myqcloud.com/license/v1/aa5c4727566cba884d271dad671bd3ad/TXLiveSDK.licence", "b3953da910780ed02ddc41a68ba29e80");
         //JPushInterface.setDebugMode(false);    // 设置开启日志,发布时请关闭日志
         //JPushInterface.init(this);// 初始化 JPush
         //rid = JPushInterface.getRegistrationID(getApplicationContext());
