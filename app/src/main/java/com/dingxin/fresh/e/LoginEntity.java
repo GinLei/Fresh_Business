@@ -2,6 +2,15 @@ package com.dingxin.fresh.e;
 
 public class LoginEntity {
     private String token;
+    private String rtmpUrl;
+
+    public String getRtmpUrl() {
+        return rtmpUrl;
+    }
+
+    public void setRtmpUrl(String rtmpUrl) {
+        this.rtmpUrl = rtmpUrl;
+    }
 
     private String nickname;
 

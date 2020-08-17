@@ -30,7 +30,7 @@ import me.goldze.mvvmhabit.base.BaseFragment;
 import me.jessyan.autosize.internal.CustomAdapt;
 import me.tatarka.bindingcollectionadapter2.BR;
 
-public class MWeighFragment extends BaseFragment<FragmentMweighBinding, MWeighViewModel> {
+public class MWeighFragment extends BaseFragment<FragmentMweighBinding, MWeighViewModel> implements CustomAdapt {
     private MWeightOrderAdapter adapter;
 
     @Override
@@ -171,5 +171,15 @@ public class MWeighFragment extends BaseFragment<FragmentMweighBinding, MWeighVi
         BleManager.getInstance().disconnectAllDevice();
         BleManager.getInstance().destroy();
         super.onDestroy();
+    }
+
+    @Override
+    public boolean isBaseOnWidth() {
+        return false;
+    }
+
+    @Override
+    public float getSizeInDp() {
+        return 727;
     }
 }

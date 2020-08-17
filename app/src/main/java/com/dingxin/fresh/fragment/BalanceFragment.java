@@ -100,6 +100,6 @@ public class BalanceFragment extends BaseFragment<FragmentBalanceBinding, Balanc
 
     @Override
     public float getSizeInDp() {
-        return 640;
+        return 724;
     }
 }

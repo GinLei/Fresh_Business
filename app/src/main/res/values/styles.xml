@@ -61,7 +61,7 @@
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
-    <style name="theme_fullScreen" parent="Theme.AppCompat.NoActionBar">
+    <style name="theme_fullScreen" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionBar">false</item>

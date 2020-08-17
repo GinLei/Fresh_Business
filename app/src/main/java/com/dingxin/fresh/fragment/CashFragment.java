@@ -34,6 +34,6 @@ public class CashFragment extends BaseFragment<FragmentCashBinding, CashViewMode
 
     @Override
     public float getSizeInDp() {
-        return 640;
+        return 724;
     }
 }

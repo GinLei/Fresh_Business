@@ -44,7 +44,7 @@ import me.goldze.mvvmhabit.utils.ToastUtils;
 import me.jessyan.autosize.internal.CustomAdapt;
 
 
-public class PrintFragment extends BaseFragment<FragmentPrintBinding, PrintViewModel> {
+public class PrintFragment extends BaseFragment<FragmentPrintBinding, PrintViewModel> implements CustomAdapt {
     private PrintOrderAdapter adapter;
     private static final String TAG = PrintFragment.class.getSimpleName();
 
@@ -233,5 +233,15 @@ public class PrintFragment extends BaseFragment<FragmentPrintBinding, PrintViewM
     public void onDestroyView() {
         super.onDestroyView();
         BleManager.getInstance().destroy();
+    }
+
+    @Override
+    public boolean isBaseOnWidth() {
+        return false;
+    }
+
+    @Override
+    public float getSizeInDp() {
+        return 727;
     }
 }

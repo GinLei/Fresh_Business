@@ -37,7 +37,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
 
     @Override
     public float getSizeInDp() {
-        return 640;
+        return 724;
     }
 
     @Override

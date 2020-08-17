@@ -8,9 +8,11 @@ import android.content.Context;
 import com.clj.fastble.BleManager;
 import com.dingxin.fresh.J.JPushEntity;
 import com.dingxin.fresh.R;
+import com.dingxin.fresh.activity.TabBarActivity;
 import com.dingxin.fresh.e.LoginBean;
 import com.dingxin.fresh.e.LoginEntity;
 import com.dingxin.fresh.e.SpecsEntity;
+import com.dingxin.fresh.utils.CrashProtectManager;
 import com.example.jjhome.network.DeviceUtils;
 import com.fanjun.keeplive.KeepLive;
 import com.fanjun.keeplive.config.ForegroundNotification;
@@ -36,6 +38,7 @@ import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft_6455;
 import org.java_websocket.handshake.ServerHandshake;
 
+import java.lang.ref.WeakReference;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,29 +68,29 @@ public class MyApplication extends BaseApplication implements TextToSpeech.OnIni
     @Override
     public void onCreate() {
         super.onCreate();
-
+        mContext = getApplicationContext();
+        CrashProtectManager.getInstance(this).init();
         tts = new TextToSpeech(getApplicationContext(), this);
         tts.setPitch(0.5f);
         tts.setSpeechRate(1.0f);
-        mContext = getApplicationContext();
         initBle();
         initSocketClient();
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         builder.detectFileUriExposure();
         KLog.init(false);
-        CaocConfig.Builder.create()
-                .backgroundMode(CaocConfig.BACKGROUND_MODE_SILENT) //背景模式,开启沉浸式
-                .enabled(true) //是否启动全局异常捕获
-                .showErrorDetails(true) //是否显示错误详细信息
-                .showRestartButton(true) //是否显示重启按钮
-                .trackActivities(true) //是否跟踪Activity
-                .minTimeBetweenCrashesMs(2000) //崩溃的间隔时间(毫秒)
+//        CaocConfig.Builder.create()
+//                .backgroundMode(CaocConfig.BACKGROUND_MODE_SILENT) //背景模式,开启沉浸式
+//                .enabled(true) //是否启动全局异常捕获
+//                .showErrorDetails(true) //是否显示错误详细信息
+//                .showRestartButton(true) //是否显示重启按钮
+//                .trackActivities(true) //是否跟踪Activity
+//                .minTimeBetweenCrashesMs(2000) //崩溃的间隔时间(毫秒)
 //                .errorDrawable(R.mipmap.ic_launcher) //错误图标
 //                .restartActivity(LoginActivity.class) //重新启动后的activity
-                //.errorActivity(YourCustomErrorActivity.class) //崩溃后的错误activity
-                //.eventListener(new YourCustomEventListener()) //崩溃后的错误监听
-                .apply();
+//                .errorActivity(YourCustomErrorActivity.class) //崩溃后的错误activity
+//                .eventListener(new YourCustomEventListener()) //崩溃后的错误监听
+//                .apply();
         AutoSize.checkAndInit(this);
         AutoSizeConfig.getInstance().setCustomFragment(true);
         TXLiveBase.getInstance().setLicence(this, "http://license.vod2.myqcloud.com/license/v1/aa5c4727566cba884d271dad671bd3ad/TXLiveSDK.licence", "b3953da910780ed02ddc41a68ba29e80");
@@ -196,7 +199,7 @@ public class MyApplication extends BaseApplication implements TextToSpeech.OnIni
 
 
     private static final long HEART_BEAT_RATE = 10 * 1000;//每隔10秒进行一次对长连接的心跳检测,考虑到网络切换的情况心跳
-    private Handler mHandler = new Handler();
+    private MyHandler mHandler = new MyHandler(this);
     private Runnable heartBeatRunnable = new Runnable() {
         @Override
         public void run() {
@@ -289,5 +292,11 @@ public class MyApplication extends BaseApplication implements TextToSpeech.OnIni
         }
     }
 
+    private static class MyHandler extends Handler {
+        private final WeakReference<MyApplication> myApplication;
 
+        public MyHandler(MyApplication context) {
+            myApplication = new WeakReference<MyApplication>(context);
+        }
+    }
 }

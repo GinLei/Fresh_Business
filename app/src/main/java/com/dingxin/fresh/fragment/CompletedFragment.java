@@ -42,7 +42,7 @@ import me.jessyan.autosize.internal.CustomAdapt;
 import me.tatarka.bindingcollectionadapter2.BR;
 import me.tatarka.bindingcollectionadapter2.ItemBinding;
 
-public class CompletedFragment extends BaseFragment<FragmentCompletedBinding, CompletedViewModel> {
+public class CompletedFragment extends BaseFragment<FragmentCompletedBinding, CompletedViewModel> implements CustomAdapt {
     private CompletedAdapter adapter;
 
     @Override
@@ -116,5 +116,15 @@ public class CompletedFragment extends BaseFragment<FragmentCompletedBinding, Co
                 }
             }
         });
+    }
+
+    @Override
+    public boolean isBaseOnWidth() {
+        return false;
+    }
+
+    @Override
+    public float getSizeInDp() {
+        return 727;
     }
 }

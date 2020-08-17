@@ -19,9 +19,10 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import io.reactivex.functions.Consumer;
 import me.goldze.mvvmhabit.base.BaseFragment;
 import me.goldze.mvvmhabit.base.BaseViewModel;
+import me.jessyan.autosize.internal.CustomAdapt;
 import me.tatarka.bindingcollectionadapter2.BR;
 
-public class MOrderFragment extends BaseFragment<FragmentMorderBinding, MOrderViewModel> {
+public class MOrderFragment extends BaseFragment<FragmentMorderBinding, MOrderViewModel> implements CustomAdapt {
 
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -31,5 +32,15 @@ public class MOrderFragment extends BaseFragment<FragmentMorderBinding, MOrderVi
     @Override
     public int initVariableId() {
         return BR.viewModel;
+    }
+
+    @Override
+    public boolean isBaseOnWidth() {
+        return false;
+    }
+
+    @Override
+    public float getSizeInDp() {
+        return 727;
     }
 }

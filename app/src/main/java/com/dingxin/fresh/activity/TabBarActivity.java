@@ -8,12 +8,16 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -32,6 +36,7 @@ import com.dingxin.fresh.s.NotificationService;
 import com.google.gson.Gson;
 import com.yanzhenjie.sofia.Sofia;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,13 +55,13 @@ public class TabBarActivity extends BaseActivity<ActivityTabBarBinding, BaseView
     public static final String MESSAGE_RECEIVED_ACTION = "com.dingxin.fresh.MESSAGE_RECEIVED_ACTION";
     public static final String KEY_EXTRAS = "extras";
     public static boolean isForeground = false;
-    private Handler alive = new Handler();
+    private alive alive = new alive(this);
     @SuppressLint("InvalidWakeLockTag")
     private PowerManager.WakeLock mWakeLock;
     private Runnable alive_runnable = new Runnable() {
         @Override
         public void run() {
-            mWakeLock.acquire(5 * 1000L /*1 minutes*/);
+            mWakeLock.acquire(10 * 1000L /*1 minutes*/);
             mWakeLock.release();
         }
     };
@@ -76,7 +81,8 @@ public class TabBarActivity extends BaseActivity<ActivityTabBarBinding, BaseView
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
-        Sofia.with(this).statusBarBackgroundAlpha(0).invasionStatusBar();
+        hideBottomUIMenu();
+        //Sofia.with(this).invasionStatusBar().statusBarBackgroundAlpha(0);
         Intent bindIntent = new Intent(this, NotificationService.class);
         bindService(bindIntent, connection, BIND_AUTO_CREATE);
         registerMessageReceiver();
@@ -248,6 +254,26 @@ public class TabBarActivity extends BaseActivity<ActivityTabBarBinding, BaseView
             } else if (SCREEN_ON.equals(intent.getAction())) {
                 alive.removeCallbacks(alive_runnable);
             }
+        }
+    }
+
+    private static class alive extends Handler {
+        private final WeakReference<TabBarActivity> mActivity;
+
+        public alive(TabBarActivity context) {
+            mActivity = new WeakReference<TabBarActivity>(context);
+        }
+    }
+
+    protected void hideBottomUIMenu() {
+        if (Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) {
+            View v = this.getWindow().getDecorView();
+            v.setSystemUiVisibility(View.GONE);
+        } else if (Build.VERSION.SDK_INT >= 19) {
+            Window _window = getWindow();
+            WindowManager.LayoutParams params = _window.getAttributes();
+            params.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE;
+            _window.setAttributes(params);
         }
     }
 }

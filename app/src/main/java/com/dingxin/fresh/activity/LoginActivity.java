@@ -21,6 +21,9 @@ import android.provider.Settings;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 
@@ -42,11 +45,10 @@ import me.jessyan.autosize.internal.CustomAdapt;
 
 public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewModel> implements CustomAdapt {
     private CountDownTimer timer;
-    private TextToSpeech tts;
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
-        Sofia.with(this).statusBarBackgroundAlpha(0).invasionStatusBar();
+        hideBottomUIMenu();
         return R.layout.activity_login;
     }
 
@@ -66,79 +68,79 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
 
             }
         });
-//        MaterialDialog.Builder builder = new MaterialDialog.Builder(LoginActivity.this).title("允许应用自启动");
-//        builder.positiveText("确认").negativeText("取消").onNegative(new MaterialDialog.SingleButtonCallback() {
-//            @Override
-//            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-//                dismissDialog();
-//            }
-//        });
-//        if (isHuawei()) {
-//            builder.content("操作步骤：应用启动管理 -> 关闭应用开关 -> 打开允许自启动");
-//            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
-//                @Override
-//                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-//                    goHuaweiSetting();
-//                }
-//            });
-//        } else if (isXiaomi()) {
-//            builder.content("操作步骤：授权管理 -> 自启动管理 -> 允许应用自启动");
-//            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
-//                @Override
-//                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-//                    goXiaomiSetting();
-//                }
-//            });
-//        } else if (isOPPO()) {
-//            builder.content("操作步骤：权限隐私 -> 自启动管理 -> 允许应用自启动");
-//            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
-//                @Override
-//                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-//                    goOPPOSetting();
-//                }
-//            });
-//        } else if (isVIVO()) {
-//            builder.content("操作步骤：权限管理 -> 自启动 -> 允许应用自启动");
-//            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
-//                @Override
-//                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-//                    goVIVOSetting();
-//                }
-//            });
-//        } else if (isMeizu()) {
-//            builder.content("操作步骤：权限管理 -> 后台管理 -> 点击应用 -> 允许后台运行");
-//            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
-//                @Override
-//                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-//                    goMeizuSetting();
-//                }
-//            });
-//        } else if (isSamsung()) {
-//            builder.content("操作步骤：自动运行应用程序 -> 打开应用开关 -> 电池管理 -> 未监视的应用程序 -> 添加应用");
-//            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
-//                @Override
-//                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-//                    goSamsungSetting();
-//                }
-//            });
-//        } else if (isLeTV()) {
-//            builder.content("操作步骤：自启动管理 -> 允许应用自启动");
-//            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
-//                @Override
-//                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-//                    goLetvSetting();
-//                }
-//            });
-//        } else if (isSmartisan()) {
-//            builder.content("操作步骤：权限管理 -> 自启动权限管理 -> 点击应用 -> 允许被系统启动");
-//            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
-//                @Override
-//                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-//                    goSmartisanSetting();
-//                }
-//            });
-//        }
-//        builder.show();
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(LoginActivity.this).title("允许应用自启动");
+        builder.positiveText("确认").negativeText("取消").onNegative(new MaterialDialog.SingleButtonCallback() {
+            @Override
+            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                dismissDialog();
+            }
+        });
+        if (isHuawei()) {
+            builder.content("操作步骤：应用启动管理 -> 关闭应用开关 -> 打开允许自启动");
+            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+                @Override
+                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    goHuaweiSetting();
+                }
+            });
+        } else if (isXiaomi()) {
+            builder.content("操作步骤：授权管理 -> 自启动管理 -> 允许应用自启动");
+            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+                @Override
+                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    goXiaomiSetting();
+                }
+            });
+        } else if (isOPPO()) {
+            builder.content("操作步骤：权限隐私 -> 自启动管理 -> 允许应用自启动");
+            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+                @Override
+                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    goOPPOSetting();
+                }
+            });
+        } else if (isVIVO()) {
+            builder.content("操作步骤：权限管理 -> 自启动 -> 允许应用自启动");
+            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+                @Override
+                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    goVIVOSetting();
+                }
+            });
+        } else if (isMeizu()) {
+            builder.content("操作步骤：权限管理 -> 后台管理 -> 点击应用 -> 允许后台运行");
+            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+                @Override
+                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    goMeizuSetting();
+                }
+            });
+        } else if (isSamsung()) {
+            builder.content("操作步骤：自动运行应用程序 -> 打开应用开关 -> 电池管理 -> 未监视的应用程序 -> 添加应用");
+            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+                @Override
+                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    goSamsungSetting();
+                }
+            });
+        } else if (isLeTV()) {
+            builder.content("操作步骤：自启动管理 -> 允许应用自启动");
+            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+                @Override
+                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    goLetvSetting();
+                }
+            });
+        } else if (isSmartisan()) {
+            builder.content("操作步骤：权限管理 -> 自启动权限管理 -> 点击应用 -> 允许被系统启动");
+            builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+                @Override
+                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    goSmartisanSetting();
+                }
+            });
+        }
+        builder.show();
     }
 
 
@@ -197,16 +199,6 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
             timer = null;
         }
         super.onDestroy();
-    }
-
-    @Override
-    public boolean isBaseOnWidth() {
-        return false;
-    }
-
-    @Override
-    public float getSizeInDp() {
-        return 640;
     }
 
     @Override
@@ -322,5 +314,27 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
 
     private void goSmartisanSetting() {
         showActivity("com.smartisanos.security");
+    }
+
+    protected void hideBottomUIMenu() {
+        if (Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) {
+            View v = this.getWindow().getDecorView();
+            v.setSystemUiVisibility(View.GONE);
+        } else if (Build.VERSION.SDK_INT >= 19) {
+            Window _window = getWindow();
+            WindowManager.LayoutParams params = _window.getAttributes();
+            params.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE;
+            _window.setAttributes(params);
+        }
+    }
+
+    @Override
+    public boolean isBaseOnWidth() {
+        return false;
+    }
+
+    @Override
+    public float getSizeInDp() {
+        return 640;
     }
 }

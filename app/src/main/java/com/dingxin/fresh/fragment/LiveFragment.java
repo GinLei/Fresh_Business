@@ -27,7 +27,9 @@ import androidx.appcompat.app.AlertDialog;
 import com.dingxin.fresh.BR;
 import com.dingxin.fresh.R;
 import com.dingxin.fresh.databinding.FragmentLiveBinding;
+import com.dingxin.fresh.e.LoginEntity;
 import com.dingxin.fresh.vm.LiveViewModel;
+import com.google.gson.Gson;
 import com.tencent.rtmp.ITXLivePushListener;
 import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePushConfig;
@@ -35,13 +37,15 @@ import com.tencent.rtmp.TXLivePusher;
 import com.tencent.rtmp.ui.TXCloudVideoView;
 
 import me.goldze.mvvmhabit.base.BaseFragment;
+import me.goldze.mvvmhabit.utils.SPUtils;
 import me.goldze.mvvmhabit.utils.ToastUtils;
+import me.jessyan.autosize.internal.CustomAdapt;
 
 import static android.graphics.BitmapFactory.decodeResource;
 
-public class LiveFragment extends BaseFragment<FragmentLiveBinding, LiveViewModel> implements ITXLivePushListener {
+public class LiveFragment extends BaseFragment<FragmentLiveBinding, LiveViewModel> implements ITXLivePushListener, CustomAdapt {
     private TXLivePushConfig config;
-    private String rtmpUrl = "rtmp://www.7xdaojia.com/live/110?txSecret=294ddea5e0853026ea9d453c0165c333&txTime=5F38D3C5";
+    private String rtmpUrl;
     private boolean mIsPushing;
     private TXLivePusher mLivePusher;
     private int mCurrentVideoResolution = TXLiveConstants.VIDEO_RESOLUTION_TYPE_540_960;
@@ -63,6 +67,7 @@ public class LiveFragment extends BaseFragment<FragmentLiveBinding, LiveViewMode
 
     @Override
     public void initData() {
+        rtmpUrl = new Gson().fromJson(SPUtils.getInstance().getString("user_info"), LoginEntity.class).getRtmpUrl();
         mLivePusher = new TXLivePusher(getContext());
         config = new TXLivePushConfig();
         binding.livepusherBtnStart.setOnClickListener(new View.OnClickListener() {
@@ -206,5 +211,15 @@ public class LiveFragment extends BaseFragment<FragmentLiveBinding, LiveViewMode
         if (hidden) {
             stopRTMPPush();
         }
+    }
+
+    @Override
+    public boolean isBaseOnWidth() {
+        return false;
+    }
+
+    @Override
+    public float getSizeInDp() {
+        return 640;
     }
 }

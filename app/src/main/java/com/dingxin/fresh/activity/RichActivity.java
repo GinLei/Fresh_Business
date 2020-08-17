@@ -14,23 +14,23 @@ import com.zzhoujay.richtext.RichText;
 
 public class RichActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView tv_3;
-    private ImageView img;
+    private ImageView back_img;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rich);
         Sofia.with(this).invasionStatusBar().statusBarBackground(R.color.color_orange_2).statusBarBackgroundAlpha(0);
-        img = findViewById(R.id.img);
+        back_img = findViewById(R.id.back_img);
         tv_3 = findViewById(R.id.tv_3);
-        img.setOnClickListener(this);
+        back_img.setOnClickListener(this);
         RichText.from(getIntent().getStringExtra("rich")).bind(this).into(tv_3);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.img:
+            case R.id.back_img:
                 finish();
                 break;
         }

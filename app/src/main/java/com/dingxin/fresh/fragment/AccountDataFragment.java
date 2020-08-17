@@ -80,6 +80,6 @@ public class AccountDataFragment extends BaseFragment<FragmentAccountdataBinding
 
     @Override
     public float getSizeInDp() {
-        return 640;
+        return 727;
     }
 }

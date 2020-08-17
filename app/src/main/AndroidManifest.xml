@@ -68,10 +68,12 @@
 
         <activity
             android:name=".activity.TabBarActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/theme_fullScreen" />
         <activity
             android:name=".activity.LoginActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/theme_fullScreen" />
         <activity
             android:name=".activity.StartActivity"
             android:screenOrientation="portrait"
