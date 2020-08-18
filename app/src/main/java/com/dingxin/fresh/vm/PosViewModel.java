@@ -102,7 +102,7 @@ public class PosViewModel extends BaseViewModel {
     private BleScanCallback scanCallback = new BleScanCallback() {
         @Override
         public void onScanFinished(List<BleDevice> scanResultList) {
-            BleManager.getInstance().destroy();
+            //BleManager.getInstance().destroy();
         }
 
         @Override

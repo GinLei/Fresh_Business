@@ -63,7 +63,7 @@ public class ScalesViewModel extends BaseViewModel {
     private BleScanCallback bleScanCallback = new BleScanCallback() {
         @Override
         public void onScanFinished(List<BleDevice> scanResultList) {
-            BleManager.getInstance().destroy();
+            //BleManager.getInstance().destroy();
         }
 
         @Override
