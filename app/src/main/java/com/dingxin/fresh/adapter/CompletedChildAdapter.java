@@ -47,9 +47,13 @@ public class CompletedChildAdapter extends RecyclerView.Adapter<CompletedChildAd
         } else {
             holder.tv_3.setText("规格:无");
         }
-        holder.tv_4.setText("数量: x" + entity.getMin_dada_weight());
+        holder.tv_4.setText("数量: x" + entity.getDada_weight());
         holder.tv_5.setText("重量:" + entity.getGoods_weight());
-        holder.tv_6.setText("称重重量:" + entity.getWeight());
+        if (entity.getCancel_weight_status() == 1) {
+            holder.tv_6.setText("商品缺货");
+        } else {
+            holder.tv_6.setText("称重重量:" + entity.getWeight());
+        }
         holder.tv_7.setText("预付价格:¥" + entity.getFinal_price());
         holder.tv_8.setText("实付价格:¥" + entity.getMember_goods_price());
         holder.tv_9.setText("实得菜钱:¥" + entity.getGuser_price());

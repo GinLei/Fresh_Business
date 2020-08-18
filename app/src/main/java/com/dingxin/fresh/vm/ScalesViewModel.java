@@ -57,17 +57,7 @@ public class ScalesViewModel extends BaseViewModel {
     }
 
     public void Scan() {
-        if (!BleManager.getInstance().isBlueEnable()) {
-            BleManager.getInstance().enableBluetooth();
-        }
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-//                BleScanRuleConfig scanRuleConfig = new BleScanRuleConfig.Builder().setScanTimeOut(6000).build();
-//                BleManager.getInstance().initScanRule(scanRuleConfig);
-                BleManager.getInstance().scan(bleScanCallback);
-            }
-        }, 1000);
+        BleManager.getInstance().scan(bleScanCallback);
     }
 
     private BleScanCallback bleScanCallback = new BleScanCallback() {
@@ -130,8 +120,10 @@ public class ScalesViewModel extends BaseViewModel {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
-        BleManager.getInstance().cancelScan();
+        BleScanState scanSate = BleManager.getInstance().getScanSate();
+        if (scanSate == BleScanState.STATE_SCANNING) {
+            BleManager.getInstance().cancelScan();
+        }
         BleManager.getInstance().destroy();
     }
 }

@@ -26,7 +26,7 @@ import me.tatarka.bindingcollectionadapter2.BR;
 public class DetailsFragment extends BaseFragment<FragmentDetailsBinding, DetailsViewModel> {
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Sofia.with(getActivity()).invasionStatusBar().invasionNavigationBar().statusBarBackground(R.color.color_orange_2).statusBarBackgroundAlpha(0);
+        Sofia.with(getActivity()).invasionStatusBar().statusBarBackground(R.color.color_orange_2).statusBarBackgroundAlpha(0);
         return R.layout.fragment_details;
     }
 

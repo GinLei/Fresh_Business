@@ -345,6 +345,4 @@ public class UploadGoodsInfoViewModel extends BaseViewModel {
             }
         });
     }
-
-
 }

@@ -35,7 +35,7 @@ public class MWeighFragment extends BaseFragment<FragmentMweighBinding, MWeighVi
 
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Sofia.with(getActivity()).invasionStatusBar().invasionNavigationBar().statusBarBackground(R.color.color_orange_2).statusBarBackgroundAlpha(0);
+        Sofia.with(getActivity()).invasionStatusBar().statusBarBackground(R.color.color_orange_2).statusBarBackgroundAlpha(0);
         return R.layout.fragment_mweigh;
     }
 
@@ -168,8 +168,8 @@ public class MWeighFragment extends BaseFragment<FragmentMweighBinding, MWeighVi
 
     @Override
     public void onDestroy() {
+        super.onDestroy();
         BleManager.getInstance().disconnectAllDevice();
         BleManager.getInstance().destroy();
-        super.onDestroy();
     }
 }

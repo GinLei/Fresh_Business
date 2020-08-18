@@ -208,7 +208,10 @@ public class MWeighViewModel extends BaseViewModel {
             ToastUtils.showShort("请打开蓝牙");
             return;
         }
-
+        if (BleManager.getInstance().isConnected(scale)) {
+            BleManager.getInstance().notify(MWeighViewModel.this.bleDevice, service_uuid, characteristic_uuid, bleNotifyCallback);
+            return;
+        }
         BleManager.getInstance().connect(scale, new BleGattCallback() {
             @Override
             public void onStartConnect() {
@@ -218,11 +221,12 @@ public class MWeighViewModel extends BaseViewModel {
             @Override
             public void onConnectFail(BleDevice bleDevice, BleException exception) {
                 dismissDialog();
-                ToastUtils.showShort("称重失败");
+                ToastUtils.showShort("连接失败请稍后重试");
             }
 
             @Override
             public void onConnectSuccess(BleDevice bleDevice, BluetoothGatt gatt, int status) {
+                dismissDialog();
                 MWeighViewModel.this.bleDevice = bleDevice;
                 List<BluetoothGattService> services = gatt.getServices();
                 BluetoothGattService service = services.get(2);
@@ -243,6 +247,7 @@ public class MWeighViewModel extends BaseViewModel {
                 .doOnSubscribe(new Consumer<Disposable>() {
                     @Override
                     public void accept(Disposable disposable) throws Exception {
+                        showDialog();
                     }
                 })
                 .compose(RxUtils.bindToLifecycle(getLifecycleProvider()))
@@ -298,4 +303,11 @@ public class MWeighViewModel extends BaseViewModel {
             }
         }
     };
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        BleManager.getInstance().disconnectAllDevice();
+        BleManager.getInstance().destroy();
+    }
 }

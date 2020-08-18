@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 
+import com.clj.fastble.BleManager;
 import com.dingxin.fresh.BR;
 import com.dingxin.fresh.R;
 import com.dingxin.fresh.databinding.FragmentScalesBinding;
@@ -19,6 +20,7 @@ import com.yanzhenjie.sofia.Sofia;
 import io.reactivex.functions.Consumer;
 import me.goldze.mvvmhabit.base.BaseFragment;
 import me.goldze.mvvmhabit.bus.Messenger;
+import me.goldze.mvvmhabit.utils.ToastUtils;
 
 public class ScalesFragment extends BaseFragment<FragmentScalesBinding, ScalesViewModel> {
 

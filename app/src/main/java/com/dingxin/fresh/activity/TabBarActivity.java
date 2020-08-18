@@ -81,7 +81,7 @@ public class TabBarActivity extends BaseActivity<ActivityTabBarBinding, BaseView
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
-        hideBottomUIMenu();
+        hideBottomMenu();
         //Sofia.with(this).invasionStatusBar().statusBarBackgroundAlpha(0);
         Intent bindIntent = new Intent(this, NotificationService.class);
         bindService(bindIntent, connection, BIND_AUTO_CREATE);
@@ -232,13 +232,24 @@ public class TabBarActivity extends BaseActivity<ActivityTabBarBinding, BaseView
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, filter);
     }
 
+    //    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+//            if (isTaskRoot()) {
+//                moveTaskToBack(false);
+//                return true;
+//            }
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
-            if (isTaskRoot()) {
-                moveTaskToBack(false);
-                return true;
-            }
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Intent i = new Intent(Intent.ACTION_MAIN);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            i.addCategory(Intent.CATEGORY_HOME);
+            startActivity(i);
+            return true;
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -250,7 +261,7 @@ public class TabBarActivity extends BaseActivity<ActivityTabBarBinding, BaseView
         @Override
         public void onReceive(Context context, Intent intent) {
             if (SCREEN_OFF.equals(intent.getAction())) {
-                alive.postDelayed(alive_runnable, 1000L * 60);
+                alive.postDelayed(alive_runnable, 1000L * 30);
             } else if (SCREEN_ON.equals(intent.getAction())) {
                 alive.removeCallbacks(alive_runnable);
             }
@@ -265,15 +276,22 @@ public class TabBarActivity extends BaseActivity<ActivityTabBarBinding, BaseView
         }
     }
 
-    protected void hideBottomUIMenu() {
-        if (Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) {
+    private void hideBottomMenu() {
+
+        if (Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) { // lower api
             View v = this.getWindow().getDecorView();
-            v.setSystemUiVisibility(View.GONE);
+            if (v != null) {
+                v.setSystemUiVisibility(View.GONE);
+            }
         } else if (Build.VERSION.SDK_INT >= 19) {
-            Window _window = getWindow();
-            WindowManager.LayoutParams params = _window.getAttributes();
-            params.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE;
-            _window.setAttributes(params);
+            //for new api versions.
+            View decorView = getWindow().getDecorView();
+            int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY/* | View.SYSTEM_UI_FLAG_FULLSCREEN*/;
+            if (decorView != null) {
+                decorView.setSystemUiVisibility(uiOptions);
+            }
+
         }
     }
 }

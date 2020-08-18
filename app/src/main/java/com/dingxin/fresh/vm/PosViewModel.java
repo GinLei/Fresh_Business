@@ -17,6 +17,7 @@ import androidx.databinding.ObservableList;
 import com.clj.fastble.BleManager;
 import com.clj.fastble.callback.BleScanCallback;
 import com.clj.fastble.data.BleDevice;
+import com.clj.fastble.data.BleScanState;
 import com.clj.fastble.scan.BleScanRuleConfig;
 import com.dingxin.fresh.BR;
 import com.dingxin.fresh.R;
@@ -60,15 +61,7 @@ public class PosViewModel extends BaseViewModel {
     }
 
     public void Scan(Activity activity) {
-        if (!BleManager.getInstance().isBlueEnable()) {
-            BleManager.getInstance().enableBluetooth();
-        }
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                BleManager.getInstance().scan(scanCallback);
-            }
-        }, 1000);
+        BleManager.getInstance().scan(scanCallback);
     }
 
     public void bind_pos() {
@@ -132,8 +125,10 @@ public class PosViewModel extends BaseViewModel {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
-        BleManager.getInstance().cancelScan();
+        BleScanState scanSate = BleManager.getInstance().getScanSate();
+        if (scanSate == BleScanState.STATE_SCANNING) {
+            BleManager.getInstance().cancelScan();
+        }
         BleManager.getInstance().destroy();
     }
 }

@@ -1,5 +1,6 @@
 package com.dingxin.fresh.fragment;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -30,12 +31,14 @@ import com.dingxin.fresh.databinding.FragmentLiveBinding;
 import com.dingxin.fresh.e.LoginEntity;
 import com.dingxin.fresh.vm.LiveViewModel;
 import com.google.gson.Gson;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.rtmp.ITXLivePushListener;
 import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePushConfig;
 import com.tencent.rtmp.TXLivePusher;
 import com.tencent.rtmp.ui.TXCloudVideoView;
 
+import io.reactivex.functions.Consumer;
 import me.goldze.mvvmhabit.base.BaseFragment;
 import me.goldze.mvvmhabit.utils.SPUtils;
 import me.goldze.mvvmhabit.utils.ToastUtils;
@@ -45,6 +48,7 @@ import static android.graphics.BitmapFactory.decodeResource;
 
 public class LiveFragment extends BaseFragment<FragmentLiveBinding, LiveViewModel> implements ITXLivePushListener, CustomAdapt {
     private TXLivePushConfig config;
+    //    private String rtmpUrl = "rtmp://94518.livepush.myqcloud.com/live/95?txSecret=9f20f4ff6fa6c766df27d404dfc18cd8&txTime=5F3CDAA8";
     private String rtmpUrl;
     private boolean mIsPushing;
     private TXLivePusher mLivePusher;
@@ -68,13 +72,21 @@ public class LiveFragment extends BaseFragment<FragmentLiveBinding, LiveViewMode
     @Override
     public void initData() {
         rtmpUrl = new Gson().fromJson(SPUtils.getInstance().getString("user_info"), LoginEntity.class).getRtmpUrl();
+        Log.v("推流地址", rtmpUrl);
         mLivePusher = new TXLivePusher(getContext());
         config = new TXLivePushConfig();
         binding.livepusherBtnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!mIsPushing) {
-                    startRTMPPush();
+                    new RxPermissions(getActivity()).request(Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA).subscribe(new Consumer<Boolean>() {
+                        @Override
+                        public void accept(Boolean granted) throws Exception {
+                            if (granted) {
+                                startRTMPPush();
+                            }
+                        }
+                    });
                 } else {
                     stopRTMPPush();
                 }

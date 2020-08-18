@@ -171,7 +171,7 @@ public class ModifyGreensInfoViewModel extends BaseViewModel {
     }
 
     public void new_price(TextView t, String price, String goods_weight) {
-        RetrofitClient.getInstance().create(ApiService.class).new_price(class_id_two.get(), price, unit_name.get(), goods_weight)
+        RetrofitClient.getInstance().create(ApiService.class).new_price(cid.get(), price, unit_name.get(), goods_weight)
                 .doOnSubscribe(new Consumer<Disposable>() {
                     @Override
                     public void accept(Disposable disposable) throws Exception {
@@ -201,7 +201,6 @@ public class ModifyGreensInfoViewModel extends BaseViewModel {
     }
 
     public void Submit() {
-        Log.e("上传的规格", goods_specs.get().toString());
         RetrofitClient.getInstance().create(ApiService.class).greens_edit(class_id_two.get(), cid.get(), unit_name.get(), goods_name.get(), goods_remarks.get(), goods_specs.get(), img_url.get(), spec_id.get())
                 .doOnSubscribe(new Consumer<Disposable>() {
                     @Override

@@ -48,7 +48,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
-        hideBottomUIMenu();
+        Sofia.with(this).invasionStatusBar().statusBarBackgroundAlpha(0);
         return R.layout.activity_login;
     }
 

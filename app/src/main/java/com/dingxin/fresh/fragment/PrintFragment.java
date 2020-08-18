@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import androidx.lifecycle.Observer;
 import com.clj.fastble.BleManager;
 import com.clj.fastble.callback.BleScanCallback;
 import com.clj.fastble.data.BleDevice;
+import com.clj.fastble.data.BleScanState;
 import com.dingxin.fresh.BR;
 import com.dingxin.fresh.R;
 import com.dingxin.fresh.adapter.PrintOrderAdapter;
@@ -51,7 +53,7 @@ public class PrintFragment extends BaseFragment<FragmentPrintBinding, PrintViewM
 
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Sofia.with(getActivity()).invasionStatusBar().invasionNavigationBar().statusBarBackground(R.color.color_orange_2).statusBarBackgroundAlpha(0);
+        Sofia.with(getActivity()).invasionStatusBar().statusBarBackground(R.color.color_orange_2).statusBarBackgroundAlpha(0);
         return R.layout.fragment_print;
     }
 
@@ -137,29 +139,33 @@ public class PrintFragment extends BaseFragment<FragmentPrintBinding, PrintViewM
         viewModel.print_event.observe(getViewLifecycleOwner(), new Observer() {
             @Override
             public void onChanged(Object o) {
+                ToastUtils.showShort("请稍等");
                 if (!BleManager.getInstance().isBlueEnable()) {
                     ToastUtils.showShort("请开启蓝牙");
-                    return;
+                } else {
+                    print();
                 }
-                BleManager.getInstance().scan(new BleScanCallback() {
-                    @Override
-                    public void onScanFinished(List<BleDevice> scanResultList) {
-                    }
-
-                    @Override
-                    public void onScanStarted(boolean success) {
-                        showDialog("正在打印");
-                    }
-
-                    @Override
-                    public void onScanning(BleDevice bleDevice) {
-
-                        if (TextUtils.equals(bleDevice.getMac(), new Gson().fromJson(SPUtils.getInstance().getString("user_info"), LoginEntity.class).getTicket())) {
-                            BleManager.getInstance().cancelScan();
-                            print();
-                        }
-                    }
-                });
+//                if (BleManager.getInstance().getScanSate() == BleScanState.STATE_SCANNING) {
+//                    BleManager.getInstance().cancelScan();
+//                }
+//                BleManager.getInstance().scan(new BleScanCallback() {
+//                    @Override
+//                    public void onScanFinished(List<BleDevice> scanResultList) {
+//                    }
+//
+//                    @Override
+//                    public void onScanStarted(boolean success) {
+//                        showDialog("正在打印");
+//                    }
+//
+//                    @Override
+//                    public void onScanning(BleDevice bleDevice) {
+//                        if (TextUtils.equals(bleDevice.getMac(), new Gson().fromJson(SPUtils.getInstance().getString("user_info"), LoginEntity.class).getTicket())) {
+//                            BleManager.getInstance().cancelScan();
+//                            print();
+//                        }
+//                    }
+//                });
             }
         });
     }
@@ -216,6 +222,7 @@ public class PrintFragment extends BaseFragment<FragmentPrintBinding, PrintViewM
     };
 
     public void print() {
+        showDialog("正在打印");
         // 构建 Intent 数据
         Intent intent = new Intent(getActivity(), PrinterService.class);
         // 打印模式 PrinterService.MODE.NORMAL 正常打印模式（默认） PrinterService.MODE.TEST 测试打印机
@@ -232,6 +239,7 @@ public class PrintFragment extends BaseFragment<FragmentPrintBinding, PrintViewM
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        BleManager.getInstance().disconnectAllDevice();
         BleManager.getInstance().destroy();
     }
 

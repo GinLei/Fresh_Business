@@ -38,6 +38,16 @@ public class CompletedEntity {
     private String amount;
     private String note;
     private String mobile;
+    private String goods_num;
+
+    public String getGoods_num() {
+        return goods_num;
+    }
+
+    public void setGoods_num(String goods_num) {
+        this.goods_num = goods_num;
+    }
+
     private List<OrderGoodsListBean> order_goods_list;
 
     public String getGuser_price() {

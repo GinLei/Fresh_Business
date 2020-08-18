@@ -4,7 +4,7 @@ package com.dingxin.fresh.utils;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.dingxin.fresh.BuildConfig;
+//import com.dingxin.fresh.BuildConfig;
 
 import java.io.File;
 import java.util.Map;
@@ -42,7 +42,7 @@ public class RetrofitClient {
     //缓存时间
     private static final int CACHE_TIMEOUT = 10 * 1024 * 1024;
     //服务端根路径
-    public static String baseUrl = "http://test.7chezhibo.com/api/2/";
+    public static String baseUrl = "http://7chezhibo.com/api/2/";
 
     private static Context mContext = Utils.getContext();
 
@@ -91,7 +91,7 @@ public class RetrofitClient {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.addInterceptor(new LoggingInterceptor
                 .Builder()//构建者模式
-                .loggable(BuildConfig.DEBUG) //是否开启日志打印
+                //.loggable(BuildConfig.DEBUG) //是否开启日志打印
                 .setLevel(Level.BASIC) //打印的等级
                 .log(Platform.INFO) // 打印类型
                 .request("Request") // request的Tag

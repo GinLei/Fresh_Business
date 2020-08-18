@@ -1,9 +1,18 @@
 package com.dingxin.fresh.e;
 
 public class DetailEntity {
-    String change_time;
-    String change_money;
+    private String change_time;
+    private String change_money;
     int cate;
+    private String note;
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
 
     public String getChange_time() {
         return change_time;
