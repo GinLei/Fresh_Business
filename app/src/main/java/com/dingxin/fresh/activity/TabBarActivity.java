@@ -70,7 +70,6 @@ public class TabBarActivity extends BaseActivity<ActivityTabBarBinding, BaseView
     private ServiceConnection connection = new ServiceConnection() {
         @Override
         public void onServiceDisconnected(ComponentName name) {
-
         }
 
         @Override
@@ -261,7 +260,7 @@ public class TabBarActivity extends BaseActivity<ActivityTabBarBinding, BaseView
         @Override
         public void onReceive(Context context, Intent intent) {
             if (SCREEN_OFF.equals(intent.getAction())) {
-                alive.postDelayed(alive_runnable, 1000L * 30);
+                alive.postDelayed(alive_runnable, 1000L * 40);
             } else if (SCREEN_ON.equals(intent.getAction())) {
                 alive.removeCallbacks(alive_runnable);
             }

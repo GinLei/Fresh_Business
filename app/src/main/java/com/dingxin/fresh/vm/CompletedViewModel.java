@@ -99,8 +99,8 @@ public class CompletedViewModel extends BaseViewModel {
 
                     @Override
                     public void onError(Throwable e) {
-                        dismissDialog();
                         super.onError(e);
+                        dismissDialog();
                     }
                 });
     }

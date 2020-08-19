@@ -216,7 +216,8 @@
                         android:paddingLeft="14.5dp"
                         android:paddingTop="20dp"
                         android:paddingRight="15.5dp"
-                        android:paddingBottom="20dp">
+                        android:paddingBottom="20dp"
+                        binding:onClickCommand="@{viewModel.to_reservation}">
 
                         <ImageView
                             android:layout_width="wrap_content"

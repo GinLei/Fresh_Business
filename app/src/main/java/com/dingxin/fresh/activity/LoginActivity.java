@@ -1,50 +1,53 @@
 package com.dingxin.fresh.activity;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 
 import android.Manifest;
 import android.app.Activity;
-import android.bluetooth.BluetoothAdapter;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
 import android.os.PowerManager;
 import android.provider.Settings;
-import android.speech.tts.TextToSpeech;
-import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Toast;
 
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.dingxin.fresh.BR;
-import com.dingxin.fresh.J.JUtil;
 import com.dingxin.fresh.R;
 import com.dingxin.fresh.databinding.ActivityLoginBinding;
+import com.dingxin.fresh.utils.MessageContentObserver;
 import com.dingxin.fresh.vm.LoginViewModel;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.yanzhenjie.sofia.Sofia;
 
-import java.util.Locale;
-
 import io.reactivex.functions.Consumer;
 import me.goldze.mvvmhabit.base.BaseActivity;
+import me.goldze.mvvmhabit.utils.ToastUtils;
 import me.jessyan.autosize.internal.CustomAdapt;
 
 public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewModel> implements CustomAdapt {
+    public static final int MSG_RECEIVE_CODE = 1;
     private CountDownTimer timer;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == MSG_RECEIVE_CODE) {
+                if (msg.obj != null) {
+                    viewModel.password.set(String.valueOf(msg.obj));
+                }
+            }
+        }
+    };
+    private MessageContentObserver messageContentObserver = new MessageContentObserver(this, handler);
+
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -61,13 +64,13 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
     @Override
     public void initData() {
         //JUtil.requestPermission(this);
-        ignoreBatteryOptimization(this);
-        new RxPermissions(this).request(Manifest.permission.CALL_PHONE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Boolean>() {
+        new RxPermissions(this).request(Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA, Manifest.permission.CALL_PHONE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Boolean>() {
             @Override
             public void accept(Boolean granted) throws Exception {
 
             }
         });
+        ignoreBatteryOptimization(this);
         MaterialDialog.Builder builder = new MaterialDialog.Builder(LoginActivity.this).title("允许应用自启动");
         builder.positiveText("确认").negativeText("取消").onNegative(new MaterialDialog.SingleButtonCallback() {
             @Override
@@ -141,6 +144,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
             });
         }
         builder.show();
+        getContentResolver().registerContentObserver(Uri.parse("content://sms/"), true, messageContentObserver);
     }
 
 
@@ -194,11 +198,12 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
 
     @Override
     protected void onDestroy() {
+        super.onDestroy();
         if (timer != null) {
             timer.cancel();
             timer = null;
         }
-        super.onDestroy();
+        getContentResolver().unregisterContentObserver(messageContentObserver);
     }
 
     @Override
@@ -314,18 +319,6 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
 
     private void goSmartisanSetting() {
         showActivity("com.smartisanos.security");
-    }
-
-    protected void hideBottomUIMenu() {
-        if (Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) {
-            View v = this.getWindow().getDecorView();
-            v.setSystemUiVisibility(View.GONE);
-        } else if (Build.VERSION.SDK_INT >= 19) {
-            Window _window = getWindow();
-            WindowManager.LayoutParams params = _window.getAttributes();
-            params.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE;
-            _window.setAttributes(params);
-        }
     }
 
     @Override

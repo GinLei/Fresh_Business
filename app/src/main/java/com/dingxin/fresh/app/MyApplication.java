@@ -69,7 +69,7 @@ public class MyApplication extends BaseApplication implements TextToSpeech.OnIni
     public void onCreate() {
         super.onCreate();
         mContext = getApplicationContext();
-        CrashProtectManager.getInstance(this).init();
+        //CrashProtectManager.getInstance(this).init();
         tts = new TextToSpeech(getApplicationContext(), this);
         tts.setPitch(0.5f);
         tts.setSpeechRate(1.0f);

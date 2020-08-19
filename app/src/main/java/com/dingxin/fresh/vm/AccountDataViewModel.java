@@ -80,8 +80,8 @@ public class AccountDataViewModel extends BaseViewModel {
                 .subscribe(new ApiDisposableObserver<BusinessInfoEntity>() {
                     @Override
                     public void onError(Throwable e) {
-                        dismissDialog();
                         super.onError(e);
+                        dismissDialog();
                     }
 
                     @Override

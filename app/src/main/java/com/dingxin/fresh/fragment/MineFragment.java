@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.dingxin.fresh.BR;
 import com.dingxin.fresh.R;
 import com.dingxin.fresh.databinding.FragmentMineBinding;
@@ -64,6 +65,29 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             @Override
             public void onChanged(Boolean aBoolean) {
                 if (aBoolean != null) binding.Switch.setChecked(aBoolean);
+            }
+        });
+        viewModel.to_reservation_event.observe(getViewLifecycleOwner(), new Observer() {
+            @Override
+            public void onChanged(Object o) {
+                new MaterialDialog.Builder(getActivity()).title("预约订单")
+                        .items(new String[]{"明天", "后天"})
+                        .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
+                            @Override
+                            public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                                Bundle bundle = new Bundle();
+                                switch (text.toString()) {
+                                    case "明天":
+                                        bundle.putString("dyy", "1");
+                                        break;
+                                    case "后天":
+                                        bundle.putString("day", "2");
+                                        break;
+                                }
+                                startContainerActivity(ReservationFragment.class.getCanonicalName(), bundle);
+                                return true;
+                            }
+                        }).show();
             }
         });
     }

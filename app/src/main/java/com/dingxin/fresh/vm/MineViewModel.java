@@ -1,14 +1,17 @@
 package com.dingxin.fresh.vm;
 
 import android.app.Application;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableField;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.dingxin.fresh.api.ApiService;
 import com.dingxin.fresh.e.AccountInfoEntity;
 import com.dingxin.fresh.e.CommonEntity;
 import com.dingxin.fresh.fragment.BalanceFragment;
+import com.dingxin.fresh.fragment.ReservationFragment;
 import com.dingxin.fresh.utils.RetrofitClient;
 
 import io.reactivex.disposables.Disposable;
@@ -25,6 +28,7 @@ public class MineViewModel extends BaseViewModel {
     public ObservableField<AccountInfoEntity> entity = new ObservableField<>();
     public SingleLiveEvent refresh_event = new SingleLiveEvent();
     public SingleLiveEvent<Boolean> switch_event = new SingleLiveEvent<>();
+    public SingleLiveEvent to_reservation_event = new SingleLiveEvent();
     public BindingCommand change_isShow = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
@@ -38,6 +42,14 @@ public class MineViewModel extends BaseViewModel {
         }
     });
 
+    public BindingCommand to_reservation = new BindingCommand(new BindingAction() {
+        @Override
+        public void call() {
+            to_reservation_event.call();
+        }
+    });
+
+
     public MineViewModel(@NonNull Application application) {
         super(application);
         Messenger.getDefault().register(this, CashViewModel.class.getSimpleName(), new BindingAction() {
@@ -46,7 +58,6 @@ public class MineViewModel extends BaseViewModel {
                 getAccountInfo();
             }
         });
-
     }
 
     public void getAccountInfo() {

@@ -12,6 +12,7 @@ import com.dingxin.fresh.e.GreensEntity;
 import com.dingxin.fresh.e.LoginEntity;
 import com.dingxin.fresh.e.MarketEntity;
 import com.dingxin.fresh.e.PrintEntity;
+import com.dingxin.fresh.e.ReservationEntity;
 import com.dingxin.fresh.e.SpecsEntity;
 import com.dingxin.fresh.e.TargetEntity;
 import com.dingxin.fresh.e.UnitEntity;
@@ -185,5 +186,8 @@ public interface ApiService {
     @POST("member/change_isshow")
     Observable<BaseResponse<CommonEntity>> change_isShow();
 
+    @FormUrlEncoded
+    @POST("member/get_apk_schedule_goodslist")
+    Observable<BaseResponse<ReservationEntity>> get_apk_schedule_goodslist(@Field("day") String day);
 
 }

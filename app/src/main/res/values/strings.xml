@@ -11,6 +11,7 @@
     <string name="m_account_data">修改资料</string>
     <string name="order_time">下单时间</string>
     <string name="account_inside">商家入驻</string>
+    <string name="reservation">预约管理</string>
     <string name="binding_scales">绑定电子秤</string>
     <string name="rich">用户须知</string>
     <string name="cash">提现</string>
