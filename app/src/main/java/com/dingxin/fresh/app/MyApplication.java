@@ -69,7 +69,7 @@ public class MyApplication extends BaseApplication implements TextToSpeech.OnIni
     public void onCreate() {
         super.onCreate();
         mContext = getApplicationContext();
-        //CrashProtectManager.getInstance(this).init();
+        CrashProtectManager.getInstance(this).init();
         tts = new TextToSpeech(getApplicationContext(), this);
         tts.setPitch(0.5f);
         tts.setSpeechRate(1.0f);
@@ -87,9 +87,9 @@ public class MyApplication extends BaseApplication implements TextToSpeech.OnIni
 //                .trackActivities(true) //是否跟踪Activity
 //                .minTimeBetweenCrashesMs(2000) //崩溃的间隔时间(毫秒)
 //                .errorDrawable(R.mipmap.ic_launcher) //错误图标
-//                .restartActivity(LoginActivity.class) //重新启动后的activity
-//                .errorActivity(YourCustomErrorActivity.class) //崩溃后的错误activity
-//                .eventListener(new YourCustomEventListener()) //崩溃后的错误监听
+////                .restartActivity(LoginActivity.class) //重新启动后的activity
+////                .errorActivity(YourCustomErrorActivity.class) //崩溃后的错误activity
+////                .eventListener(new YourCustomEventListener()) //崩溃后的错误监听
 //                .apply();
         AutoSize.checkAndInit(this);
         AutoSizeConfig.getInstance().setCustomFragment(true);

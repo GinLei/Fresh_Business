@@ -44,7 +44,6 @@ public class ReservationFragment extends BaseFragment<FragmentReservationBinding
         viewModel.day.set(getArguments().getString("day"));
         inflater = getLayoutInflater();
         viewModel.get_apk_schedule_goodslist();
-
     }
 
     @Override
@@ -78,13 +77,42 @@ public class ReservationFragment extends BaseFragment<FragmentReservationBinding
                                         TextView tv_3 = layout_reservation_order_child.findViewById(R.id.tv_3);
                                         TextView tv_4 = layout_reservation_order_child.findViewById(R.id.tv_4);
                                         tv_1.setText(orderGoodsBean.getGoods_name());
-                                        //tv_2.setText("¥" + orderGoodsBean.getGoods_price());
+                                        tv_2.setText(orderGoodsBean.getGoods_price());
+                                        tv_3.setText(orderGoodsBean.getGreens_weight());
+                                        tv_4.setText("总价:" + orderGoodsBean.getFinal_price());
                                         container.addView(layout_reservation_order_child);
                                     }
+                                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                                    params.setMargins(0, 30, 0, 0);
+                                    layout_reservation_order.setLayoutParams(params);
                                     binding.container.addView(layout_reservation_order);
                                 }
                                 break;
                             case "统计":
+                                ReservationEntity.StatisticsBean statistics = viewModel.reservation_entity.get().getStatistics();
+                                View layout_reservation_count = inflater.inflate(R.layout.layout_reservation_count, null);
+                                TextView tv_1 = layout_reservation_count.findViewById(R.id.tv_1);
+                                TextView tv_2 = layout_reservation_count.findViewById(R.id.tv_2);
+                                tv_1.setText("预付款:" + statistics.getTotal_price());
+                                tv_2.setText("总重量:" + statistics.getGreens_weight());
+                                LinearLayout container = layout_reservation_count.findViewById(R.id.container);
+                                List<ReservationEntity.StatisticsBean.WeightListBean> weight_list = statistics.getWeight_list();
+                                for (ReservationEntity.StatisticsBean.WeightListBean weightListBean : weight_list) {
+                                    View layout_reservation_count_child = inflater.inflate(R.layout.layout_reservation_count_child, null);
+                                    ImageView img = layout_reservation_count_child.findViewById(R.id.img);
+                                    Glide.with(getActivity()).load(weightListBean.getThumb()).into(img);
+                                    TextView tv1 = layout_reservation_count_child.findViewById(R.id.tv_1);
+                                    TextView tv2 = layout_reservation_count_child.findViewById(R.id.tv_2);
+                                    TextView tv3 = layout_reservation_count_child.findViewById(R.id.tv_3);
+                                    tv1.setText(weightListBean.getGoods_name());
+                                    tv2.setText(weightListBean.getGoods_price());
+                                    tv3.setText(weightListBean.getGreens_weight());
+                                    container.addView(layout_reservation_count_child);
+                                }
+                                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                                params.setMargins(0, 30, 0, 0);
+                                layout_reservation_count.setLayoutParams(params);
+                                binding.container.addView(layout_reservation_count);
                                 break;
                         }
                     }

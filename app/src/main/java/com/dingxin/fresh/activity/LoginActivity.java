@@ -1,6 +1,7 @@
 package com.dingxin.fresh.activity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 
 import android.Manifest;
@@ -64,13 +65,15 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
     @Override
     public void initData() {
         //JUtil.requestPermission(this);
-        new RxPermissions(this).request(Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA, Manifest.permission.CALL_PHONE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Boolean>() {
-            @Override
-            public void accept(Boolean granted) throws Exception {
-
-            }
-        });
+//        new RxPermissions(this).request(Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA, Manifest.permission.CALL_PHONE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Boolean>() {
+//            @Override
+//            public void accept(Boolean granted) throws Exception {
+//
+//            }
+//        });
         ignoreBatteryOptimization(this);
+        getContentResolver().registerContentObserver(Uri.parse("content://sms/"), true, messageContentObserver);
+
         MaterialDialog.Builder builder = new MaterialDialog.Builder(LoginActivity.this).title("允许应用自启动");
         builder.positiveText("确认").negativeText("取消").onNegative(new MaterialDialog.SingleButtonCallback() {
             @Override
@@ -144,7 +147,6 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
             });
         }
         builder.show();
-        getContentResolver().registerContentObserver(Uri.parse("content://sms/"), true, messageContentObserver);
     }
 
 

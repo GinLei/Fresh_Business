@@ -125,6 +125,8 @@ public class MWeighFragment extends BaseFragment<FragmentMweighBinding, MWeighVi
                             }
                         }
                     }
+                } else {
+                    viewModel.lock.set(true);
                 }
             }
         });

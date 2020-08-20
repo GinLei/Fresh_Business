@@ -78,7 +78,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
                                 Bundle bundle = new Bundle();
                                 switch (text.toString()) {
                                     case "明天":
-                                        bundle.putString("dyy", "1");
+                                        bundle.putString("day", "1");
                                         break;
                                     case "后天":
                                         bundle.putString("day", "2");

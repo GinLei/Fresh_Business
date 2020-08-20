@@ -36,7 +36,6 @@ public class ReservationViewModel extends BaseViewModel {
     }
 
     public void get_apk_schedule_goodslist() {
-
         RetrofitClient.getInstance().create(ApiService.class).get_apk_schedule_goodslist(day.get())
                 .doOnSubscribe(new Consumer<Disposable>() {
                     @Override

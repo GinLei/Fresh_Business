@@ -226,13 +226,20 @@ public class MWeighViewModel extends BaseViewModel {
 
             @Override
             public void onConnectSuccess(BleDevice bleDevice, BluetoothGatt gatt, int status) {
+
                 dismissDialog();
                 MWeighViewModel.this.bleDevice = bleDevice;
                 List<BluetoothGattService> services = gatt.getServices();
+                if (services.size() < 3) {
+                    ToastUtils.showShort("称重失败请稍后重试");
+                    BleManager.getInstance().disconnect(MWeighViewModel.this.bleDevice);
+                    return;
+                }
                 BluetoothGattService service = services.get(2);
                 List<BluetoothGattCharacteristic> characteristics = service.getCharacteristics();
                 BluetoothGattCharacteristic characteristic = characteristics.get(1);
                 BleManager.getInstance().notify(MWeighViewModel.this.bleDevice, service_uuid = service.getUuid().toString(), characteristic_uuid = characteristic.getUuid().toString(), bleNotifyCallback);
+
             }
 
             @Override
@@ -256,6 +263,7 @@ public class MWeighViewModel extends BaseViewModel {
                 .subscribe(new ApiDisposableObserver<WeighFinalEntity>() {
                     @Override
                     public void onComplete() {
+                        weight_event.call();
                         dismissDialog();
                     }
 
@@ -271,7 +279,7 @@ public class MWeighViewModel extends BaseViewModel {
 
                     @Override
                     public void onError(Throwable e) {
-                        super.onError(e);
+                        weight_event.call();
                         dismissDialog();
                     }
                 });
@@ -289,7 +297,7 @@ public class MWeighViewModel extends BaseViewModel {
 
         @Override
         public void onCharacteristicChanged(byte[] data) {
-            if (data.length == 20) {
+            if (data.length >= 20) {
                 try {
                     if (lock.get()) {
                         BleManager.getInstance().stopNotify(bleDevice, service_uuid, characteristic_uuid);

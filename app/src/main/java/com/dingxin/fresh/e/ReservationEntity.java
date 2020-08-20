@@ -35,6 +35,15 @@ public class ReservationEntity {
          * total_price : 134.02
          * weight_list : [{"goods_id":51,"goods_name":"坚果","goods_price":"0.08","dada_weight":4,"thumb":"http://test.7chezhibo.com/ueditor/php/upload/image/20200627/1593227858994821.jpg"},{"goods_id":56,"goods_name":"菠萝","goods_price":"11.00","dada_weight":6,"thumb":"http://test.7chezhibo.com/ueditor/php/upload/image/20200711/1594449658749791.jpg"},{"goods_id":66,"goods_name":"菠萝","goods_price":"0.60","dada_weight":1,"thumb":"http://test.7chezhibo.com/ueditor/php/upload/image/20200525/1590420566780081.jpg"},{"goods_id":67,"goods_name":"成品测试","goods_price":"1.10","dada_weight":1,"thumb":"http://test.7chezhibo.com/ueditor/php/upload/image/20200627/1593227742888046.jpg"}]
          */
+        private String greens_weight;
+
+        public String getGreens_weight() {
+            return greens_weight;
+        }
+
+        public void setGreens_weight(String greens_weight) {
+            this.greens_weight = greens_weight;
+        }
 
         private String dada_weight;
         private String total_price;
@@ -72,6 +81,15 @@ public class ReservationEntity {
              * dada_weight : 4
              * thumb : http://test.7chezhibo.com/ueditor/php/upload/image/20200627/1593227858994821.jpg
              */
+            private String greens_weight;
+
+            public String getGreens_weight() {
+                return greens_weight;
+            }
+
+            public void setGreens_weight(String greens_weight) {
+                this.greens_weight = greens_weight;
+            }
 
             private int goods_id;
             private String goods_name;
@@ -168,6 +186,15 @@ public class ReservationEntity {
             private String goods_price;
             private String final_price;
             private String thumb;
+            private String greens_weight;
+
+            public String getGreens_weight() {
+                return greens_weight;
+            }
+
+            public void setGreens_weight(String greens_weight) {
+                this.greens_weight = greens_weight;
+            }
 
             public int getOrder_id() {
                 return order_id;
